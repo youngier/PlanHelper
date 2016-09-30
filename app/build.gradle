@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
 
 android {
     compileSdkVersion 23
@@ -24,4 +26,28 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.+'
     compile 'com.android.support:design:23.+'
+
+    //配置dragger2
+    compile 'com.google.dagger:dagger:2.0'
+    apt 'com.google.dagger:dagger-compiler:2.0'
+
+    //配置Gson
+    compile 'com.google.code.gson:gson:2.7'
+
+    //配置Retrofit2.0
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    //Retrofit2.0中，Converter已不包括，需要另外导入
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    //Retrofit2.0中，adapter已不包括，需要另外导入
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+
+    //配置okHttp
+    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.4.0-RC1'
+
+    //配置Rxjava, RxAndroid
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
+
+    //配置Glide图片加载
+    compile 'com.github.bumptech.glide:glide:3.7.0'
 }
