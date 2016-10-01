@@ -17,15 +17,29 @@ import com.young.planhelper.R;
  */
 
 
-public abstract class BaseFragment extends Fragment implements IView{
+public abstract class BaseFragment extends Fragment{
+
+    View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = (View) inflater.inflate(
+            view = (View) inflater.inflate(
                 getLayoutId(), container, false);
+        initUI();
+        setData();
         return view;
     }
 
-    public abstract int getLayoutId();
+    protected abstract void setData();
+
+    protected abstract void initUI();
+
+    protected abstract int getLayoutId();
+
+    @Nullable
+    @Override
+    public View getView() {
+        return view;
+    }
 }

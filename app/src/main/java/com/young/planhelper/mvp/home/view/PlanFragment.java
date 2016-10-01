@@ -16,13 +16,18 @@ import com.young.planhelper.mvp.base.view.BaseFragment;
 
 public class PlanFragment extends BaseFragment {
 
+`    @Override
+    protected void initUI() {
+
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_plan;
     }
 
     @Override
-    public void setData(String data) {
+    public void setData() {
 
     }
 }

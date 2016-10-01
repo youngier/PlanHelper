@@ -13,22 +13,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import com.young.planhelper.R;
-import com.young.planhelper.mvp.base.presenter.IPresenter;
 import com.young.planhelper.mvp.base.view.BaseActivity;
-import com.young.planhelper.mvp.home.presenter.HomePresenter;
+import com.young.planhelper.mvp.schedule.ScheduleFragment;
 
 import java.util.ArrayList;
 import java.util.List;

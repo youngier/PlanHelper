@@ -32,12 +32,17 @@ import java.util.Random;
 public class TimeTableFragment extends BaseFragment {
 
     @Override
+    protected void initUI() {
+
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.fragment_timetable;
     }
 
     @Override
-    public void setData(String data) {
+    public void setData() {
 
     }
 }

@@ -7,6 +7,6 @@ package com.young.planhelper.mvp.base.view;
  */
 public interface IView {
 
-    //设置
-    public void setData(String data);
+    //设置数据
+    void setData(String data);
 }
