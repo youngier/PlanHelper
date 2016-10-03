@@ -7,4 +7,9 @@
     <color name="dark_gray">#5c5c67</color>
     <color name="red_01">#ed5768</color>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="gray">#cccccc</color>
+    <color name="red">#ff0000</color>
+    <color name="blue">#0000ff</color>
+    <color name="light_pink">#fee0df</color>
 </resources>

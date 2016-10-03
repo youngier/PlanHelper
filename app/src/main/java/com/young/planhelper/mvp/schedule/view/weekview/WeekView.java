@@ -1,4 +1,4 @@
-package com.young.planhelper.mvp.schedule;
+package com.young.planhelper.mvp.schedule.view.weekview;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -6,16 +6,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.young.planhelper.R;
-import com.young.planhelper.mvp.schedule.model.DayInfo;
 import com.young.planhelper.mvp.schedule.model.WeekInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +27,7 @@ public class WeekView extends CardView{
     private static final String TAG = "WeekView";
     private RecyclerView mRecyclerView;
     private Context mContext;
-    private WeekAdapter apdater;
+    private WeekAdapter adapter;
 
     /**
      * 默认第一项为0
@@ -63,10 +59,10 @@ public class WeekView extends CardView{
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        View view = findViewById(R.id.cv_week);
+        View view = findViewById(R.id.weekview);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        apdater = new WeekAdapter(mContext, null);
-        mRecyclerView.setAdapter(apdater);
+        adapter = new WeekAdapter(mContext, null);
+        mRecyclerView.setAdapter(adapter);
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -74,9 +70,9 @@ public class WeekView extends CardView{
     }
 
     public void setData(List<WeekInfo> datas) {
-        apdater.setData(datas);
-        Log.e(TAG, "内容为"+apdater.getItemCount());
-        apdater.notifyDataSetChanged();
+        adapter.setData(datas);
+        Log.e(TAG, "内容为"+adapter.getItemCount());
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -95,7 +91,7 @@ public class WeekView extends CardView{
                 if(Math.abs(dX)>Math.abs(dY)) {//左右滑动
                     if(dX < 0) {
 //                    if (dX < 0 && Math.abs(dX) > GAP) {
-                        if (index != apdater.getItemCount() - 1) {
+                        if (index != adapter.getItemCount() - 1) {
                             index++;
                         }
                     }else {

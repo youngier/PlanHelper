@@ -16,7 +16,7 @@ import com.young.planhelper.mvp.base.view.BaseFragment;
 
 public class PlanFragment extends BaseFragment {
 
-`    @Override
+    @Override
     protected void initUI() {
 
     }

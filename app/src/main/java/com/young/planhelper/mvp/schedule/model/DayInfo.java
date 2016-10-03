@@ -1,5 +1,9 @@
 package com.young.planhelper.mvp.schedule.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ForkJoinTask;
+
 /**
  * @author: young
  * email:1160415122@qq.com
@@ -9,32 +13,51 @@ package com.young.planhelper.mvp.schedule.model;
 
 public class DayInfo {
 
-    private String mDay;
-    private String mWeek;
+    private String day;
+    private String week;
+    private String holiday;
+    private List<String> content;
 
     public DayInfo(){
-        mDay = "";
-        mWeek = "";
+        day = "";
+        week = "";
+        holiday = "";
+        content = new ArrayList<>();
     }
 
     public DayInfo(String day, String week){
-        this.mDay = day;
-        this.mWeek = week;
+        this.day = day;
+        this.week = week;
     }
 
-    public String getmDay() {
-        return mDay;
+    public DayInfo(String day, String week, String holiday, List<String> content){
+        this.day = day;
+        this.week = week;
+        this.holiday = holiday;
+        this.content = content;
     }
 
-    public void setmDay(String mDay) {
-        this.mDay = mDay;
+    public String getDay() {
+        return day;
     }
 
-    public String getmWeek() {
-        return mWeek;
+    public void setDay(String day) {
+        this.day = day;
     }
 
-    public void setmWeek(String mWeek) {
-        this.mWeek = mWeek;
+    public String getWeek() {
+        return week;
+    }
+
+    public void setWeek(String week) {
+        this.week = week;
+    }
+
+    public String getHoliday() {
+        return holiday;
+    }
+
+    public List<String> getContent() {
+        return content;
     }
 }

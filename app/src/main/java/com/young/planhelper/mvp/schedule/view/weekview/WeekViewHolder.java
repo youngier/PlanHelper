@@ -1,4 +1,4 @@
-package com.young.planhelper.mvp.schedule;
+package com.young.planhelper.mvp.schedule.view.weekview;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

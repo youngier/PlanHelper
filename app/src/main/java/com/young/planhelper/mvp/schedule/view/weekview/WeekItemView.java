@@ -1,4 +1,4 @@
-package com.young.planhelper.mvp.schedule;
+package com.young.planhelper.mvp.schedule.view.weekview;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -50,12 +50,12 @@ public class WeekItemView extends LinearLayout{
 
     public void setData(WeekInfo data) {
         DayInfo[] dayInfo = data.getDayInfos();
-        mSunTv.setText(dayInfo[0].getmDay());
-        mMonTv.setText(dayInfo[1].getmDay());
-        mTuesTv.setText(dayInfo[2].getmDay());
-        mWednesTv.setText(dayInfo[3].getmDay());
-        mThursTv.setText(dayInfo[4].getmDay());
-        mFriTv.setText(dayInfo[5].getmDay());
-        mSaturTv.setText(dayInfo[6].getmDay());
+        mSunTv.setText(dayInfo[0].getDay());
+        mMonTv.setText(dayInfo[1].getDay());
+        mTuesTv.setText(dayInfo[2].getDay());
+        mWednesTv.setText(dayInfo[3].getDay());
+        mThursTv.setText(dayInfo[4].getDay());
+        mFriTv.setText(dayInfo[5].getDay());
+        mSaturTv.setText(dayInfo[6].getDay());
     }
 }
