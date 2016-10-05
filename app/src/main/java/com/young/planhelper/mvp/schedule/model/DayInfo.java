@@ -1,5 +1,7 @@
 package com.young.planhelper.mvp.schedule.model;
 
+import android.view.View;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ForkJoinTask;
@@ -17,6 +19,7 @@ public class DayInfo {
     private String week;
     private String holiday;
     private List<String> content;
+
 
     public DayInfo(){
         day = "";
