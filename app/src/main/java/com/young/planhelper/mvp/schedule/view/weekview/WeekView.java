@@ -60,7 +60,7 @@ public class WeekView extends CardView{
     protected void onFinishInflate() {
         super.onFinishInflate();
         View view = findViewById(R.id.weekview);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_view_week);
         adapter = new WeekAdapter(mContext, null);
         mRecyclerView.setAdapter(adapter);
         //设置布局管理器

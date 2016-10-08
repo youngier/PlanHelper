@@ -1,12 +1,16 @@
 package com.young.planhelper.mvp.schedule;
 
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.base.view.BaseFragment;
+import com.young.planhelper.mvp.schedule.model.BacklogInfo;
 import com.young.planhelper.mvp.schedule.model.CalendarInfo;
 import com.young.planhelper.mvp.schedule.model.DayInfo;
 import com.young.planhelper.mvp.schedule.model.WeekInfo;
+import com.young.planhelper.mvp.schedule.view.backlogview.BacklogAdapter;
+import com.young.planhelper.mvp.schedule.view.backlogview.RecycleViewDivider;
 import com.young.planhelper.mvp.schedule.view.calendarview.CalendarView;
 import com.young.planhelper.mvp.schedule.view.weekview.WeekView;
 
@@ -26,11 +30,14 @@ public class ScheduleFragment extends BaseFragment {
 
     private WeekView mWeekView;
     private CalendarView mCalendarView;
+    private RecyclerView mRecyclerView;
+    private BacklogAdapter adapter;
 
     @Override
     protected void initUI() {
         mWeekView = (WeekView) getView().findViewById(R.id.weekview);
         mCalendarView = (CalendarView) getView().findViewById(R.id.calendarview);
+        mRecyclerView = (RecyclerView) getView().findViewById(R.id.recyclerview);
     }
 
     @Override
@@ -40,28 +47,34 @@ public class ScheduleFragment extends BaseFragment {
 
     @Override
     public void setData() {
-        List<WeekInfo> weekInfoList = new ArrayList<>();
-        DayInfo[] dayInfos = new DayInfo[7];
-        DayInfo[] dayInfos1 = new DayInfo[7];
-        dayInfos[0] = new DayInfo("1", "日");
-        dayInfos[1] = new DayInfo("2", "一");
-        dayInfos[2] = new DayInfo("3", "二");
-        dayInfos[3] = new DayInfo("4", "三");
-        dayInfos[4] = new DayInfo("5", "四");
-        dayInfos[5] = new DayInfo("6", "五");
-        dayInfos[6] = new DayInfo("7", "六");
-        weekInfoList.add(new WeekInfo(dayInfos));
-        dayInfos1[0] = new DayInfo("8", "日");
-        dayInfos1[1] = new DayInfo("9", "一");
-        dayInfos1[2] = new DayInfo("10", "二");
-        dayInfos1[3] = new DayInfo("11", "三");
-        dayInfos1[4] = new DayInfo("12", "四");
-        dayInfos1[5] = new DayInfo("13", "五");
-        dayInfos1[6] = new DayInfo("14", "六");
-        weekInfoList.add(new WeekInfo(dayInfos1));
-        Log.e(TAG, "内容为"+weekInfoList.size());
-        mWeekView.setData(weekInfoList);
+        setWeekData();
 
+        setCalendarData();
+
+        setListData();
+
+    }
+
+    /**
+     * 设置备忘录数据
+     */
+    private void setListData() {
+        List<BacklogInfo> backlogInfos = new ArrayList<>();
+        backlogInfos.add(new BacklogInfo());
+        backlogInfos.add(new BacklogInfo());
+        backlogInfos.add(new BacklogInfo());
+        adapter = new BacklogAdapter(getContext(), null);
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL));
+        adapter.setDatas(backlogInfos);
+        adapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 设置每月的数据
+     */
+    private void setCalendarData() {
         CalendarInfo calendarInfo = new CalendarInfo();
         DayInfo[] dayInfos2 = new DayInfo[31];
         List<String> list = new ArrayList();
@@ -100,6 +113,31 @@ public class ScheduleFragment extends BaseFragment {
         dayInfos2[30] = new DayInfo("31", "二", "", null);
         calendarInfo.setDayInfos(dayInfos2);
         mCalendarView.setData(calendarInfo);
+    }
 
+    /**
+     * 设置每周的数据
+     */
+    private void setWeekData() {
+        List<WeekInfo> weekInfoList = new ArrayList<>();
+        DayInfo[] dayInfos = new DayInfo[7];
+        DayInfo[] dayInfos1 = new DayInfo[7];
+        dayInfos[0] = new DayInfo("1", "日");
+        dayInfos[1] = new DayInfo("2", "一");
+        dayInfos[2] = new DayInfo("3", "二");
+        dayInfos[3] = new DayInfo("4", "三");
+        dayInfos[4] = new DayInfo("5", "四");
+        dayInfos[5] = new DayInfo("6", "五");
+        dayInfos[6] = new DayInfo("7", "六");
+        weekInfoList.add(new WeekInfo(dayInfos));
+        dayInfos1[0] = new DayInfo("8", "日");
+        dayInfos1[1] = new DayInfo("9", "一");
+        dayInfos1[2] = new DayInfo("10", "二");
+        dayInfos1[3] = new DayInfo("11", "三");
+        dayInfos1[4] = new DayInfo("12", "四");
+        dayInfos1[5] = new DayInfo("13", "五");
+        dayInfos1[6] = new DayInfo("14", "六");
+        weekInfoList.add(new WeekInfo(dayInfos1));
+        mWeekView.setData(weekInfoList);
     }
 }

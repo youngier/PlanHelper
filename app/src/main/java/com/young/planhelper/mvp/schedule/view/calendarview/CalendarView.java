@@ -60,7 +60,7 @@ public class CalendarView extends LinearLayout{
     protected void onFinishInflate() {
         super.onFinishInflate();
         mView = findViewById(R.id.calendarview);
-        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerview);
+        mRecyclerView = (RecyclerView) mView.findViewById(R.id.rv_view_calendar);
         adapter = new CalendarAdapter(mContext, null);
         mRecyclerView.setAdapter(adapter);
 
