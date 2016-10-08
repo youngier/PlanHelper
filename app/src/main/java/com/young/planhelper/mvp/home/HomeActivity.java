@@ -1,4 +1,4 @@
-package com.young.planhelper.mvp.home.view;
+package com.young.planhelper.mvp.home;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -20,7 +20,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.young.planhelper.R;
-import com.young.planhelper.mvp.base.view.BaseActivity;
+import com.young.planhelper.mvp.base.BaseActivity;
+import com.young.planhelper.mvp.home.view.IHomeView;
+import com.young.planhelper.mvp.home.view.PlanFragment;
+import com.young.planhelper.mvp.home.view.TimeTableFragment;
 import com.young.planhelper.mvp.schedule.ScheduleFragment;
 
 import java.util.ArrayList;
@@ -51,13 +54,8 @@ public class HomeActivity extends BaseActivity
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        fab.setOnClickListener(view -> Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show());
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -152,15 +150,11 @@ public class HomeActivity extends BaseActivity
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            menuItem.setChecked(true);
+            mDrawerLayout.closeDrawers();
+            return true;
+        });
     }
 
     @Override

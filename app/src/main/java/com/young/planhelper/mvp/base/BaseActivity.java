@@ -1,4 +1,4 @@
-package com.young.planhelper.mvp.base.view;
+package com.young.planhelper.mvp.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
