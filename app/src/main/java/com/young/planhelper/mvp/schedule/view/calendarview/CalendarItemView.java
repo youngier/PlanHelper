@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.young.planhelper.R;
-import com.young.planhelper.mvp.schedule.model.DayInfo;
+import com.young.planhelper.mvp.schedule.model.bean.DayInfo;
 
 import java.util.List;
 

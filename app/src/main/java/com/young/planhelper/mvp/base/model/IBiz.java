@@ -9,6 +9,6 @@ public interface IBiz {
     void getData(ICallback callback);
 
     interface ICallback{
-        void onResult(String data);
+        void onResult(Object data);
     }
 }

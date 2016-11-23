@@ -1,21 +1,32 @@
 package com.young.planhelper.mvp.schedule;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.young.planhelper.R;
+import com.young.planhelper.application.AppApplication;
+import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.base.view.BaseFragment;
-import com.young.planhelper.mvp.schedule.model.BacklogInfo;
-import com.young.planhelper.mvp.schedule.model.CalendarInfo;
-import com.young.planhelper.mvp.schedule.model.DayInfo;
-import com.young.planhelper.mvp.schedule.model.WeekInfo;
+import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
+import com.young.planhelper.mvp.schedule.model.bean.CalendarInfo;
+import com.young.planhelper.mvp.schedule.model.bean.DayInfo;
+import com.young.planhelper.mvp.schedule.model.bean.WeekInfo;
+import com.young.planhelper.mvp.schedule.presenter.ISchedulePresenter;
+import com.young.planhelper.mvp.schedule.presenter.SchedulePresenter;
 import com.young.planhelper.mvp.schedule.view.backlogview.BacklogAdapter;
 import com.young.planhelper.mvp.schedule.view.backlogview.RecycleViewDivider;
 import com.young.planhelper.mvp.schedule.view.calendarview.CalendarView;
 import com.young.planhelper.mvp.schedule.view.weekview.WeekView;
+import com.young.planhelper.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import io.realm.Realm;
 
 /**
  * @author: young
@@ -28,21 +39,38 @@ public class ScheduleFragment extends BaseFragment {
 
     private static final String TAG = "ScheduleFragment";
 
-    private WeekView mWeekView;
-    private CalendarView mCalendarView;
-    private RecyclerView mRecyclerView;
-    private BacklogAdapter adapter;
+    @BindView(R.id.weekview)
+    WeekView mWeekView;
+
+    @BindView(R.id.calendarview)
+    CalendarView mCalendarView;
+
+    @BindView(R.id.rv_schedule)
+    RecyclerView mRecyclerView;
+
+    BacklogAdapter adapter;
+
+    @BindView(R.id.swipe)
+    SwipeRefreshLayout mSwipeRl;
+
+    ISchedulePresenter presenter;
 
     @Override
     protected void initUI() {
-        mWeekView = (WeekView) getView().findViewById(R.id.weekview);
-        mCalendarView = (CalendarView) getView().findViewById(R.id.calendarview);
-        mRecyclerView = (RecyclerView) getView().findViewById(R.id.recyclerview);
+
+        presenter = new SchedulePresenter(this, getActivity());
+
+        mCalendarView.setOnMoveListener(new CalendarView.OnMoveListener() {
+            @Override
+            public void onMove(float value) {
+                mSwipeRl.setAlpha(1 - value);
+            }
+        });
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragmnet_schedule;
+        return R.layout.fragment_schedule;
     }
 
     @Override
@@ -59,16 +87,17 @@ public class ScheduleFragment extends BaseFragment {
      * 设置备忘录数据
      */
     private void setListData() {
-        List<BacklogInfo> backlogInfos = new ArrayList<>();
-        backlogInfos.add(new BacklogInfo());
-        backlogInfos.add(new BacklogInfo());
-        backlogInfos.add(new BacklogInfo());
         adapter = new BacklogAdapter(getContext(), null);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL));
-        adapter.setDatas(backlogInfos);
-        adapter.notifyDataSetChanged();
+        presenter.getBacklogInfos(new IBiz.ICallback() {
+            @Override
+            public void onResult(Object data) {
+                setData(data);
+            }
+        });
+
     }
 
     /**
@@ -139,5 +168,17 @@ public class ScheduleFragment extends BaseFragment {
         dayInfos1[6] = new DayInfo("14", "六");
         weekInfoList.add(new WeekInfo(dayInfos1));
         mWeekView.setData(weekInfoList);
+    }
+
+    @Override
+    public void setData(Object data) {
+        try {
+            List<BacklogInfo> backlogInfos = (List<BacklogInfo>) data;
+            LogUtil.eLog(backlogInfos.size()+"个数据");
+            adapter.setDatas(backlogInfos);
+            adapter.notifyDataSetChanged();
+        }catch (Exception e){
+            Toast.makeText(getActivity(), (String)data, Toast.LENGTH_SHORT).show();
+        }
     }
 }

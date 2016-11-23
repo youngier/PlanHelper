@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.young.planhelper.R;
-import com.young.planhelper.mvp.schedule.model.WeekInfo;
+import com.young.planhelper.mvp.schedule.model.bean.WeekInfo;
 
 import java.util.ArrayList;
 import java.util.List;

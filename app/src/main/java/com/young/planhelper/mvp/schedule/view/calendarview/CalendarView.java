@@ -1,20 +1,16 @@
 package com.young.planhelper.mvp.schedule.view.calendarview;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.young.planhelper.R;
-import com.young.planhelper.mvp.schedule.model.CalendarInfo;
-import com.young.planhelper.util.DisplayUtil;
+import com.young.planhelper.mvp.schedule.model.bean.CalendarInfo;
+import com.young.planhelper.util.LogUtil;
 
 /**
  * @author: young
@@ -40,6 +36,9 @@ public class CalendarView extends LinearLayout{
     //滑动距离
     private int des;
     private int scrollH;
+
+
+    private OnMoveListener listener;
 
     public CalendarView(Context context) {
         super(context);
@@ -120,12 +119,37 @@ public class CalendarView extends LinearLayout{
             case MotionEvent.ACTION_MOVE:
                 //计算移动的距离
                 int offY = (int) event.getY() - startY;
-                Log.e("TAG", offY+"");
+                float getMovePercent = 0;
+                int top = 0;
                 if( offY > 0 )
-                    offsetTopAndBottom(getTop() >= 60?0:offY);
+                    top = getTop() >= 60 ? 0 : offY;
                 else
-                    offsetTopAndBottom(getTop() <= -510?0:offY);
+                    top = getTop() <= -510 ? 0 : offY;
+                offsetTopAndBottom(top);
+                //此时显现的透明度或者说距离完成的进度
+                LogUtil.eLog("当前位置："+event.getY());
+                LogUtil.eLog("移动距离："+getTop());
+                LogUtil.eLog("透明度百分比："+(510+getTop())/570.0f);
+                listener.onMove((510+getTop())/570.0f);
+                break;
+            case MotionEvent.ACTION_UP:
+                if( getTop() < -400 ) {
+                    LogUtil.eLog("当前位置："+(getTop()));
+                }
+                else
+                break;
+
+
+
         }
         return true;
+    }
+
+    public interface OnMoveListener{
+        void onMove(float value);
+    }
+
+    public void setOnMoveListener(OnMoveListener listener){
+        this.listener = listener;
     }
 }

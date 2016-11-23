@@ -1,10 +1,10 @@
 package com.young.planhelper.mvp.home;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,8 +22,9 @@ import android.view.View;
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.home.view.IHomeView;
-import com.young.planhelper.mvp.home.view.PlanFragment;
-import com.young.planhelper.mvp.home.view.TimeTableFragment;
+import com.young.planhelper.mvp.plan.view.PlanAddActivity;
+import com.young.planhelper.mvp.plan.view.PlanFragment;
+import com.young.planhelper.mvp.schedule.ScheduleAddActivity;
 import com.young.planhelper.mvp.schedule.ScheduleFragment;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class HomeActivity extends BaseActivity
         implements IHomeView, NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +50,19 @@ public class HomeActivity extends BaseActivity
     }
 
     private void initOther() {
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         if (viewPager != null) {
             setupViewPager(viewPager);
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+
+        fab.setOnClickListener(view -> {
+            if( viewPager.getCurrentItem() == 0 )
+                startActivity(new Intent(this, ScheduleAddActivity.class));
+            else
+                startActivity(new Intent(this, PlanAddActivity.class));
+        });
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -145,7 +152,6 @@ public class HomeActivity extends BaseActivity
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ScheduleFragment(), "日程");
         adapter.addFragment(new PlanFragment(), "计划");
-        adapter.addFragment(new TimeTableFragment(), "课程");
         viewPager.setAdapter(adapter);
     }
 
@@ -158,13 +164,13 @@ public class HomeActivity extends BaseActivity
     }
 
     @Override
-    public void setData(String data) {
-
+    public boolean onNavigationItemSelected(MenuItem item) {
+        return false;
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        return false;
+    public void setData(Object data) {
+
     }
 
     static class Adapter extends FragmentPagerAdapter {

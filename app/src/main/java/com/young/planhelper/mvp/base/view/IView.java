@@ -1,5 +1,7 @@
 package com.young.planhelper.mvp.base.view;
 
+import java.util.Objects;
+
 /**
  * @author: young
  * email:1160415122@qq.com
@@ -8,5 +10,7 @@ package com.young.planhelper.mvp.base.view;
 public interface IView {
 
     //设置数据
-    void setData(String data);
+    void setData(Object data);
+
+
 }

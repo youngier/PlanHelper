@@ -2,14 +2,13 @@ package com.young.planhelper.mvp.schedule.view.weekview;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.young.planhelper.R;
-import com.young.planhelper.mvp.schedule.model.DayInfo;
-import com.young.planhelper.mvp.schedule.model.WeekInfo;
+import com.young.planhelper.mvp.schedule.model.bean.DayInfo;
+import com.young.planhelper.mvp.schedule.model.bean.WeekInfo;
 
 /**
  * @author: young

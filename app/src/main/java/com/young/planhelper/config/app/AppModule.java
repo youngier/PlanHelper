@@ -2,6 +2,8 @@ package com.young.planhelper.config.app;
 
 import android.app.Application;
 
+import com.young.planhelper.application.AppApplication;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -16,15 +18,15 @@ import dagger.Provides;
 @Module
 public class AppModule {
 
-    private Application mApplication;
+    private AppApplication mAppApplication;
 
-    public AppModule(Application application){
-        this.mApplication = application;
+    public AppModule(AppApplication appApplication){
+        this.mAppApplication = appApplication;
     }
 
     @Provides
     @Singleton
-    public Application provideApplication(){
-        return mApplication;
+    public AppApplication provideApplication(){
+        return mAppApplication;
     }
 }

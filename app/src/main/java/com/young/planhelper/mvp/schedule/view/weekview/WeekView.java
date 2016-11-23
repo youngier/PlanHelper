@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.young.planhelper.R;
-import com.young.planhelper.mvp.schedule.model.WeekInfo;
+import com.young.planhelper.mvp.schedule.model.bean.WeekInfo;
 
 import java.util.List;
 

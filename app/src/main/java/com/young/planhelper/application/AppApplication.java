@@ -7,6 +7,7 @@ import com.young.planhelper.config.api.ApiServiceModule;
 import com.young.planhelper.config.app.AppComponent;
 import com.young.planhelper.config.app.AppModule;
 import com.young.planhelper.config.app.DaggerAppComponent;
+import com.young.planhelper.config.orm.OrmModule;
 
 /**
  * @author: young
@@ -29,6 +30,7 @@ public class AppApplication extends Application{
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .apiServiceModule(new ApiServiceModule())
+                .ormModule(new OrmModule())
                 .build();
     }
 

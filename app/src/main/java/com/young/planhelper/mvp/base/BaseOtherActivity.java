@@ -1,27 +1,42 @@
 package com.young.planhelper.mvp.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.litao.android.lib.entity.PhotoEntry;
 import com.young.planhelper.mvp.base.view.IView;
+import com.young.planhelper.mvp.common.photo.EventEntry;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import butterknife.ButterKnife;
 
 /**
- * 最基本的activity，所有的activity都要继承
- * 提供加载框的显示
  * @author: young
- * date:16/9/30  10:23
+ * email:1160415122@qq.com
+ * date:16/10/8  14:27
  */
 
 
-public abstract class BaseActivity extends AppCompatActivity implements IView{
+public abstract class BaseOtherActivity extends Activity implements IView {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme();
         setContentView(getLayout());
+        ButterKnife.bind(this);
+        config();
         initUI();
+    }
+
+    /**
+     * 给子类提供自己的配置
+     */
+    protected void config() {
     }
 
     /**
@@ -41,4 +56,5 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
      * @return
      */
     public abstract int getLayout();
+
 }

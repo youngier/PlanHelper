@@ -2,6 +2,8 @@ package com.young.planhelper.config.api;
 
 import android.app.Application;
 
+import com.young.planhelper.application.AppApplication;
+
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -43,7 +45,7 @@ public class ApiServiceModule {
      */
     @Provides
     @Singleton
-    Retrofit provideRetrofit(Application application, OkHttpClient okHttpClient){
+    Retrofit provideRetrofit(AppApplication application, OkHttpClient okHttpClient){
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.client(okHttpClient);
         return builder.build();

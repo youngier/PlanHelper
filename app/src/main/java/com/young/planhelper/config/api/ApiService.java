@@ -1,6 +1,6 @@
 package com.young.planhelper.config.api;
 
-import com.young.planhelper.mvp.schedule.model.DayInfo;
+import com.young.planhelper.mvp.schedule.model.bean.DayInfo;
 
 import retrofit2.Call;
 import retrofit2.http.POST;

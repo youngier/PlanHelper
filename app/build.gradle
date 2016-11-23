@@ -1,12 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'realm-android'
 
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
+    /**
+     * lambda表达式需要的环境
+     */
     compileOptions{
         sourceCompatibility org.gradle.api.JavaVersion.VERSION_1_8
         targetCompatibility org.gradle.api.JavaVersion.VERSION_1_8
@@ -18,6 +22,13 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+//        /**
+//         * AS新版本java8新特性需要jack工具链
+//         */
+//        jackOptions {
+//            enabled true
+//        }
     }
     buildTypes {
         release {
@@ -27,8 +38,26 @@ android {
     }
 }
 
+/**
+ * 引入第三方Java8兼容插件
+ */
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.+'
     compile 'com.android.support:design:23.+'
@@ -50,7 +79,19 @@ dependencies {
     //配置Rxjava, RxAndroid
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
+    //配置butterknife
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.jakewharton:butterknife:8.4.0'
     //配置Glide图片加载
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile files('libs/javax.annotation.jar')
+    compile files('libs/Amap_2DMap_V2.9.1_20160825 2.jar')
+
+    //选择图片
+    compile 'com.github.sd6352051:android-image-picker:v1.0.1'
+    //选择图片用到的EventBus，用于选择图片后结果回传
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    //仿ios切换按钮
+    compile 'com.zcw:togglebutton-library:1.0.0'
 }

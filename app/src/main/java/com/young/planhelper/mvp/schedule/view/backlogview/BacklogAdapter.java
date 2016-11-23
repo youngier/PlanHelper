@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.young.planhelper.R;
-import com.young.planhelper.mvp.schedule.model.BacklogInfo;
+import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 
 import java.util.ArrayList;
 import java.util.List;

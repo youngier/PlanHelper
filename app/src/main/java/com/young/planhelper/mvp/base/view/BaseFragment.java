@@ -1,14 +1,21 @@
 package com.young.planhelper.mvp.base.view;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.young.planhelper.R;
+import com.young.planhelper.mvp.base.presenter.IPresenter;
+import com.young.planhelper.mvp.base.presenter.Presenter;
+import com.young.planhelper.util.LogUtil;
+
+import butterknife.ButterKnife;
 
 /**
  * @author: young
@@ -17,15 +24,16 @@ import com.young.planhelper.R;
  */
 
 
-public abstract class BaseFragment extends Fragment{
+public abstract class BaseFragment extends Fragment implements IView{
 
     View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            view = (View) inflater.inflate(
+            view = inflater.inflate(
                 getLayoutId(), container, false);
+        ButterKnife.bind(this, view);
         initUI();
         setData();
         return view;
