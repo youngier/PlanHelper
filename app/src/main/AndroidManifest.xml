@@ -46,7 +46,14 @@
         <activity android:name=".mvp.common.photo.SelectPhotoActivity" />
         <activity
             android:name=".mvp.plan.view.PlanAddActivity"
-            android:theme="@android:style/Theme.Dialog"></activity>
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".mvp.plan.view.planitem.PlanItemActivity"
+            android:label="@string/title_activity_plan_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".mvp.plan.view.planitem.PlanItemEditActivity" />
+        <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemAddActivity" />
+        <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemDetailActivity"></activity>
     </application>
 
 </manifest>

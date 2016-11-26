@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.young.planhelper.mvp.base.view.IView;
 
+import butterknife.ButterKnife;
+
 /**
  * 最基本的activity，所有的activity都要继承
  * 提供加载框的显示
@@ -21,6 +23,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
         super.onCreate(savedInstanceState);
         setTheme();
         setContentView(getLayout());
+        ButterKnife.bind(this);
         initUI();
     }
 

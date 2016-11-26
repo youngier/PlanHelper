@@ -12,4 +12,5 @@
     <color name="red">#ff0000</color>
     <color name="blue">#0000ff</color>
     <color name="light_pink">#fee0df</color>
+    <color name="default_background">#eeeeee</color>
 </resources>

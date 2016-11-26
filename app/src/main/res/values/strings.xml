@@ -16,4 +16,5 @@
     <string name="sunday">周日</string>
 
     <string name="add">你可以在此添加你的布局</string>
+    <string name="title_activity_plan_detail">PlanDetailActivity</string>
 </resources>

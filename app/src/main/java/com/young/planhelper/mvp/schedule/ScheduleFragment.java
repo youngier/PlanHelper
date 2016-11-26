@@ -174,7 +174,6 @@ public class ScheduleFragment extends BaseFragment {
     public void setData(Object data) {
         try {
             List<BacklogInfo> backlogInfos = (List<BacklogInfo>) data;
-            LogUtil.eLog(backlogInfos.size()+"个数据");
             adapter.setDatas(backlogInfos);
             adapter.notifyDataSetChanged();
         }catch (Exception e){
