@@ -8,6 +8,7 @@ import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanSecondItemInfo;
+import com.young.planhelper.mvp.plan.model.bean.PlanThirdItemInfo;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 import com.young.planhelper.util.LogUtil;
 
@@ -135,5 +136,35 @@ public class PlanBiz extends Biz implements IPlanBiz{
         PlanSecondItemInfo planSecondItemInfo = mRealm.where(PlanSecondItemInfo.class).equalTo("planSecondItemInfoId", planSecondItemInfoId).findFirst();
 
         callback.onResult(planSecondItemInfo);
+    }
+
+    @Override
+    public void addPlanThirdItem(PlanThirdItemInfo planThirdItemInfo, ICallback callback) {
+
+        if( mRealm == null ){
+            LogUtil.eLog("Realm没有初始化");
+            callback.onResult("添加失败");
+            return;
+        }
+
+        mRealm.beginTransaction();
+        PlanThirdItemInfo object = mRealm.copyToRealm(planThirdItemInfo);
+        mRealm.commitTransaction();
+
+        callback.onResult("添加成功");
+
+    }
+
+    @Override
+    public void getPlanThirdItemInfoBySecondId(long planSecondItemInfoId, ICallback callback) {
+        if( mRealm == null ){
+            LogUtil.eLog("Realm没有初始化");
+            callback.onResult("获取失败");
+            return;
+        }
+
+        List<PlanThirdItemInfo> planThirdItemInfos = mRealm.where(PlanThirdItemInfo.class).equalTo("planSecondItemInfoId", planSecondItemInfoId).findAll();
+
+        callback.onResult(planThirdItemInfos);
     }
 }

@@ -19,5 +19,12 @@ public interface IPlanSecondItemDetailPresenter extends IPresenter{
      */
     void getPlanSecondItemInfoById(long planSecondItemInfoId, final IBiz.ICallback callback);
 
+    /**
+     * 根据子任务项id获取具体详情
+     * @param planSecondItemInfoId
+     * @param callback
+     */
+    void getPlanThirdItemInfoBySecondId(long planSecondItemInfoId, final IBiz.ICallback callback);
+
 
 }

@@ -53,7 +53,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".mvp.plan.view.planitem.PlanItemEditActivity" />
         <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemAddActivity" />
-        <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemDetailActivity"></activity>
+        <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemDetailActivity" />
+        <activity android:name=".mvp.plan.view.planitem.thirditem.PlanThirdItemAddActivity"></activity>
     </application>
 
 </manifest>

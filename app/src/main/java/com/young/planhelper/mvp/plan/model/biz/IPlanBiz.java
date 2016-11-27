@@ -4,6 +4,7 @@ import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanSecondItemInfo;
+import com.young.planhelper.mvp.plan.model.bean.PlanThirdItemInfo;
 
 import java.util.List;
 
@@ -64,4 +65,18 @@ public interface IPlanBiz extends IBiz{
      * @param callback
      */
     void getPlanSecondItemInfoById(long planSecondItemInfoId, ICallback callback);
+
+    /**
+     * 添加计划任务最小任务项
+     * @param planThirdItemInfo
+     * @param callback
+     */
+    void addPlanThirdItem(PlanThirdItemInfo planThirdItemInfo, ICallback callback);
+
+    /**
+     * 根据子任务id获取计划任务最小任务项
+     * @param planSecondItemInfoId
+     * @param callback
+     */
+    void getPlanThirdItemInfoBySecondId(long planSecondItemInfoId, ICallback callback);
 }

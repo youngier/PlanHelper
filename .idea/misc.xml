@@ -47,7 +47,16 @@
             <id>Android &gt; Lint &gt; Performance</id>
           </State>
           <State>
+            <id>Class structureJava</id>
+          </State>
+          <State>
+            <id>Control flow issuesJava</id>
+          </State>
+          <State>
             <id>CorrectnessLintAndroid</id>
+          </State>
+          <State>
+            <id>Error handlingJava</id>
           </State>
           <State>
             <id>General</id>
@@ -60,6 +69,9 @@
           </State>
           <State>
             <id>Numeric issuesJava</id>
+          </State>
+          <State>
+            <id>Probable bugsJava</id>
           </State>
         </expanded-state>
         <selected-state>
