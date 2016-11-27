@@ -2,6 +2,8 @@ package com.young.planhelper.mvp.plan.presenter;
 
 import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.base.presenter.IPresenter;
+import com.young.planhelper.mvp.plan.model.bean.PlanOperationInfo;
+import com.young.planhelper.mvp.plan.model.bean.PlanSecondItemInfo;
 
 /**
  * @author: young
@@ -26,5 +28,16 @@ public interface IPlanSecondItemDetailPresenter extends IPresenter{
      */
     void getPlanThirdItemInfoBySecondId(long planSecondItemInfoId, final IBiz.ICallback callback);
 
+    /**
+     * 添加计划任务
+     */
+    void addPlanSecondItemRecond(PlanOperationInfo planOperationInfo, IBiz.ICallback callback);
+
+    /**
+     * 根据子任务项id获取操作记录
+     * @param planSecondItemInfoId
+     * @param callback
+     */
+    void getPlanOperationInfoBySecondId(long planSecondItemInfoId, final IBiz.ICallback callback);
 
 }

@@ -3,6 +3,7 @@ package com.young.planhelper.mvp.plan.model.biz;
 import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
+import com.young.planhelper.mvp.plan.model.bean.PlanOperationInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanSecondItemInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanThirdItemInfo;
 
@@ -79,4 +80,20 @@ public interface IPlanBiz extends IBiz{
      * @param callback
      */
     void getPlanThirdItemInfoBySecondId(long planSecondItemInfoId, ICallback callback);
+
+    /**
+     * 添加计划子任务操作记录
+     * @param planOperationInfo
+     * @param callback
+     */
+    void addPlanSecondItemRecord(PlanOperationInfo planOperationInfo, ICallback callback);
+
+    /**
+     * 根据子任务id获取计划子任务操作记录
+     * @param planSecondItemInfoId
+     * @param callback
+     */
+    void getPlanOperationInfoBySecondId(long planSecondItemInfoId, ICallback callback);
+
+
 }

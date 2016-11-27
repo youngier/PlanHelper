@@ -6,24 +6,30 @@ import io.realm.annotations.PrimaryKey;
 /**
  * @author: young
  * email:1160415122@qq.com
- * date:16/11/24  14:37
+ * date:16/11/27  20:25
  */
 
 
-public class PlanSecondItemInfo extends RealmObject{
+public class PlanOperationInfo extends RealmObject{
 
     @PrimaryKey
+    private long planOperationInfoId;
+
     private long planSecondItemInfoId;
 
-    private long planItemInfoId;
-
-    private String title;
+    private String name;
 
     private String content;
 
     private String time;
 
-    private boolean hasNotification;
+    public long getPlanOperationInfoId() {
+        return planOperationInfoId;
+    }
+
+    public void setPlanOperationInfoId(long planOperationInfoId) {
+        this.planOperationInfoId = planOperationInfoId;
+    }
 
     public long getPlanSecondItemInfoId() {
         return planSecondItemInfoId;
@@ -33,20 +39,12 @@ public class PlanSecondItemInfo extends RealmObject{
         this.planSecondItemInfoId = planSecondItemInfoId;
     }
 
-    public long getPlanItemInfoId() {
-        return planItemInfoId;
+    public String getName() {
+        return name;
     }
 
-    public void setPlanItemInfoId(long planItemInfoId) {
-        this.planItemInfoId = planItemInfoId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getContent() {
@@ -63,13 +61,5 @@ public class PlanSecondItemInfo extends RealmObject{
 
     public void setTime(String time) {
         this.time = time;
-    }
-
-    public void setHasNotification(boolean hasNotification) {
-        this.hasNotification = hasNotification;
-    }
-
-    public boolean isHasNotification() {
-        return hasNotification;
     }
 }

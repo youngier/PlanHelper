@@ -130,12 +130,13 @@
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
+                tools:visibility="gone"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:scrollbars="none"
-                android:id="@+id/recycler_view"
+                android:id="@+id/rv_child"
                 >
 
             </android.support.v7.widget.RecyclerView>
@@ -190,6 +191,17 @@
 
 
             </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:visibility="gone"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:scrollbars="none"
+                android:id="@+id/rv_record"
+                >
+
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
 
     </ScrollView>

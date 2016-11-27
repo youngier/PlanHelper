@@ -14,8 +14,11 @@ import com.young.planhelper.mvp.plan.model.bean.PlanSecondItemInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanSecondItemAddPresenter;
 import com.young.planhelper.mvp.plan.presenter.PlanSecondItemAddPresenter;
 import com.young.planhelper.util.TimeUtil;
+import com.young.planhelper.widget.DateTimePickDialog;
+import com.zcw.togglebutton.ToggleButton;
 
 import butterknife.BindView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class PlanSecondItemAddActivity extends BaseActivity {
@@ -32,8 +35,13 @@ public class PlanSecondItemAddActivity extends BaseActivity {
     @BindView(R.id.tv_time)
     TextView mTimeTv;
 
+    @BindView(R.id.togglebtn)
+    ToggleButton mToggleBtn;
+
     private IPlanSecondItemAddPresenter presenter;
+
     private long planItemInfoId;
+    private boolean hasNotification = true;
 
     @Override
     protected void initUI() {
@@ -41,6 +49,13 @@ public class PlanSecondItemAddActivity extends BaseActivity {
         planItemInfoId = getIntent().getLongExtra("planItemInfoId", 0);
 
         presenter = new PlanSecondItemAddPresenter(this, this);
+
+        mToggleBtn.setOnToggleChanged(on -> {
+            if(on)
+                hasNotification = true;
+            else
+                hasNotification = false;
+        });
 
     }
 
@@ -54,6 +69,24 @@ public class PlanSecondItemAddActivity extends BaseActivity {
         Toast.makeText(this, (String)data, Toast.LENGTH_SHORT).show();
         finish();
     }
+
+    /**
+     * 选择时间
+     */
+    @OnClick(R.id.ll_time)
+    void selectTime(){
+        DateTimePickDialog dateTimePickDialog = new DateTimePickDialog(
+                this, TimeUtil.getCurrentDateTimeInString());
+        dateTimePickDialog.dateTimePicKDialog();
+        dateTimePickDialog.setOnTimeSelectListener(new DateTimePickDialog.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(String time) {
+                mTimeTv.setText(time);
+            }
+        });
+    }
+
+    @OnCheckedChanged()
 
     @OnClick(R.id.btn_confirm)
     void confirm(){
@@ -73,6 +106,7 @@ public class PlanSecondItemAddActivity extends BaseActivity {
         PlanSecondItemInfo planSecondItemInfo = new PlanSecondItemInfo();
         planSecondItemInfo.setTitle(title);
         planSecondItemInfo.setContent(content);
+//        planSecondItemInfo.setHasNotification(hasNotification);
         planSecondItemInfo.setTime(mTimeTv.getText().toString());
         planSecondItemInfo.setPlanSecondItemInfoId(TimeUtil.getCurrentTimeInLong());
         planSecondItemInfo.setPlanItemInfoId(planItemInfoId);

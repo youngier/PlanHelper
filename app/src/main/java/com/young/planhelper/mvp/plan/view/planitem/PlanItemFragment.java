@@ -38,6 +38,7 @@ public class PlanItemFragment extends BaseFragment{
     @BindView(R.id.rv_fragment_plan_item)
     RecyclerView mRecyclerView;
 
+
     private PlanItemInfo mPlanItemInfo;
 
     private IPlanSecondItemPresenter presenter;
