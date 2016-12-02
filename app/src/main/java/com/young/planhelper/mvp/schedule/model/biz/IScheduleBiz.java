@@ -24,4 +24,10 @@ public interface IScheduleBiz extends IBiz{
      * @param callback
      */
     void getBacklogInfo(final ICallback callback);
+
+    /**
+     * 获取今天的所有任务
+     * @param callback
+     */
+    void getBackLogInfoToday(final ICallback callback);
 }

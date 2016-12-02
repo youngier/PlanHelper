@@ -51,6 +51,6 @@ public class BacklogItemView extends LinearLayout{
     public void setData(BacklogInfo data) {
         mContentTv.setText(data.getContent());
         mLocationTv.setText(data.getLocation());
-        mTimeTv.setText(data.getTime());
+        mTimeTv.setText(data.getTime()+"");
     }
 }

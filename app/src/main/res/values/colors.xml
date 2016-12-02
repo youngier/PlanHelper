@@ -13,4 +13,13 @@
     <color name="blue">#0000ff</color>
     <color name="light_pink">#fee0df</color>
     <color name="default_background">#eeeeee</color>
+
+
+    <color name="text_normal">#626262</color>
+    <color name="text_light">#ababab</color>
+    <color name="text_super_light">#c0c0c0</color>
+
+    <color name="blue_light">#48a5cc</color>
+    <color name="blue_dark">#00aeef</color>
+    <color name="stroke">#77d4f6</color>
 </resources>

@@ -106,7 +106,6 @@ public class PlanSecondItemAddActivity extends BaseActivity {
         PlanSecondItemInfo planSecondItemInfo = new PlanSecondItemInfo();
         planSecondItemInfo.setTitle(title);
         planSecondItemInfo.setContent(content);
-//        planSecondItemInfo.setHasNotification(hasNotification);
         planSecondItemInfo.setTime(mTimeTv.getText().toString());
         planSecondItemInfo.setPlanSecondItemInfoId(TimeUtil.getCurrentTimeInLong());
         planSecondItemInfo.setPlanItemInfoId(planItemInfoId);

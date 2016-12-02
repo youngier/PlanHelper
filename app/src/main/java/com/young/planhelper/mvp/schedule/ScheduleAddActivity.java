@@ -29,6 +29,7 @@ import com.young.planhelper.mvp.schedule.model.bean.BacklogImageInfo;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 import com.young.planhelper.mvp.schedule.presenter.IScheduleAddPresenter;
 import com.young.planhelper.mvp.schedule.presenter.ScheduleAddPresenter;
+import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.TimeUtil;
 import com.young.planhelper.widget.DateTimePickDialog;
 
@@ -36,6 +37,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -159,7 +161,12 @@ public class ScheduleAddActivity extends BaseOtherActivity{
     void saveBacklog(){
         BacklogInfo backlogInfo = new BacklogInfo();
         backlogInfo.setBacklogInfoId(TimeUtil.getCurrentTimeInLong());
-        backlogInfo.setTime(mTimeTv.getText().toString());
+        try {
+            backlogInfo.setTime(TimeUtil.dateToStamp(mTimeTv.getText().toString()));
+            LogUtil.eLog(TimeUtil.dateToStamp(mTimeTv.getText().toString())+"dede");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         backlogInfo.setStatue(BacklogInfo.UNFINISH);
         backlogInfo.setLocation("广东省");
         backlogInfo.setContent(mContentEt.getText().toString());

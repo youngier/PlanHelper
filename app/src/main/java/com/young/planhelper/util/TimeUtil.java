@@ -3,9 +3,11 @@ package com.young.planhelper.util;
 import android.text.format.Time;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 /**
@@ -22,6 +24,12 @@ public class TimeUtil {
     public static final String XING_QI = "星期";
     public static final String ZHOU = "周";
 
+    /**
+     * 获取日期
+     * @param num
+     * @param format
+     * @return
+     */
     public static String getWeek(int num, String format) {
         final Calendar c = Calendar.getInstance();
         c.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
@@ -31,11 +39,22 @@ public class TimeUtil {
         return format + WEEK[weekNum - 1];
     }
 
+    /**
+     * 判断当前为第几周
+     * @return
+     */
     public static String getZhouWeek() {
         SimpleDateFormat format = new SimpleDateFormat("MM/dd");
         return format.format(new Date(System.currentTimeMillis())) + " "
                 + getWeek(0, ZHOU);
     }
+
+    /**
+     * 根据开始时间和结束时间获取差值秒
+     * @param end
+     * @param begin
+     * @return
+     */
     public static long getSec(long end,long begin){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date nowDate = new Date(begin);
@@ -47,6 +66,8 @@ public class TimeUtil {
         Long second = (diff / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
         return second;
     }
+
+
     public static String formatDuring(long mss) {
         long days = mss / ( 1000* 60 * 60 * 24);
         long hours = (mss % (1000* 60 * 60 * 24)) / (1000 * 60 * 60);
@@ -117,6 +138,12 @@ public class TimeUtil {
         LogUtil.eLog("formatSecDuring:"+sb.toString());
         return sec;
     }
+
+    /**
+     * 判断时间戳是什么时候
+     * @param timesamp
+     * @return
+     */
     public static String getDay(long timesamp) {
         String result = "";
         SimpleDateFormat sdf = new SimpleDateFormat("dd");
@@ -144,6 +171,11 @@ public class TimeUtil {
         return result;
     }
 
+    /**
+     * 获取当前日期
+     * @param date
+     * @return
+     */
     public static String getDateTime(Date date) {
         return format(date, "yyyy-MM-dd HH:mm:ss");
     }
@@ -262,6 +294,46 @@ public class TimeUtil {
      */
     public static String getCurrentTimeInString(SimpleDateFormat dateFormat) {
         return getTime(getCurrentTimeInLong(), dateFormat);
+    }
+
+
+    /**
+     * 获取当前开始时间
+     * @return
+     */
+    public static  Long getTodayStartTime(){
+        Calendar todayStart = Calendar.getInstance();
+        todayStart.set(Calendar.HOUR, 0);
+        todayStart.set(Calendar.MINUTE, 0);
+        todayStart.set(Calendar.SECOND, 0);
+        todayStart.set(Calendar.MILLISECOND, 0);
+        return todayStart.getTime().getTime();
+    }
+
+    /**
+     * 获取当前结束时间
+     * @return
+     */
+    public static Long getTodayEndTime(){
+        Calendar todayEnd = Calendar.getInstance();
+        todayEnd.set(Calendar.HOUR, 23);
+        todayEnd.set(Calendar.MINUTE, 59);
+        todayEnd.set(Calendar.SECOND, 59);
+        todayEnd.set(Calendar.MILLISECOND, 999);
+        return todayEnd.getTime().getTime();
+    }
+
+    /**
+     * 将时间转换为时间戳
+     * @param s
+     * @return
+     * @throws ParseException
+     */
+    public static long dateToStamp(String s) throws ParseException{
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+        Date date = simpleDateFormat.parse(s);
+        long ts = date.getTime();
+        return ts;
     }
 
 }

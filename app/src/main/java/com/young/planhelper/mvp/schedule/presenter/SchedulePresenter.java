@@ -39,4 +39,9 @@ public class SchedulePresenter extends Presenter implements ISchedulePresenter{
     public void getBacklogInfos(IBiz.ICallback callback) {
         mBiz.getBacklogInfo(callback);
     }
+
+    @Override
+    public void getBackLogInfoToday(IBiz.ICallback callback) {
+        mBiz.getBackLogInfoToday(callback);
+    }
 }

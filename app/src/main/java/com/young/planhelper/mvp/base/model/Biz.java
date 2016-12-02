@@ -7,7 +7,7 @@ package com.young.planhelper.mvp.base.model;
  */
 
 
-public abstract  class Biz implements IBiz {
+public abstract class Biz implements IBiz {
 
     @Override
     public abstract void getData(ICallback callback);

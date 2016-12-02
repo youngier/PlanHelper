@@ -23,6 +23,7 @@ import com.young.planhelper.mvp.schedule.view.backlogview.RecycleViewDivider;
 import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.TimeUtil;
 import com.young.planhelper.widget.DateTimePickDialog;
+import com.young.planhelper.widget.manager.CustomLinearLayoutManager;
 
 import java.util.List;
 
@@ -183,22 +184,4 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
         }
     }
 
-
-    public class CustomLinearLayoutManager extends LinearLayoutManager {
-        private boolean isScrollEnabled = true;
-
-        public CustomLinearLayoutManager(Context context) {
-            super(context);
-        }
-
-        public void setScrollEnabled(boolean flag) {
-            this.isScrollEnabled = flag;
-        }
-
-        @Override
-        public boolean canScrollVertically() {
-            //Similarly you can customize "canScrollHorizontally()" for managing horizontal scroll
-            return isScrollEnabled && super.canScrollVertically();
-        }
-    }
 }
