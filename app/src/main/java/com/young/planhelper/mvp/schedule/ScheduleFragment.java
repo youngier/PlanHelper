@@ -1,5 +1,6 @@
 package com.young.planhelper.mvp.schedule;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -47,19 +48,32 @@ public class ScheduleFragment extends BaseFragment {
 
     private static final String TAG = "ScheduleFragment";
 
-    @BindView(R.id.rv_schedule)
-    RecyclerView mRecyclerView;
+    @BindView(R.id.rv_schedule_today)
+    RecyclerView mTodayRv;
 
-    BacklogAdapter adapter;
+    @BindView(R.id.rv_schedule_future)
+    RecyclerView mFutureRv;
 
-    @BindView(R.id.swipe)
-    SwipeRefreshLayout mSwipeRl;
+    @BindView(R.id.rv_schedule_overdue)
+    RecyclerView mOverdueRv;
+
+    @BindView(R.id.tv_schedule_backlog_today_count)
+    TextView mTodayCountTv;
+
+    @BindView(R.id.tv_schedule_backlog_future_count)
+    TextView mFutureCountTv;
+
+    @BindView(R.id.tv_schedule_backlog_overdue_count)
+    TextView mOverdueountTv;
+
+    BacklogAdapter mTodayAdapter, mFutureAdapter, mOverdueAdapter;
+
+//    @BindView(R.id.swipe)
+//    SwipeRefreshLayout mSwipeRl;
 
     @BindView(R.id.calendar)
     CollapseCalendarView mCalendarView;
 
-    @BindView(R.id.tv_schedule_backlog_today_count)
-    TextView mTodayCountTv;
 
     ISchedulePresenter presenter;
 
@@ -90,16 +104,56 @@ public class ScheduleFragment extends BaseFragment {
      * 设置备忘录数据
      */
     private void setListData() {
-        adapter = new BacklogAdapter(getContext(), null);
-        mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mTodayAdapter = new BacklogAdapter(getContext(), null);
 
-        CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(getActivity());
-        layoutManager.setScrollEnabled(false);
+        mTodayAdapter.setOnClickListener(id -> {
+            Intent intent = new Intent(getActivity(), ScheduleDetailActivity.class);
+            intent.putExtra("backlogInfoId", id);
+            startActivity(intent);
+        });
 
-        mRecyclerView.setLayoutManager(layoutManager);
+        mFutureAdapter = new BacklogAdapter(getContext(), null);
 
-        mRecyclerView.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL));
+        mFutureAdapter.setOnClickListener(id -> {
+            Intent intent = new Intent(getActivity(), ScheduleDetailActivity.class);
+            intent.putExtra("backlogInfoId", id);
+            startActivity(intent);
+        });
+
+        mOverdueAdapter = new BacklogAdapter(getContext(), null);
+
+        mOverdueAdapter.setOnClickListener(id -> {
+            Intent intent = new Intent(getActivity(), ScheduleDetailActivity.class);
+            intent.putExtra("backlogInfoId", id);
+            startActivity(intent);
+        });
+
+        mTodayRv.setAdapter(mTodayAdapter);
+        mTodayRv.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mFutureRv.setAdapter(mFutureAdapter);
+        mFutureRv.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mOverdueRv.setAdapter(mOverdueAdapter);
+        mOverdueRv.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        CustomLinearLayoutManager todayLm = new CustomLinearLayoutManager(getActivity());
+        todayLm.setScrollEnabled(false);
+
+        CustomLinearLayoutManager futureLm = new CustomLinearLayoutManager(getActivity());
+        futureLm.setScrollEnabled(false);
+
+        CustomLinearLayoutManager overdueLm = new CustomLinearLayoutManager(getActivity());
+        overdueLm.setScrollEnabled(false);
+
+        mTodayRv.setLayoutManager(todayLm);
+        mFutureRv.setLayoutManager(futureLm);
+        mOverdueRv.setLayoutManager(overdueLm);
+
+        mTodayRv.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL));
+        mFutureRv.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL));
+        mOverdueRv.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL));
+
         presenter.getBackLogInfoToday(data -> setData(data));
 
     }
@@ -115,13 +169,55 @@ public class ScheduleFragment extends BaseFragment {
             if( backlogInfos.size() > MAX_SHOW_SIZE ) {
                 for (int i = 0; i < 3; i++)
                     temp.add(backlogInfos.get(i));
-                adapter.setDatas(temp);
+                mTodayAdapter.setDatas(temp);
             }else {
-                adapter.setDatas(backlogInfos);
+                mTodayAdapter.setDatas(backlogInfos);
             }
-            adapter.notifyDataSetChanged();
+            mTodayAdapter.notifyDataSetChanged();
         }catch (Exception e){
             Toast.makeText(getActivity(), (String) data, Toast.LENGTH_SHORT).show();
         }
+
+        presenter.getBackLogInfoFuture(futureData -> setFutureData(futureData));
     }
+
+    public void setFutureData(Object futureData) {
+        try {
+            List<BacklogInfo> backlogInfos = (List<BacklogInfo>) futureData;
+            mFutureCountTv.setText("("+backlogInfos.size()+")");
+            List<BacklogInfo> temp = new ArrayList<BacklogInfo>();
+            if( backlogInfos.size() > MAX_SHOW_SIZE ) {
+                for (int i = 0; i < 3; i++)
+                    temp.add(backlogInfos.get(i));
+                mFutureAdapter.setDatas(temp);
+            }else {
+                mFutureAdapter.setDatas(backlogInfos);
+            }
+            mFutureAdapter.notifyDataSetChanged();
+        }catch (Exception e){
+            Toast.makeText(getActivity(), (String) futureData, Toast.LENGTH_SHORT).show();
+        }
+
+        presenter.getBackLogInfoOverdue(overdueData -> setOverdueData(overdueData));
+    }
+
+    public void setOverdueData(Object overdueData) {
+        try {
+            List<BacklogInfo> backlogInfos = (List<BacklogInfo>) overdueData;
+            mOverdueountTv.setText("("+backlogInfos.size()+")");
+            List<BacklogInfo> temp = new ArrayList<BacklogInfo>();
+            if( backlogInfos.size() > MAX_SHOW_SIZE ) {
+                for (int i = 0; i < 3; i++)
+                    temp.add(backlogInfos.get(i));
+                mOverdueAdapter.setDatas(temp);
+            }else {
+                mOverdueAdapter.setDatas(backlogInfos);
+            }
+            mOverdueAdapter.notifyDataSetChanged();
+        }catch (Exception e){
+            Toast.makeText(getActivity(), (String) overdueData, Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 }

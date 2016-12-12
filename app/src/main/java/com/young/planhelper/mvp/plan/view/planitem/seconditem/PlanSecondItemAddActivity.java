@@ -86,8 +86,6 @@ public class PlanSecondItemAddActivity extends BaseActivity {
         });
     }
 
-    @OnCheckedChanged()
-
     @OnClick(R.id.btn_confirm)
     void confirm(){
 

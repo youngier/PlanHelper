@@ -18,7 +18,7 @@ public class BacklogInfo extends RealmObject {
 
     public static final int UNFINISH = 0;
     public static final int FINISHED = 1;
-    public static final int OVERLAY = 2;
+    public static final int OVERDUE = 2;
 
     @PrimaryKey
     private long backlogInfoId;     //当前时间戳来设置为id

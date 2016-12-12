@@ -54,7 +54,8 @@
         <activity android:name=".mvp.plan.view.planitem.PlanItemEditActivity" />
         <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemAddActivity" />
         <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemDetailActivity" />
-        <activity android:name=".mvp.plan.view.planitem.thirditem.PlanThirdItemAddActivity"></activity>
+        <activity android:name=".mvp.plan.view.planitem.thirditem.PlanThirdItemAddActivity" />
+        <activity android:name=".mvp.schedule.ScheduleDetailActivity"></activity>
     </application>
 
 </manifest>

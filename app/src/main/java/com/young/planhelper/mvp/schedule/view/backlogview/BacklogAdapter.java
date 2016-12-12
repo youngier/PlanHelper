@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.young.planhelper.R;
+import com.young.planhelper.mvp.plan.view.planitem.seconditem.PlanRecordAdapter;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class BacklogAdapter extends RecyclerView.Adapter<BacklogViewHolder>{
 
     private List<BacklogInfo> mDatas;
     private Context mContext;
+    private OnClickListener listener;
 
     public BacklogAdapter(Context context, List<BacklogInfo> datas) {
         this.mContext = context;
@@ -38,6 +40,8 @@ public class BacklogAdapter extends RecyclerView.Adapter<BacklogViewHolder>{
         View view = LayoutInflater.from(mContext).inflate(R.layout.view_backlog_item, parent, false);
         BacklogViewHolder viewHolder = new BacklogViewHolder(view);
         viewHolder.backlogItemView = (BacklogItemView) view.findViewById(R.id.backlog_item_view);
+        if( listener != null )
+            viewHolder.backlogItemView.setOnClickListener(v -> listener.onClick(viewHolder.backlogItemView.getBacklogInfoId()));
         return viewHolder;
     }
 
@@ -53,5 +57,13 @@ public class BacklogAdapter extends RecyclerView.Adapter<BacklogViewHolder>{
 
     public void setDatas(List<BacklogInfo> data) {
         this.mDatas = data;
+    }
+
+    public void setOnClickListener(OnClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnClickListener{
+        void onClick(long id);
     }
 }

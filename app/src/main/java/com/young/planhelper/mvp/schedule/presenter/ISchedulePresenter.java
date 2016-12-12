@@ -23,4 +23,16 @@ public interface ISchedulePresenter extends IPresenter{
      */
     void getBackLogInfoToday(IBiz.ICallback callback);
 
+    /**
+     * 获取未来的任务
+     * @param callback
+     */
+    void getBackLogInfoFuture(IBiz.ICallback callback);
+
+    /**
+     * 获取过期的任务
+     * @param callback
+     */
+    void getBackLogInfoOverdue(IBiz.ICallback callback);
+
 }

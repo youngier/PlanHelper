@@ -80,4 +80,43 @@ public class ScheduleBIz extends Biz implements IScheduleBiz {
         callback.onResult(backlogInfos);
     }
 
+    @Override
+    public void getBackLogInfoFuture(ICallback callback) {
+        if( mRealm == null ){
+            LogUtil.eLog(REALM_NOT_INIT);
+            callback.onResult(ADD_FAILED);
+            return;
+        }
+
+        List<BacklogInfo> backlogInfos = mRealm.where(BacklogInfo.class).greaterThan("time", TimeUtil.getTodayEndTime()).findAll();
+
+        callback.onResult(backlogInfos);
+    }
+
+    @Override
+    public void getBackLogInfoOverdue(ICallback callback) {
+        if( mRealm == null ){
+            LogUtil.eLog(REALM_NOT_INIT);
+            callback.onResult(ADD_FAILED);
+            return;
+        }
+
+        List<BacklogInfo> backlogInfos = mRealm.where(BacklogInfo.class).equalTo("statue", BacklogInfo.OVERDUE).lessThan("time", TimeUtil.getTodayStartTime()).findAll();
+
+        callback.onResult(backlogInfos);
+    }
+
+    @Override
+    public void getBackLogInfoDetail(long backlogInfoId, ICallback callback) {
+        if( mRealm == null ){
+            LogUtil.eLog(REALM_NOT_INIT);
+            callback.onResult(ADD_FAILED);
+            return;
+        }
+
+        BacklogInfo backlogInfo = mRealm.where(BacklogInfo.class).equalTo("backlogInfoId", backlogInfoId).findFirst();
+
+        callback.onResult(backlogInfo);
+    }
+
 }

@@ -30,6 +30,8 @@ public class BacklogItemView extends LinearLayout{
     @BindView(R.id.tv_backlog_item_location)
     TextView mLocationTv;
 
+    private long backlogInfoId;
+
     public BacklogItemView(Context context) {
         super(context);
     }
@@ -49,8 +51,15 @@ public class BacklogItemView extends LinearLayout{
     }
 
     public void setData(BacklogInfo data) {
+
+        this.backlogInfoId = data.getBacklogInfoId();
+
         mContentTv.setText(data.getContent());
         mLocationTv.setText(data.getLocation());
         mTimeTv.setText(data.getTime()+"");
+    }
+
+    public long getBacklogInfoId() {
+        return backlogInfoId;
     }
 }
