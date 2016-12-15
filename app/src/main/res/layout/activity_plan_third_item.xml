@@ -39,14 +39,29 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/et_title"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/et_border_gray"
-                android:hint="标题"
-                android:focusable="false"
-                android:paddingLeft="10dp"/>
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText
+                    android:id="@+id/et_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:hint="标题"
+                    android:background="@null"
+                    android:focusable="false"
+                    android:paddingLeft="10dp"/>
+
+            </LinearLayout>
+
 
             <EditText
                 android:gravity="top"
@@ -55,7 +70,6 @@
                 android:layout_height="150dp"
                 android:background="@drawable/et_border_gray"
                 android:paddingLeft="10dp"
-                android:focusable="false"
                 android:id="@+id/et_content" />
 
             <LinearLayout
@@ -71,7 +85,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="10dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_date"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -106,12 +120,13 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="10dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_notification"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="不接收任务通知"/>
+                    android:text="不接收任务通知"
+                    android:id="@+id/textView2" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -152,7 +167,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="10dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_child_item"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -174,7 +189,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="10dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_dynamic"/>
 
                 <TextView
                     android:layout_width="wrap_content"

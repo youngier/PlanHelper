@@ -18,6 +18,10 @@ import java.util.List;
 
 import io.realm.Realm;
 
+import static com.young.planhelper.constant.AppConstant.MODIFY_CONTENT;
+import static com.young.planhelper.constant.AppConstant.MODIFY_CONTENT_AND_TIME;
+import static com.young.planhelper.constant.AppConstant.MODIFY_TIME;
+
 /**
  * @author: young
  * email:1160415122@qq.com
@@ -97,6 +101,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
         PlanOperationInfo planOperationInfo = new PlanOperationInfo();
         planOperationInfo.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
         planOperationInfo.setName("三分钟热度");
+        planOperationInfo.setType(PlanOperationInfo.CREATE);
         planOperationInfo.setTime(TimeUtil.getCurrentDateTimeInString());
         planOperationInfo.setContent("创建了这个任务");
         planOperationInfo.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
@@ -216,5 +221,79 @@ public class PlanBiz extends Biz implements IPlanBiz{
         List<PlanOperationInfo> planOperationInfos = mRealm.where(PlanOperationInfo.class).equalTo("planSecondItemInfoId", planSecondItemInfoId).findAll();
 
         callback.onResult(planOperationInfos);
+    }
+
+    @Override
+    public void modifyPlanSecondItemInfo(PlanSecondItemInfo planSecondItemInfo, String content, String time, int modifyModle, ICallback callback) {
+
+        if( mRealm == null ){
+            LogUtil.eLog("Realm没有初始化");
+            callback.onResult("获取失败");
+            return;
+        }
+
+        String mContent = planSecondItemInfo.getContent();
+        String mTime = planSecondItemInfo.getTime();
+
+        mRealm.beginTransaction();
+
+        planSecondItemInfo.setContent(content);
+        planSecondItemInfo.setTime(time);
+
+        String oTime = TimeUtil.getCurrentDateTimeInString();
+
+        switch ( modifyModle ){
+            case MODIFY_CONTENT:
+                PlanOperationInfo planOperationInfo = new PlanOperationInfo();
+                planOperationInfo.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
+                planOperationInfo.setName("三分钟热度");
+                planOperationInfo.setTime(oTime);
+                planOperationInfo.setType(PlanOperationInfo.MODIFY_TEXT);
+                planOperationInfo.setContent("修改了任务的内容，原内容为："+mContent);
+                planOperationInfo.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
+                PlanOperationInfo object = mRealm.copyToRealm(planOperationInfo);
+                break;
+            case MODIFY_TIME:
+                PlanOperationInfo planOperationInfo1 = new PlanOperationInfo();
+                planOperationInfo1.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
+                planOperationInfo1.setName("三分钟热度");
+                planOperationInfo1.setType(PlanOperationInfo.MODIFY_TIME);
+                planOperationInfo1.setTime(oTime);
+                planOperationInfo1.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
+                if( mTime.equals("") )
+                    planOperationInfo1.setContent("修改了任务的时间，原时间并没有指定");
+                else
+                    planOperationInfo1.setContent("修改了任务的时间，原时间为："+mTime);
+                PlanOperationInfo object1 = mRealm.copyToRealm(planOperationInfo1);
+                break;
+            case MODIFY_CONTENT_AND_TIME:
+                PlanOperationInfo planOperationInfo2 = new PlanOperationInfo();
+                planOperationInfo2.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
+                planOperationInfo2.setName("三分钟热度");
+                planOperationInfo2.setTime(oTime);
+                planOperationInfo2.setType(PlanOperationInfo.MODIFY_TEXT);
+                planOperationInfo2.setContent("修改了任务的内容，原内容为："+mContent);
+                planOperationInfo2.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
+                PlanOperationInfo object2 = mRealm.copyToRealm(planOperationInfo2);
+
+                PlanOperationInfo planOperationInfo3 = new PlanOperationInfo();
+                planOperationInfo3.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
+                planOperationInfo3.setName("三分钟热度");
+                planOperationInfo3.setTime(oTime);
+                planOperationInfo3.setType(PlanOperationInfo.MODIFY_TIME);
+                planOperationInfo3.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
+                if( mTime.equals("") )
+                    planOperationInfo3.setContent("修改了任务的时间，原时间并没有指定");
+                else
+                    planOperationInfo3.setContent("修改了任务的时间，原时间为："+mTime);
+                PlanOperationInfo object3 = mRealm.copyToRealm(planOperationInfo3);
+                break;
+        }
+
+
+        mRealm.commitTransaction();
+
+        callback.onResult("");
+
     }
 }

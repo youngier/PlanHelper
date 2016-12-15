@@ -6,6 +6,7 @@ import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.base.presenter.Presenter;
 import com.young.planhelper.mvp.base.view.IView;
 import com.young.planhelper.mvp.plan.model.bean.PlanOperationInfo;
+import com.young.planhelper.mvp.plan.model.bean.PlanSecondItemInfo;
 import com.young.planhelper.mvp.plan.model.biz.IPlanBiz;
 import com.young.planhelper.mvp.plan.model.biz.PlanBiz;
 
@@ -49,4 +50,10 @@ public class PlanSecondItemDetailPresenter extends Presenter implements IPlanSec
     public void getPlanOperationInfoBySecondId(long planSecondItemInfoId, IBiz.ICallback callback) {
         mBiz.getPlanOperationInfoBySecondId(planSecondItemInfoId, callback);
     }
+
+    @Override
+    public void modifyPlanSecondItemInfo(PlanSecondItemInfo planSecondItemInfo, String content, String time, int modifyModle, IBiz.ICallback callback) {
+        mBiz.modifyPlanSecondItemInfo(planSecondItemInfo, content, time, modifyModle, callback);
+    }
+
 }

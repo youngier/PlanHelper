@@ -2,8 +2,12 @@ package com.young.planhelper.mvp.plan.view.planitem.seconditem;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,6 +33,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
+
+import static com.young.planhelper.constant.AppConstant.MODIFY_CONTENT;
+import static com.young.planhelper.constant.AppConstant.MODIFY_CONTENT_AND_TIME;
+import static com.young.planhelper.constant.AppConstant.MODIFY_NOT;
+import static com.young.planhelper.constant.AppConstant.MODIFY_TIME;
 
 public class PlanSecondItemDetailActivity extends BaseActivity {
 
@@ -58,6 +68,12 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
     private PlanThirdItemAdapter adapter;
 
     private PlanRecordAdapter mRecordAdapter;
+
+    private boolean hasChanged = false;
+
+    private int modifyModle = -1;
+
+    private PlanSecondItemInfo mPlanSecondItemInfo;
 
     @Override
     protected void initUI() {
@@ -111,9 +127,32 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
         try {
             PlanSecondItemInfo planSecondItemInfo = (PlanSecondItemInfo) data;
 
+            this.mPlanSecondItemInfo = planSecondItemInfo;
+
             mTitleEt.setText(planSecondItemInfo.getTitle());
 
             mContentEt.setText(planSecondItemInfo.getContent());
+
+            mContentEt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    hasChanged = true;
+                    if( modifyModle == MODIFY_NOT )
+                        modifyModle = MODIFY_CONTENT;
+                    else if( modifyModle == MODIFY_TIME )
+                        modifyModle = MODIFY_CONTENT_AND_TIME;
+                }
+            });
 
             mTimeTv.setText(planSecondItemInfo.getTime());
 
@@ -130,6 +169,11 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
      */
     @OnClick(R.id.ll_time)
     void selectTime(){
+        hasChanged = true;
+        if( modifyModle == MODIFY_NOT )
+            modifyModle = MODIFY_TIME;
+        else if( modifyModle == MODIFY_CONTENT )
+            modifyModle = MODIFY_CONTENT_AND_TIME;
         DateTimePickDialog dateTimePickDialog = new DateTimePickDialog(
                 this, TimeUtil.getCurrentDateTimeInString());
         dateTimePickDialog.dateTimePicKDialog();
@@ -184,4 +228,46 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if( keyCode == KeyEvent.KEYCODE_BACK ){
+            checkDataChange();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * 检查退出前是否对原来任务进行了修改
+     */
+    private void checkDataChange() {
+        if( hasChanged ){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("提示")
+                    .setMessage("数据发生变化，确认更改？")
+                    .setPositiveButton("确认",  (dialog, which) -> {
+                        dialog.dismiss();
+                        saveChangeData();
+                    })
+                    .setNegativeButton("取消", (dialog, which) -> {
+                        dialog.dismiss();
+                        this.finish();
+                    });
+
+            builder.show();
+        }
+    }
+
+    /**
+     * 保存改变的数据
+     */
+    private void saveChangeData() {
+
+        presenter.modifyPlanSecondItemInfo(mPlanSecondItemInfo,
+                mContentEt.getText().toString(),
+                mTimeTv.getText().toString(),
+                modifyModle,
+                data -> {
+            this.finish();
+        });
+    }
 }

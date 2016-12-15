@@ -96,4 +96,13 @@ public interface IPlanBiz extends IBiz{
     void getPlanOperationInfoBySecondId(long planSecondItemInfoId, ICallback callback);
 
 
+    /**
+     * 修改子任务内容
+     * @param planSecondItemInfo
+     * @param content
+     * @param time
+     * @param modifyModle
+     * @param callback
+     */
+    void modifyPlanSecondItemInfo(PlanSecondItemInfo planSecondItemInfo, String content, String time, int modifyModle, ICallback callback);
 }

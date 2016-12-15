@@ -12,6 +12,10 @@ import io.realm.annotations.PrimaryKey;
 
 public class PlanOperationInfo extends RealmObject{
 
+    public static final int CREATE = 0;
+    public static final int MODIFY_TEXT = 1;
+    public static final int MODIFY_TIME = 2;
+
     @PrimaryKey
     private long planOperationInfoId;
 
@@ -22,6 +26,8 @@ public class PlanOperationInfo extends RealmObject{
     private String content;
 
     private String time;
+
+    private int type;
 
     public long getPlanOperationInfoId() {
         return planOperationInfoId;
@@ -61,5 +67,13 @@ public class PlanOperationInfo extends RealmObject{
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

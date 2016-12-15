@@ -78,12 +78,8 @@ public class PlanSecondItemAddActivity extends BaseActivity {
         DateTimePickDialog dateTimePickDialog = new DateTimePickDialog(
                 this, TimeUtil.getCurrentDateTimeInString());
         dateTimePickDialog.dateTimePicKDialog();
-        dateTimePickDialog.setOnTimeSelectListener(new DateTimePickDialog.OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(String time) {
-                mTimeTv.setText(time);
-            }
-        });
+        dateTimePickDialog.setOnTimeSelectListener( time -> {mTimeTv.setText(time);}
+        );
     }
 
     @OnClick(R.id.btn_confirm)

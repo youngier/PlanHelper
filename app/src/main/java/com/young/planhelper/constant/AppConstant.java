@@ -14,5 +14,12 @@ public class AppConstant {
 
     public static final String REALM_NOT_INIT = "Realm没有初始化";
 
+    public static final String PLAN_ITEM_ADD = "PLAN_ITEM_ADD";
+
+    public static final int MODIFY_NOT = -1;
+    public static final int MODIFY_CONTENT = 0;
+    public static final int MODIFY_TIME = 1;
+    public static final int MODIFY_CONTENT_AND_TIME = 2;
+
 
 }

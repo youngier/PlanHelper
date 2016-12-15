@@ -3,11 +3,15 @@ package com.young.planhelper.mvp.plan.view.planitem;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.thread.EventThread;
 import com.young.planhelper.R;
+import com.young.planhelper.application.RxBus;
 import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.base.view.IView;
 import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
@@ -40,23 +44,32 @@ public class PlanItemActivity extends BaseActivity implements IView{
 
         planInfoId = getIntent().getLongExtra("planInfoId", 0);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         adapter = null;
 
         adapter = new Adapter(getSupportFragmentManager());
 
         mViewPager.setAdapter(adapter);
 
+        if (mViewPager.getAdapter() != null) {
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            List<Fragment> fragments = fm.getFragments();
+            if(fragments != null && fragments.size() >0){
+                for (int i = 0; i < fragments.size(); i++) {
+                    ft.remove(fragments.get(i));
+                }
+            }
+            ft.commit();
+        }
+
         presenter.getPlanItemInfo(planInfoId, data -> setData(data));
-
-    }
-
-    @Override
-    protected void onResume() {
-
-        super.onResume();
-
-        initUI();
-
     }
 
     @Override
@@ -91,10 +104,15 @@ public class PlanItemActivity extends BaseActivity implements IView{
         }catch (Exception e){
             e.printStackTrace();
         }
+
+//        LogUtil.eLog("现在的fragment有："+getSupportFragmentManager().getFragments().size());
+        LogUtil.eLog("显示的fragment有："+adapter.getCount());
     }
 
 
     static class Adapter extends FragmentPagerAdapter {
+
+
         private final List<Fragment> mFragments = new ArrayList<>();
         private final List<String> mFragmentTitles = new ArrayList<>();
 
@@ -122,5 +140,25 @@ public class PlanItemActivity extends BaseActivity implements IView{
             return mFragmentTitles.get(position);
         }
 
+
+        private int mChildCount = 0;
+
+        @Override
+        public void notifyDataSetChanged() {
+            // 重写这个方法，取到子Fragment的数量，用于下面的判断，以执行多少次刷新
+            mChildCount = getCount();
+            super.notifyDataSetChanged();
+        }
+        @Override
+        public int getItemPosition(Object object) {
+            if ( mChildCount > 0) {
+                // 这里利用判断执行若干次不缓存，刷新
+                mChildCount --;
+                // 返回这个是强制ViewPager不缓存，每次滑动都刷新视图
+                return POSITION_NONE;
+            }
+            // 这个则是缓存不刷新视图
+            return super.getItemPosition(object);}
     }
+
 }

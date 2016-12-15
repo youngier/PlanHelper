@@ -2,6 +2,7 @@ package com.young.planhelper.mvp.plan.view.planitem.seconditem;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +24,9 @@ public class PlanRecordItemView extends LinearLayout{
 
     @BindView(R.id.tv_plan_record_title)
     TextView mTitleTv;
+
+    @BindView(R.id.iv_plan_record)
+    ImageView mIv;
 
     private PlanOperationInfo mData;
 
@@ -47,6 +51,17 @@ public class PlanRecordItemView extends LinearLayout{
     public void setData(PlanOperationInfo data) {
         this.mData = data;
         mTitleTv.setText(data.getTime() + " " + data.getName() + ": "+ data.getContent());
+        switch ( data.getType() ){
+            case PlanOperationInfo.CREATE:
+                mIv.setImageResource(R.mipmap.ic_record_create);
+                break;
+            case PlanOperationInfo.MODIFY_TEXT:
+                mIv.setImageResource(R.mipmap.ic_record_text);
+                break;
+            case PlanOperationInfo.MODIFY_TIME:
+                mIv.setImageResource(R.mipmap.ic_record_date);
+                break;
+        }
     }
 
     public long getPlanSecondItenInfoId(){

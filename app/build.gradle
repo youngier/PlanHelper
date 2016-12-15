@@ -79,6 +79,9 @@ dependencies {
     //配置Rxjava, RxAndroid
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
+    //配置RxBus
+    //使用见网址 http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2016/0616/4355.html
+    compile 'com.hwangjr.rxbus:rxbus:1.0.3'
     //配置butterknife
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.jakewharton:butterknife:8.4.0'
