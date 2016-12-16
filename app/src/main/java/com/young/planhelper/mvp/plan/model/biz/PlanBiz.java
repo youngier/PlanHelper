@@ -296,4 +296,24 @@ public class PlanBiz extends Biz implements IPlanBiz{
         callback.onResult("");
 
     }
+
+    @Override
+    public void modifyPlanThirdItemInfoStateById(long planThirdItemInfoId, boolean isFinished, ICallback callback) {
+
+        if( mRealm == null ){
+            LogUtil.eLog("Realm没有初始化");
+            callback.onResult("获取失败");
+            return;
+        }
+
+        mRealm.beginTransaction();
+
+        PlanThirdItemInfo planThirdItemInfo = mRealm.where(PlanThirdItemInfo.class).equalTo("planThirdItemInfoId", planThirdItemInfoId)
+                .findFirst();
+        planThirdItemInfo.setFinished(isFinished);
+
+        mRealm.commitTransaction();
+
+        callback.onResult("");
+    }
 }

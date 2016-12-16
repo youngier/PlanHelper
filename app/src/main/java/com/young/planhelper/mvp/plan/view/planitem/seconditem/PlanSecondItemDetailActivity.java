@@ -109,6 +109,14 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
 //            startActivity(intent);
         });
 
+        adapter.setOnSelectChangeListener( (id, isChecked) -> {
+            if( isChecked == true )
+                presenter.modifyPlanThirdItemInfoStateById(id, isChecked, data -> {
+
+                });
+
+        } );
+
         mChildRv.setAdapter(adapter);
         mChildRv.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.VERTICAL));
 

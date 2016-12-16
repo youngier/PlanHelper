@@ -13,7 +13,7 @@ import io.realm.annotations.PrimaryKey;
 public class PlanThirdItemInfo extends RealmObject{
 
     @PrimaryKey
-    private long planThridItemInfoId;
+    private long planThirdItemInfoId;
 
     private long planSecondItemInfoId;
 
@@ -21,13 +21,8 @@ public class PlanThirdItemInfo extends RealmObject{
 
     private String time;
 
-    public long getPlanThridItemInfoId() {
-        return planThridItemInfoId;
-    }
+    private boolean isFinished;
 
-    public void setPlanThridItemInfoId(long planThridItemInfoId) {
-        this.planThridItemInfoId = planThridItemInfoId;
-    }
 
     public long getPlanSecondItemInfoId() {
         return planSecondItemInfoId;
@@ -51,5 +46,21 @@ public class PlanThirdItemInfo extends RealmObject{
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
+    }
+
+    public long getPlanThirdItemInfoId() {
+        return planThirdItemInfoId;
+    }
+
+    public void setPlanThirdItemInfoId(long planThirdItemInfoId) {
+        this.planThirdItemInfoId = planThirdItemInfoId;
     }
 }

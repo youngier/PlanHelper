@@ -28,6 +28,7 @@ public class PlanThirdItemAdapter extends RecyclerView.Adapter<PlanThirdItemView
     private Context mContext;
     private int position;
     private OnClickListener listener;
+    private PlanThirdItemView.OnSelectChangeListener onSelectChangeListener;
 
     public PlanThirdItemAdapter(Context context, List<PlanThirdItemInfo> datas) {
         this.mContext = context;
@@ -43,6 +44,7 @@ public class PlanThirdItemAdapter extends RecyclerView.Adapter<PlanThirdItemView
         View view = LayoutInflater.from(mContext).inflate(R.layout.view_plan_third_item, parent, false);
         PlanThirdItemViewHolder viewHolder = new PlanThirdItemViewHolder(view);
         viewHolder.planThirdItemView = (PlanThirdItemView) view.findViewById(R.id.plan_third_item_view);
+        viewHolder.planThirdItemView.setOnSelectChangeListener(onSelectChangeListener);
         if( listener != null )
             viewHolder.planThirdItemView.setOnClickListener(v -> listener.onClick(viewHolder.planThirdItemView.getPlanThirdItemInfoId()));
         return viewHolder;
@@ -66,6 +68,10 @@ public class PlanThirdItemAdapter extends RecyclerView.Adapter<PlanThirdItemView
 
     public void setOnClickListener(OnClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setOnSelectChangeListener(PlanThirdItemView.OnSelectChangeListener onSelectChangeListener) {
+        this.onSelectChangeListener = onSelectChangeListener;
     }
 
     public interface OnClickListener{

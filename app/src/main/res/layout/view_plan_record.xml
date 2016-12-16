@@ -4,13 +4,14 @@
     android:orientation="horizontal"
     android:id="@+id/plan_record_view"
     android:gravity="center_vertical"
+    android:paddingLeft="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/iv_plan_record"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_margin="10dp"
         android:src="@mipmap/ic_launcher"/>
 

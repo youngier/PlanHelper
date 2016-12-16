@@ -105,4 +105,12 @@ public interface IPlanBiz extends IBiz{
      * @param callback
      */
     void modifyPlanSecondItemInfo(PlanSecondItemInfo planSecondItemInfo, String content, String time, int modifyModle, ICallback callback);
+
+    /**
+     * 修改子任务项下的任务的状态
+     * @param planThirdItemInfoId
+     * @param isFinished
+     * @param callback
+     */
+    void modifyPlanThirdItemInfoStateById(long planThirdItemInfoId, boolean isFinished, ICallback callback);
 }

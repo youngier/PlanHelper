@@ -76,7 +76,7 @@ public class PlanThirdItemAddActivity extends BaseActivity {
         }
 
         PlanThirdItemInfo planThirdItemInfo = new PlanThirdItemInfo();
-        planThirdItemInfo.setPlanThridItemInfoId(TimeUtil.getCurrentTimeInLong());
+        planThirdItemInfo.setPlanThirdItemInfoId(TimeUtil.getCurrentTimeInLong());
         planThirdItemInfo.setPlanSecondItemInfoId(planSecondItemInfoId);
         planThirdItemInfo.setTitle(title);
         planThirdItemInfo.setTime(mTimeTv.getText().toString());

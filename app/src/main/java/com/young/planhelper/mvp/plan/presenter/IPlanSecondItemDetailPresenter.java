@@ -49,4 +49,12 @@ public interface IPlanSecondItemDetailPresenter extends IPresenter{
      * @param callback
      */
     void modifyPlanSecondItemInfo(PlanSecondItemInfo planSecondItemInfo, String content, String time, int modifyModle, final IBiz.ICallback callback);
+
+    /**
+     * 修改子任务项下的任务的状态
+     * @param planThirdItemInfoId
+     * @param isFinished
+     * @param callback
+     */
+    void modifyPlanThirdItemInfoStateById(long planThirdItemInfoId, boolean isFinished, final IBiz.ICallback callback);
 }

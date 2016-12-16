@@ -56,4 +56,9 @@ public class PlanSecondItemDetailPresenter extends Presenter implements IPlanSec
         mBiz.modifyPlanSecondItemInfo(planSecondItemInfo, content, time, modifyModle, callback);
     }
 
+    @Override
+    public void modifyPlanThirdItemInfoStateById(long planThirdItemInfoId, boolean isFinished, IBiz.ICallback callback) {
+        mBiz.modifyPlanThirdItemInfoStateById(planThirdItemInfoId, isFinished, callback);
+    }
+
 }
