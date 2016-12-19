@@ -90,7 +90,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="不接收任务通知"/>
+                    android:text="接收任务通知"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -101,8 +101,9 @@
                         android:id="@+id/togglebtn"
                         android:layout_width="54dp"
                         android:layout_height="30dp"
+                        android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true">
+                        android:layout_alignParentEnd="true">
                     </com.zcw.togglebutton.ToggleButton>
 
                 </RelativeLayout>

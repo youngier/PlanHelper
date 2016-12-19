@@ -5,6 +5,7 @@ import android.content.Context;
 import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.mvp.base.model.Biz;
 import com.young.planhelper.mvp.base.model.IBiz;
+import com.young.planhelper.mvp.common.model.NotificationInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanOperationInfo;
@@ -14,6 +15,7 @@ import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.TimeUtil;
 
+import java.sql.Time;
 import java.util.List;
 
 import io.realm.Realm;
@@ -96,8 +98,10 @@ public class PlanBiz extends Biz implements IPlanBiz{
         }
 
         mRealm.beginTransaction();
-        PlanSecondItemInfo object = mRealm.copyToRealm(planSecondItemInfo);
 
+        /**
+         * 存储任务操作纪录
+         */
         PlanOperationInfo planOperationInfo = new PlanOperationInfo();
         planOperationInfo.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
         planOperationInfo.setName("三分钟热度");
@@ -106,6 +110,26 @@ public class PlanBiz extends Biz implements IPlanBiz{
         planOperationInfo.setContent("创建了这个子任务");
         planOperationInfo.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
         PlanOperationInfo object1 = mRealm.copyToRealm(planOperationInfo);
+
+        LogUtil.eLog("这个时间提醒设置："+planSecondItemInfo.isHasNotification());
+        if( planSecondItemInfo.isHasNotification() ){
+
+            long notificationInfoId = TimeUtil.getCurrentTimeInLong();
+
+            planSecondItemInfo.setNotificationInfoId(notificationInfoId);
+
+            /**
+             * 存储任务提醒时间
+             */
+            NotificationInfo notificationInfo = new NotificationInfo();
+            notificationInfo.setNotificationInfoId(notificationInfoId);
+            notificationInfo.setTime(planSecondItemInfo.getTime());
+
+            NotificationInfo object = mRealm.copyToRealm(notificationInfo);
+
+        }
+
+        PlanSecondItemInfo object2 = mRealm.copyToRealm(planSecondItemInfo);
 
         mRealm.commitTransaction();
 

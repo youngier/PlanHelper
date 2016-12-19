@@ -23,6 +23,8 @@ public class PlanSecondItemInfo extends RealmObject{
 
     private String time;
 
+    private long notificationInfoId;
+
     private boolean hasNotification;
 
     private boolean isFinished;
@@ -82,5 +84,13 @@ public class PlanSecondItemInfo extends RealmObject{
 
     public void setFinished(boolean finished) {
         isFinished = finished;
+    }
+
+    public long getNotificationInfoId() {
+        return notificationInfoId;
+    }
+
+    public void setNotificationInfoId(long notificationInfoId) {
+        this.notificationInfoId = notificationInfoId;
     }
 }

@@ -50,6 +50,8 @@ public class PlanSecondItemAddActivity extends BaseActivity {
 
         presenter = new PlanSecondItemAddPresenter(this, this);
 
+        mToggleBtn.setToggleOn();
+
         mToggleBtn.setOnToggleChanged(on -> {
             if(on)
                 hasNotification = true;
@@ -97,12 +99,21 @@ public class PlanSecondItemAddActivity extends BaseActivity {
             return;
         }
 
+        String time = mTimeTv.getText().toString();
+        if( hasNotification == true ){
+            if(TextUtils.isEmpty(time)){
+                Toast.makeText(this, "设置通知提醒，时间不能为空", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
         PlanSecondItemInfo planSecondItemInfo = new PlanSecondItemInfo();
         planSecondItemInfo.setTitle(title);
         planSecondItemInfo.setContent(content);
         planSecondItemInfo.setTime(mTimeTv.getText().toString());
         planSecondItemInfo.setPlanSecondItemInfoId(TimeUtil.getCurrentTimeInLong());
         planSecondItemInfo.setPlanItemInfoId(planItemInfoId);
+        planSecondItemInfo.setHasNotification(hasNotification);
 
         presenter.addPlanSecondItem(planSecondItemInfo, data -> setData(data));
     }

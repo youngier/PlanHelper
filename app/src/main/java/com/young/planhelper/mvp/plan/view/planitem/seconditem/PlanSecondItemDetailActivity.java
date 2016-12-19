@@ -29,6 +29,7 @@ import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.TimeUtil;
 import com.young.planhelper.widget.DateTimePickDialog;
 import com.young.planhelper.widget.manager.CustomLinearLayoutManager;
+import com.zcw.togglebutton.ToggleButton;
 
 import java.util.List;
 
@@ -64,6 +65,9 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
 
     @BindView(R.id.tv_dynamic)
     TextView mDynamicTv;
+
+    @BindView(R.id.togglebtn)
+    ToggleButton mToggleBtn;
 
 
     private IPlanSecondItemDetailPresenter presenter;
@@ -150,6 +154,12 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
             mTitleCb.setChecked(planSecondItemInfo.isFinished());
 
             mTitleEt.setText(planSecondItemInfo.getTitle());
+
+            if( planSecondItemInfo.isHasNotification() )
+                mToggleBtn.setToggleOn();
+            else
+                mToggleBtn.setToggleOff();
+
 
             mContentEt.setText(planSecondItemInfo.getContent());
 
