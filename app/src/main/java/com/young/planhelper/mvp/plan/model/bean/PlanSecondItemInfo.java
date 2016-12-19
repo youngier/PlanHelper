@@ -21,7 +21,7 @@ public class PlanSecondItemInfo extends RealmObject{
 
     private String content;
 
-    private String time;
+    private long time;
 
     private long notificationInfoId;
 
@@ -61,11 +61,11 @@ public class PlanSecondItemInfo extends RealmObject{
         this.content = content;
     }
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
     }
 

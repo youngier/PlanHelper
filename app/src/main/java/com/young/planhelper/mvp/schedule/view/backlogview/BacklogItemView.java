@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.amap.api.maps2d.model.Text;
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
+import com.young.planhelper.util.TimeUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,7 +57,7 @@ public class BacklogItemView extends LinearLayout{
 
         mContentTv.setText(data.getContent());
         mLocationTv.setText(data.getLocation());
-        mTimeTv.setText(data.getTime()+"");
+        mTimeTv.setText(TimeUtil.getTime2(data.getTime()));
     }
 
     public long getBacklogInfoId() {

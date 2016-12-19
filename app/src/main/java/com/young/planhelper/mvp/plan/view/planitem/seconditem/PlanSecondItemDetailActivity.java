@@ -184,7 +184,7 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
                 }
             });
 
-            mTimeTv.setText(planSecondItemInfo.getTime());
+            mTimeTv.setText(TimeUtil.getTime2(planSecondItemInfo.getTime()));
 
             presenter.getPlanThirdItemInfoBySecondId(planSecondItemInfoId, listData -> setListData(listData));
 

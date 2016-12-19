@@ -257,12 +257,12 @@ public class PlanBiz extends Biz implements IPlanBiz{
         }
 
         String mContent = planSecondItemInfo.getContent();
-        String mTime = planSecondItemInfo.getTime();
+        long mTime = planSecondItemInfo.getTime();
 
         mRealm.beginTransaction();
 
         planSecondItemInfo.setContent(content);
-        planSecondItemInfo.setTime(time);
+        planSecondItemInfo.setTime(mTime);
 
         String oTime = TimeUtil.getCurrentDateTimeInString();
 
@@ -284,7 +284,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
                 planOperationInfo1.setType(PlanOperationInfo.MODIFY_TIME);
                 planOperationInfo1.setTime(oTime);
                 planOperationInfo1.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
-                if( mTime.equals("") )
+                if( mTime == 0 )
                     planOperationInfo1.setContent("修改了任务的时间，原时间并没有指定");
                 else
                     planOperationInfo1.setContent("修改了任务的时间，原时间为："+mTime);
@@ -306,7 +306,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
                 planOperationInfo3.setTime(oTime);
                 planOperationInfo3.setType(PlanOperationInfo.MODIFY_TIME);
                 planOperationInfo3.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
-                if( mTime.equals("") )
+                if( mTime == 0 )
                     planOperationInfo3.setContent("修改了任务的时间，原时间并没有指定");
                 else
                     planOperationInfo3.setContent("修改了任务的时间，原时间为："+mTime);

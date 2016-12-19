@@ -15,14 +15,14 @@ public class NotificationInfo extends RealmObject{
     @PrimaryKey
     private long notificationInfoId;
 
-    private String time;
+    private long time;
 
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
     }
 

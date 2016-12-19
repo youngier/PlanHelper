@@ -17,6 +17,8 @@ import com.young.planhelper.util.TimeUtil;
 import com.young.planhelper.widget.DateTimePickDialog;
 import com.zcw.togglebutton.ToggleButton;
 
+import java.text.ParseException;
+
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
@@ -110,7 +112,14 @@ public class PlanSecondItemAddActivity extends BaseActivity {
         PlanSecondItemInfo planSecondItemInfo = new PlanSecondItemInfo();
         planSecondItemInfo.setTitle(title);
         planSecondItemInfo.setContent(content);
-        planSecondItemInfo.setTime(mTimeTv.getText().toString());
+        if( TextUtils.isEmpty(time) )
+            planSecondItemInfo.setTime(0);
+        else
+            try {
+                planSecondItemInfo.setTime(TimeUtil.dateToStamp(time));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         planSecondItemInfo.setPlanSecondItemInfoId(TimeUtil.getCurrentTimeInLong());
         planSecondItemInfo.setPlanItemInfoId(planItemInfoId);
         planSecondItemInfo.setHasNotification(hasNotification);
