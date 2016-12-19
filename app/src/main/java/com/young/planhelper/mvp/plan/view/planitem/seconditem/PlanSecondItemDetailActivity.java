@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import com.young.planhelper.widget.manager.CustomLinearLayoutManager;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
@@ -41,6 +43,9 @@ import static com.young.planhelper.constant.AppConstant.MODIFY_NOT;
 import static com.young.planhelper.constant.AppConstant.MODIFY_TIME;
 
 public class PlanSecondItemDetailActivity extends BaseActivity {
+
+    @BindView(R.id.cb_title)
+    CheckBox mTitleCb;
 
     @BindView(R.id.et_title)
     EditText mTitleEt;
@@ -92,6 +97,12 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
 
         mRecordRv.setLayoutManager(layoutManager2);
 
+        mTitleCb.setOnClickListener( (id) -> {
+            presenter.modifyPlanSecondItemInfoStateById(planSecondItemInfoId, mTitleCb.isChecked(), data -> {
+
+            });
+        } );
+
         presenter.getPlanSecondItemInfoById(planSecondItemInfoId, data -> setData(data));
 
     }
@@ -110,10 +121,9 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
         });
 
         adapter.setOnSelectChangeListener( (id, isChecked) -> {
-            if( isChecked == true )
-                presenter.modifyPlanThirdItemInfoStateById(id, isChecked, data -> {
+            presenter.modifyPlanThirdItemInfoStateById(id, isChecked, data -> {
 
-                });
+            });
 
         } );
 
@@ -136,6 +146,8 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
             PlanSecondItemInfo planSecondItemInfo = (PlanSecondItemInfo) data;
 
             this.mPlanSecondItemInfo = planSecondItemInfo;
+
+            mTitleCb.setChecked(planSecondItemInfo.isFinished());
 
             mTitleEt.setText(planSecondItemInfo.getTitle());
 

@@ -103,7 +103,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
         planOperationInfo.setName("三分钟热度");
         planOperationInfo.setType(PlanOperationInfo.CREATE);
         planOperationInfo.setTime(TimeUtil.getCurrentDateTimeInString());
-        planOperationInfo.setContent("创建了这个任务");
+        planOperationInfo.setContent("创建了这个子任务");
         planOperationInfo.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
         PlanOperationInfo object1 = mRealm.copyToRealm(planOperationInfo);
 
@@ -170,7 +170,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
         planOperationInfo.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
         planOperationInfo.setName("三分钟热度");
         planOperationInfo.setTime(TimeUtil.getCurrentDateTimeInString());
-        planOperationInfo.setContent("创建了子任务："+planThirdItemInfo.getTitle());
+        planOperationInfo.setContent("创建了单元任务："+planThirdItemInfo.getTitle());
         planOperationInfo.setPlanSecondItemInfoId(planThirdItemInfo.getPlanSecondItemInfoId());
         PlanOperationInfo object1 = mRealm.copyToRealm(planOperationInfo);
 
@@ -312,8 +312,60 @@ public class PlanBiz extends Biz implements IPlanBiz{
                 .findFirst();
         planThirdItemInfo.setFinished(isFinished);
 
+        PlanOperationInfo planOperationInfo = new PlanOperationInfo();
+        planOperationInfo.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
+        planOperationInfo.setName("三分钟热度");
+        planOperationInfo.setTime(TimeUtil.getCurrentDateTimeInString());
+        if( isFinished == true ) {
+            planOperationInfo.setType(PlanOperationInfo.FINISH);
+            planOperationInfo.setContent("完成了单元任务：" + planThirdItemInfo.getTitle());
+        }else{
+            planOperationInfo.setType(PlanOperationInfo.FINISH);
+            planOperationInfo.setContent("重新开启了单元任务：" + planThirdItemInfo.getTitle());
+        }
+        planOperationInfo.setPlanSecondItemInfoId(planThirdItemInfo.getPlanSecondItemInfoId());
+        PlanOperationInfo object = mRealm.copyToRealm(planOperationInfo);
+
         mRealm.commitTransaction();
 
         callback.onResult("");
+    }
+
+    @Override
+    public void modifyPlanSecondItemInfoStateById(long planSecondItemInfoId, boolean isChecked, ICallback callback) {
+
+        checkRealm(callback);
+
+        mRealm.beginTransaction();
+
+        PlanSecondItemInfo planSecondItemInfo = mRealm.where(PlanSecondItemInfo.class).equalTo("planSecondItemInfoId", planSecondItemInfoId)
+                .findFirst();
+        planSecondItemInfo.setFinished(isChecked);
+
+        PlanOperationInfo planOperationInfo = new PlanOperationInfo();
+        planOperationInfo.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
+        planOperationInfo.setName("三分钟热度");
+        planOperationInfo.setTime(TimeUtil.getCurrentDateTimeInString());
+        if( isChecked == true ) {
+            planOperationInfo.setType(PlanOperationInfo.FINISH);
+            planOperationInfo.setContent("完成了子任务：" + planSecondItemInfo.getTitle());
+        }else{
+            planOperationInfo.setType(PlanOperationInfo.FINISH);
+            planOperationInfo.setContent("重新开启了子任务：" + planSecondItemInfo.getTitle());
+        }
+        planOperationInfo.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
+        PlanOperationInfo object = mRealm.copyToRealm(planOperationInfo);
+
+        mRealm.commitTransaction();
+
+        callback.onResult("");
+    }
+
+    private void checkRealm(ICallback callback){
+        if( mRealm == null ){
+            LogUtil.eLog("Realm没有初始化");
+            callback.onResult("获取失败");
+            return;
+        }
     }
 }

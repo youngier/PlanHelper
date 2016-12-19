@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.plan.model.bean.PlanSecondItemInfo;
+import com.young.planhelper.mvp.plan.view.planitem.thirditem.PlanThirdItemView;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 import com.young.planhelper.mvp.schedule.view.backlogview.BacklogItemView;
 import com.young.planhelper.mvp.schedule.view.backlogview.BacklogViewHolder;
@@ -29,6 +30,7 @@ public class PlanSecondItemAdapter extends RecyclerView.Adapter<PlanSecondItemVi
     private Context mContext;
     private int position;
     private OnClickListener listener;
+    private PlanSecondItemView.OnSelectChangeListener onSelectChangeListener;
 
     public PlanSecondItemAdapter(Context context, List<PlanSecondItemInfo> datas) {
         this.mContext = context;
@@ -44,6 +46,7 @@ public class PlanSecondItemAdapter extends RecyclerView.Adapter<PlanSecondItemVi
         View view = LayoutInflater.from(mContext).inflate(R.layout.view_plan_second_item, parent, false);
         PlanSecondItemViewHolder viewHolder = new PlanSecondItemViewHolder(view);
         viewHolder.planSecondItemView = (PlanSecondItemView) view.findViewById(R.id.plan_second_item_view);
+        viewHolder.planSecondItemView.setOnSelectChangeListener(onSelectChangeListener);
         if( listener != null )
             viewHolder.planSecondItemView.setOnClickListener(v -> listener.onClick(viewHolder.planSecondItemView.getPlanSecondItemInfoId()));
         return viewHolder;
@@ -67,6 +70,10 @@ public class PlanSecondItemAdapter extends RecyclerView.Adapter<PlanSecondItemVi
 
     public void setOnClickListener(OnClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setOnSelectChangeListener(PlanSecondItemView.OnSelectChangeListener onSelectChangeListener) {
+        this.onSelectChangeListener = onSelectChangeListener;
     }
 
     public interface OnClickListener{

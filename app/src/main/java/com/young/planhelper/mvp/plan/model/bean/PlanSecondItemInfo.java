@@ -25,6 +25,8 @@ public class PlanSecondItemInfo extends RealmObject{
 
     private boolean hasNotification;
 
+    private boolean isFinished;
+
     public long getPlanSecondItemInfoId() {
         return planSecondItemInfoId;
     }
@@ -71,5 +73,14 @@ public class PlanSecondItemInfo extends RealmObject{
 
     public boolean isHasNotification() {
         return hasNotification;
+    }
+
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
     }
 }

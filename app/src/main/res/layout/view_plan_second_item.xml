@@ -7,14 +7,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <CheckBox
+        android:id="@+id/cb_plan_second_item_title"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:src="@mipmap/ic_launcher"/>
+        android:layout_marginBottom="10dp"/>
 
     <TextView
         android:id="@+id/tv_plan_second_item_title"

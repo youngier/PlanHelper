@@ -15,6 +15,7 @@ public class PlanOperationInfo extends RealmObject{
     public static final int CREATE = 0;
     public static final int MODIFY_TEXT = 1;
     public static final int MODIFY_TIME = 2;
+    public static final int FINISH = 3;
 
     @PrimaryKey
     private long planOperationInfoId;

@@ -46,6 +46,7 @@
                 android:orientation="horizontal">
 
                 <CheckBox
+                    android:id="@+id/cb_title"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"

@@ -57,4 +57,12 @@ public interface IPlanSecondItemDetailPresenter extends IPresenter{
      * @param callback
      */
     void modifyPlanThirdItemInfoStateById(long planThirdItemInfoId, boolean isFinished, final IBiz.ICallback callback);
+
+    /**
+     * 修改子任务的状态
+     * @param planSecondItemInfoId
+     * @param isChecked
+     * @param callback
+     */
+    void modifyPlanSecondItemInfoStateById(long planSecondItemInfoId, boolean isChecked, final IBiz.ICallback callback);
 }

@@ -3,6 +3,7 @@ package com.young.planhelper.mvp.plan.view.planitem;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -97,6 +98,14 @@ public class PlanItemFragment extends BaseFragment{
             intent.putExtra("planSecondItemInfoId", id);
             startActivity(intent);
         });
+
+        adapter.setOnSelectChangeListener( (id, isChecked) -> {
+            presenter.modifyPlanSecondItemInfoStateById(id, isChecked, data -> {
+
+            });
+
+        } );
+
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL));
