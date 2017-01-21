@@ -85,7 +85,7 @@ public class ScheduleDetailActivity extends BaseOtherActivity {
         try{
             BacklogInfo backlogInfo = (BacklogInfo) data;
             mContentTv.setText(backlogInfo.getContent());
-            mDetailTimeTv.setText(TimeUtil.getTime(backlogInfo.getTime()));
+            mDetailTimeTv.setText(TimeUtil.getTime(backlogInfo.getToTime()));
             mDetailLocationTv.setText(backlogInfo.getLocation());
 
         }catch (Exception e){

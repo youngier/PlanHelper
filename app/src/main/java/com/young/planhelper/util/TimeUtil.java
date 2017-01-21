@@ -40,6 +40,18 @@ public class TimeUtil {
     }
 
     /**
+     * 获取日期
+     * @return
+     */
+    public static String getDay() {
+        final Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+        int dayNum = c.get(Calendar.DAY_OF_MONTH);
+        return String.valueOf(dayNum);
+    }
+
+
+    /**
      * 判断当前为第几周
      * @return
      */
@@ -206,6 +218,10 @@ public class TimeUtil {
         return String.valueOf(t.month) + "月";
     }
 
+    public static int getDayByTime(Time t) {
+        return t.monthDay;
+    }
+
     public static String getWeekOfDate(Time t) {
         String[] weekDays = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
         return weekDays[t.weekDay];
@@ -229,7 +245,9 @@ public class TimeUtil {
 
     public static final SimpleDateFormat DEFAULT_DATE_FORMAT1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final SimpleDateFormat DATE_FORMAT_DATE    = new SimpleDateFormat("MM月dd日");
+    public static final SimpleDateFormat DATE_FORMAT_DATE_01    = new SimpleDateFormat("yyyy年MM月dd日");
     public static final SimpleDateFormat DATE_FORMAT_DATE_TIME    = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+    public static final SimpleDateFormat DATE_FORMAT_DATE_TIME_01    = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 
     private TimeUtil() {
@@ -265,6 +283,14 @@ public class TimeUtil {
         return getTime(timeInMillis, DATE_FORMAT_DATE_TIME);
     }
 
+    public static String getTime3(long timeInMillis){
+        return getTime(timeInMillis, DATE_FORMAT_DATE_TIME_01);
+    }
+
+    public static String getTime4(long timeInMillis){
+        return getTime(timeInMillis, DATE_FORMAT_DATE_01);
+    }
+
     /**
      * get current time in milliseconds
      *
@@ -287,6 +313,18 @@ public class TimeUtil {
         return getTime2(getCurrentTimeInLong());
     }
 
+    public static String getCurrentDateTimeInString1(){
+        return getTime3(getCurrentTimeInLong());
+    }
+
+    public static String getCurrentDateTimeInString1(long time){
+        return getTime3(getCurrentTimeInLong() +time );
+    }
+
+    public static String getCurrentDateInString() {
+        return getTime4(getCurrentTimeInLong() );
+    }
+
     /**
      * get current time in milliseconds
      *
@@ -301,7 +339,7 @@ public class TimeUtil {
      * 获取当前开始时间
      * @return
      */
-    public static  Long getTodayStartTime(){
+    public static Long getTodayStartTime(){
         Calendar todayStart = Calendar.getInstance();
         todayStart.set(Calendar.HOUR, 0);
         todayStart.set(Calendar.MINUTE, 0);
@@ -331,6 +369,19 @@ public class TimeUtil {
      */
     public static long dateToStamp(String s) throws ParseException{
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+        Date date = simpleDateFormat.parse(s);
+        long ts = date.getTime();
+        return ts;
+    }
+
+    /**
+     * 将时间转换为时间戳
+     * @param s
+     * @return
+     * @throws ParseException
+     */
+    public static long dateToStamp1(String s) throws ParseException{
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = simpleDateFormat.parse(s);
         long ts = date.getTime();
         return ts;

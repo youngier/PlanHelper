@@ -1,29 +1,18 @@
 package com.young.planhelper.mvp.schedule;
 
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.young.planhelper.R;
-import com.young.planhelper.application.AppApplication;
-import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.base.view.BaseFragment;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
-import com.young.planhelper.mvp.schedule.model.bean.CalendarInfo;
-import com.young.planhelper.mvp.schedule.model.bean.DayInfo;
-import com.young.planhelper.mvp.schedule.model.bean.WeekInfo;
 import com.young.planhelper.mvp.schedule.presenter.ISchedulePresenter;
 import com.young.planhelper.mvp.schedule.presenter.SchedulePresenter;
 import com.young.planhelper.mvp.schedule.view.backlogview.BacklogAdapter;
 import com.young.planhelper.mvp.schedule.view.backlogview.RecycleViewDivider;
-import com.young.planhelper.mvp.schedule.view.weekview.WeekView;
-import com.young.planhelper.util.LogUtil;
-import com.young.planhelper.util.TimeUtil;
 import com.young.planhelper.widget.calendar.CollapseCalendarView;
 import com.young.planhelper.widget.manager.CustomLinearLayoutManager;
 
@@ -33,8 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
-import io.realm.Realm;
 
 
 /**
@@ -106,36 +93,36 @@ public class ScheduleFragment extends BaseFragment {
     private void setListData() {
         mTodayAdapter = new BacklogAdapter(getContext(), null);
 
-        mTodayAdapter.setOnClickListener(id -> {
-            Intent intent = new Intent(getActivity(), ScheduleDetailActivity.class);
-            intent.putExtra("backlogInfoId", id);
-            startActivity(intent);
-        });
-
-        mFutureAdapter = new BacklogAdapter(getContext(), null);
-
-        mFutureAdapter.setOnClickListener(id -> {
-            Intent intent = new Intent(getActivity(), ScheduleDetailActivity.class);
-            intent.putExtra("backlogInfoId", id);
-            startActivity(intent);
-        });
-
-        mOverdueAdapter = new BacklogAdapter(getContext(), null);
-
-        mOverdueAdapter.setOnClickListener(id -> {
-            Intent intent = new Intent(getActivity(), ScheduleDetailActivity.class);
-            intent.putExtra("backlogInfoId", id);
-            startActivity(intent);
-        });
-
-        mTodayRv.setAdapter(mTodayAdapter);
-        mTodayRv.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        mFutureRv.setAdapter(mFutureAdapter);
-        mFutureRv.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        mOverdueRv.setAdapter(mOverdueAdapter);
-        mOverdueRv.setLayoutManager(new LinearLayoutManager(getContext()));
+//        mTodayAdapter.setOnClickListener(id -> {
+//            Intent intent = new Intent(getActivity(), ScheduleDetailActivity.class);
+//            intent.putExtra("backlogInfoId", id);
+//            startActivity(intent);
+//        });
+//
+//        mFutureAdapter = new BacklogAdapter(getContext(), null);
+//
+//        mFutureAdapter.setOnClickListener(id -> {
+//            Intent intent = new Intent(getActivity(), ScheduleDetailActivity.class);
+//            intent.putExtra("backlogInfoId", id);
+//            startActivity(intent);
+//        });
+//
+//        mOverdueAdapter = new BacklogAdapter(getContext(), null);
+//
+//        mOverdueAdapter.setOnClickListener(id -> {
+//            Intent intent = new Intent(getActivity(), ScheduleDetailActivity.class);
+//            intent.putExtra("backlogInfoId", id);
+//            startActivity(intent);
+//        });
+//
+//        mTodayRv.setAdapter(mTodayAdapter);
+//        mTodayRv.setLayoutManager(new LinearLayoutManager(getContext()));
+//
+//        mFutureRv.setAdapter(mFutureAdapter);
+//        mFutureRv.setLayoutManager(new LinearLayoutManager(getContext()));
+//
+//        mOverdueRv.setAdapter(mOverdueAdapter);
+//        mOverdueRv.setLayoutManager(new LinearLayoutManager(getContext()));
 
         CustomLinearLayoutManager todayLm = new CustomLinearLayoutManager(getActivity());
         todayLm.setScrollEnabled(false);

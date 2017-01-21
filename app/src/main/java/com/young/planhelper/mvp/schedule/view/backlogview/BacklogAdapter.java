@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.plan.view.planitem.seconditem.PlanRecordAdapter;
@@ -20,11 +21,11 @@ import java.util.List;
  */
 
 
-public class BacklogAdapter extends RecyclerView.Adapter<BacklogViewHolder>{
+public class BacklogAdapter extends BaseAdapter{
 
     private List<BacklogInfo> mDatas;
     private Context mContext;
-    private OnClickListener listener;
+
 
     public BacklogAdapter(Context context, List<BacklogInfo> datas) {
         this.mContext = context;
@@ -35,35 +36,40 @@ public class BacklogAdapter extends RecyclerView.Adapter<BacklogViewHolder>{
     }
 
 
-    @Override
-    public BacklogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.view_backlog_item, parent, false);
-        BacklogViewHolder viewHolder = new BacklogViewHolder(view);
-        viewHolder.backlogItemView = (BacklogItemView) view.findViewById(R.id.backlog_item_view);
-        if( listener != null )
-            viewHolder.backlogItemView.setOnClickListener(v -> listener.onClick(viewHolder.backlogItemView.getBacklogInfoId()));
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(BacklogViewHolder holder, int position) {
-        holder.backlogItemView.setData(mDatas.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return mDatas.size();
-    }
-
     public void setDatas(List<BacklogInfo> data) {
         this.mDatas = data;
     }
 
-    public void setOnClickListener(OnClickListener listener) {
-        this.listener = listener;
+    @Override
+    public int getCount() {
+        if( mDatas != null )
+            return mDatas.size();
+        else
+            return 0;
     }
 
-    public interface OnClickListener{
-        void onClick(long id);
+    @Override
+    public Object getItem(int position) {
+        if( mDatas != null && mDatas.size() > 0 )
+            return mDatas.get(position);
+        else
+            return null;
     }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if( convertView == null ){
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.view_backlog_item, parent, false);
+        }
+        BacklogItemView backlogItemView = (BacklogItemView)convertView;
+        backlogItemView.setData(mDatas.get(position));
+
+        return backlogItemView;
+    }
+
 }

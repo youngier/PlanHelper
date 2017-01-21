@@ -162,7 +162,7 @@ public class ScheduleAddActivity extends BaseOtherActivity{
         BacklogInfo backlogInfo = new BacklogInfo();
         backlogInfo.setBacklogInfoId(TimeUtil.getCurrentTimeInLong());
         try {
-            backlogInfo.setTime(TimeUtil.dateToStamp(mTimeTv.getText().toString()));
+          //  backlogInfo.setTime(TimeUtil.dateToStamp(mTimeTv.getText().toString()));
             LogUtil.eLog(TimeUtil.dateToStamp(mTimeTv.getText().toString())+"dede");
         } catch (ParseException e) {
             e.printStackTrace();

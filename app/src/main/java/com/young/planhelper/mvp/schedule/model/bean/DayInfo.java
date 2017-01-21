@@ -18,14 +18,12 @@ public class DayInfo {
     private String day;
     private String week;
     private String holiday;
-    private List<String> content;
 
 
     public DayInfo(){
         day = "";
         week = "";
         holiday = "";
-        content = new ArrayList<>();
     }
 
     public DayInfo(String day, String week){
@@ -33,11 +31,10 @@ public class DayInfo {
         this.week = week;
     }
 
-    public DayInfo(String day, String week, String holiday, List<String> content){
+    public DayInfo(String day, String week, String holiday){
         this.day = day;
         this.week = week;
         this.holiday = holiday;
-        this.content = content;
     }
 
     public String getDay() {
@@ -60,7 +57,4 @@ public class DayInfo {
         return holiday;
     }
 
-    public List<String> getContent() {
-        return content;
-    }
 }

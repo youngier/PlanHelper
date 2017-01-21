@@ -1,36 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.young.planhelper.mvp.schedule.view.weekview.WeekItemView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.young.planhelper.mvp.home.view.weekview.WeekItemView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="60dp"
     android:id="@+id/wv_view_item"
+    android:background="@color/gray_week_view_bg"
     android:weightSum="7">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/ll_sun"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/tv_sun_show"
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="25"
-                android:id="@+id/tv_sun" />
-
-            <TextView
-                android:gravity="center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:textColor="@color/gray_week_view_text"
                 android:text="日"/>
 
+            <TextView
+                android:layout_marginTop="@dimen/margin_vertical_week_view"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="25"
+                android:textColor="@color/black_week_view"
+                android:id="@+id/tv_sun" />
+
+            <ImageView
+                android:id="@+id/iv_sun"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginTop="@dimen/margin_vertical_week_view_01"
+                android:src="@mipmap/ic_week_view_have"/>
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -39,27 +54,42 @@
         android:orientation="vertical"
         android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/ll_mon"
+            android:background="@color/cyan_week_view_current"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/tv_mon_show"
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="25"
-                android:id="@+id/tv_mon" />
-
-            <TextView
-                android:gravity="center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:textColor="@color/white"
                 android:text="一"/>
 
+            <TextView
+                android:layout_marginTop="@dimen/margin_vertical_week_view"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="25"
+                android:textColor="@color/white"
+                android:id="@+id/tv_mon" />
+
+            <ImageView
+                android:id="@+id/iv_mon"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginTop="@dimen/margin_vertical_week_view_01"
+                android:src="@mipmap/ic_week_view_have_current"/>
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -68,56 +98,84 @@
         android:orientation="vertical"
         android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/ll_tues"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/tv_tues_show"
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="25"
-                android:id="@+id/tv_tues" />
-
-            <TextView
-                android:gravity="center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:textColor="@color/gray_week_view_text"
                 android:text="二"/>
 
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
             <TextView
+                android:layout_marginTop="@dimen/margin_vertical_week_view"
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="25"
-                android:id="@+id/tv_wednes" />
+                android:textColor="@color/black_week_view"
+                android:id="@+id/tv_tues" />
+
+            <ImageView
+                android:id="@+id/iv_tues"
+                android:visibility="invisible"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginTop="@dimen/margin_vertical_week_view_01"
+                android:src="@mipmap/ic_week_view_have"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/ll_wednes"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1">
 
             <TextView
+                android:id="@+id/tv_wednes_show"
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/gray_week_view_text"
                 android:text="三"/>
 
+            <TextView
+                android:layout_marginTop="@dimen/margin_vertical_week_view"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="25"
+                android:textColor="@color/black_week_view"
+                android:id="@+id/tv_wednes" />
+
+            <ImageView
+                android:id="@+id/iv_wednes"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginTop="@dimen/margin_vertical_week_view_01"
+                android:src="@mipmap/ic_week_view_have"/>
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -126,27 +184,41 @@
         android:orientation="vertical"
         android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/ll_thurs"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/tv_thurs_show"
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="25"
-                android:id="@+id/tv_thurs" />
-
-            <TextView
-                android:gravity="center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:textColor="@color/gray_week_view_text"
                 android:text="四"/>
 
+            <TextView
+                android:layout_marginTop="@dimen/margin_vertical_week_view"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="25"
+                android:textColor="@color/black_week_view"
+                android:id="@+id/tv_thurs" />
+
+            <ImageView
+                android:id="@+id/iv_thurs"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginTop="@dimen/margin_vertical_week_view_01"
+                android:src="@mipmap/ic_week_view_have"/>
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -155,27 +227,42 @@
         android:orientation="vertical"
         android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/ll_fri"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/tv_fri_show"
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="25"
-                android:id="@+id/tv_fri" />
-
-            <TextView
-                android:gravity="center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:textColor="@color/gray_week_view_text"
                 android:text="五"/>
 
+            <TextView
+                android:layout_marginTop="@dimen/margin_vertical_week_view"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="25"
+                android:textColor="@color/black_week_view"
+                android:id="@+id/tv_fri" />
+
+            <ImageView
+                android:id="@+id/iv_fri"
+                android:visibility="invisible"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginTop="@dimen/margin_vertical_week_view_01"
+                android:src="@mipmap/ic_week_view_have"/>
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -184,30 +271,44 @@
         android:orientation="vertical"
         android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/ll_satur"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/tv_satur_show"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_week_view_text"
+                android:text="日"/>
+
+            <TextView
+                android:layout_marginTop="@dimen/margin_vertical_week_view"
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="25"
+                android:textColor="@color/black_week_view"
                 android:id="@+id/tv_satur" />
 
-            <TextView
-                android:gravity="center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="六"/>
+            <ImageView
+                android:id="@+id/iv_satur"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginTop="@dimen/margin_vertical_week_view_01"
+                android:src="@mipmap/ic_week_view_have"/>
+
 
         </LinearLayout>
 
     </LinearLayout>
 
 
-</com.young.planhelper.mvp.schedule.view.weekview.WeekItemView>
+</com.young.planhelper.mvp.home.view.weekview.WeekItemView>

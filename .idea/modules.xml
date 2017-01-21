@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/PlanHelper.iml" filepath="$PROJECT_DIR$/PlanHelper.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/calendarview/calendarview.iml" filepath="$PROJECT_DIR$/calendarview/calendarview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/resideMenu/resideMenu.iml" filepath="$PROJECT_DIR$/resideMenu/resideMenu.iml" />
     </modules>
   </component>
 </project>

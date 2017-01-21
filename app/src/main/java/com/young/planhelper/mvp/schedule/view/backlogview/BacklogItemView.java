@@ -2,7 +2,9 @@ package com.young.planhelper.mvp.schedule.view.backlogview;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps2d.model.Text;
@@ -57,7 +59,7 @@ public class BacklogItemView extends LinearLayout{
 
         mContentTv.setText(data.getContent());
         mLocationTv.setText(data.getLocation());
-        mTimeTv.setText(TimeUtil.getTime2(data.getTime()));
+        mTimeTv.setText(TimeUtil.getTime2(data.getToTime()));
     }
 
     public long getBacklogInfoId() {

@@ -26,7 +26,9 @@ public class BacklogInfo extends RealmObject {
     @Required
     private String content;
 
-    private long time;
+    private long fromTime;
+
+    private long toTime;
 
     private String location;
     private RealmList<BacklogImageInfo> backlogImageInfos;
@@ -62,13 +64,6 @@ public class BacklogInfo extends RealmObject {
         this.statue = statue;
     }
 
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
-    }
 
     public long getBacklogInfoId() {
         return backlogInfoId;
@@ -84,5 +79,21 @@ public class BacklogInfo extends RealmObject {
 
     public void setBacklogImageInfos(RealmList<BacklogImageInfo> backlogImageInfos) {
         this.backlogImageInfos = backlogImageInfos;
+    }
+
+    public long getFromTime() {
+        return fromTime;
+    }
+
+    public void setFromTime(long fromTime) {
+        this.fromTime = fromTime;
+    }
+
+    public long getToTime() {
+        return toTime;
+    }
+
+    public void setToTime(long toTime) {
+        this.toTime = toTime;
     }
 }

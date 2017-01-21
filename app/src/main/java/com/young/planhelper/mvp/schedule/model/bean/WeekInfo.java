@@ -1,5 +1,8 @@
 package com.young.planhelper.mvp.schedule.model.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author: young
  * email:1160415122@qq.com
@@ -9,17 +12,17 @@ package com.young.planhelper.mvp.schedule.model.bean;
 
 public class WeekInfo {
 
-    DayInfo[] dayInfos;
+    List<DayInfo> mDayInfoList;
 
     public WeekInfo(){
-        this.dayInfos = new DayInfo[7];
+        this.mDayInfoList = new ArrayList<>();
     }
 
-    public WeekInfo(DayInfo[] dayInfos){
-        this.dayInfos = dayInfos;
+    public WeekInfo(List<DayInfo> dayInfos){
+        this.mDayInfoList = dayInfos;
     }
 
-    public DayInfo[] getDayInfos(){
-        return dayInfos;
+    public List<DayInfo> getDayInfos(){
+        return mDayInfoList;
     }
 }

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.young.planhelper.mvp.home.view.monthview.MonthView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/monthview"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/cyan_week_view_current"
+        android:weightSum="7">
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:text="日"/>
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:text="一"/>
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:text="二"/>
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:text="三"/>
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:text="四"/>
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:text="五"/>
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:text="六"/>
+
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_view_month"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+</com.young.planhelper.mvp.home.view.monthview.MonthView>
