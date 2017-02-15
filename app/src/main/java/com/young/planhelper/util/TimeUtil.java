@@ -23,6 +23,7 @@ public class TimeUtil {
     private static final String[] WEEK = { "天", "一", "二", "三", "四", "五", "六" };
     public static final String XING_QI = "星期";
     public static final String ZHOU = "周";
+    private static String currentYearInString;
 
     /**
      * 获取日期
@@ -246,8 +247,10 @@ public class TimeUtil {
     public static final SimpleDateFormat DEFAULT_DATE_FORMAT1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final SimpleDateFormat DATE_FORMAT_DATE    = new SimpleDateFormat("MM月dd日");
     public static final SimpleDateFormat DATE_FORMAT_DATE_01    = new SimpleDateFormat("yyyy年MM月dd日");
+    public static final SimpleDateFormat DATE_FORMAT_DATE_02    = new SimpleDateFormat("yyyy-MM-dd");
     public static final SimpleDateFormat DATE_FORMAT_DATE_TIME    = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
     public static final SimpleDateFormat DATE_FORMAT_DATE_TIME_01    = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    public static final SimpleDateFormat DATE_FORMAT_YEAR    = new SimpleDateFormat("yyyy");
 
 
     private TimeUtil() {
@@ -289,6 +292,14 @@ public class TimeUtil {
 
     public static String getTime4(long timeInMillis){
         return getTime(timeInMillis, DATE_FORMAT_DATE_01);
+    }
+
+    public static String getTime5(long timeInMillis) {
+        return getTime(timeInMillis, DATE_FORMAT_YEAR);
+    }
+
+    public static String getTime6(long timeInMillis) {
+        return getTime(timeInMillis, DATE_FORMAT_DATE_02);
     }
 
     /**
@@ -387,4 +398,13 @@ public class TimeUtil {
         return ts;
     }
 
+    public static String getCurrentYearInString() {
+        return getTime5(getCurrentTimeInLong() );
+    }
+
+
+    public static String getCurrentDateInString1() {
+        return getTime6(getCurrentTimeInLong());
+    }
 }
+

@@ -22,4 +22,36 @@
     <dimen name="dimen_activity_add_margin_bottom">20dp</dimen>
     <dimen name="dimen_activity_add_margin_left">20dp</dimen>
     <dimen name="dimen_activity_add_margin_right">20dp</dimen>
+
+    <!--标题栏上的浮动选项设置-->
+    <dimen name="popupwindow_content_width">120dp</dimen>
+    <dimen name="popupwindow_menu_item_height">45dp</dimen>
+    <dimen name="popupwindow_menu_item_divider_height">1px</dimen>
+
+    <!--图标-->
+    <dimen name="navigation_drawer_width">100dp</dimen>
+
+    <dimen name="card_margin_chart">8dp</dimen>
+    <dimen name="button_size">40dp</dimen>
+    <dimen name="color_button_size">35dp</dimen>
+
+    <dimen name="four_button_margin">7dp</dimen>
+    <dimen name="three_button_margin">17dp</dimen>
+    <dimen name="two_button_margin">17dp</dimen>
+
+    <dimen name="enter_button_margin">6dp</dimen>
+
+    <dimen name="line_point_s">13dp</dimen>
+    <dimen name="line_point_m">20dp</dimen>
+    <dimen name="line_point_h">27dp</dimen>
+    <dimen name="line_point_x">35dp</dimen>
+
+    <dimen name="chart_button_size">100dp</dimen>
+
+    <dimen name="axis_label_size">50sp</dimen>
+
+    <dimen name="play_chart_padding">15dp</dimen>
+
+    <dimen name="item_margin">6dp</dimen>
+
 </resources>

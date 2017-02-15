@@ -1,13 +1,19 @@
 package com.young.planhelper.mvp.home;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -25,10 +31,13 @@ import com.special.ResideMenu.ResideMenuItem;
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.base.BaseFragmentActivity;
+import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.home.view.monthview.MonthView;
 import com.young.planhelper.mvp.home.view.weekview.WeekItemView;
+import com.young.planhelper.mvp.overview.OverviewActivity;
 import com.young.planhelper.mvp.plan.view.planitem.PlanItemActivity;
 import com.young.planhelper.mvp.plan.view.planview.PlanAdapter;
+import com.young.planhelper.mvp.profile.view.ProfileActivity;
 import com.young.planhelper.mvp.schedule.ScheduleAddActivity;
 import com.young.planhelper.mvp.schedule.ScheduleAddCloneActivity;
 import com.young.planhelper.mvp.schedule.ScheduleDetailActivity;
@@ -39,6 +48,9 @@ import com.young.planhelper.mvp.schedule.presenter.ISchedulePresenter;
 import com.young.planhelper.mvp.schedule.presenter.SchedulePresenter;
 import com.young.planhelper.mvp.schedule.view.backlogview.BacklogAdapter;
 import com.young.planhelper.mvp.schedule.view.backlogview.RecycleViewDivider;
+import com.young.planhelper.mvp.timeline.TimelineActivity;
+import com.young.planhelper.util.CalendarUtil;
+import com.young.planhelper.util.DateUtil;
 import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.TimeUtil;
 import com.young.planhelper.widget.NestListView;
@@ -46,15 +58,23 @@ import com.young.planhelper.widget.Toolbar;
 import com.young.planhelper.widget.calendar.manager.Week;
 import com.young.planhelper.widget.manager.CustomLinearLayoutManager;
 
+import org.feezu.liuli.timeselector.TimeSelector;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.DatePicker;
 
-public class HomeCloneActivity extends BaseFragmentActivity implements View.OnClickListener{
+public class HomeCloneActivity extends BaseFragmentActivity{
 
-    private ResideMenu resideMenu;
+
 
     @BindView(R.id.wv_view_item)
     WeekItemView mWeekItemView;
@@ -81,37 +101,359 @@ public class HomeCloneActivity extends BaseFragmentActivity implements View.OnCl
 
     private BacklogAdapter mTaskAdapter;
 
+    private int calendarHeight = 800;
+    private List<String> timeList;
+
+
     @Override
     protected void initUI() {
 
         presenter = new SchedulePresenter(this, this);
 
-        mToolbar.setOnMenuClickListener( () -> {
-            resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
+
+        mToolbar.setOnDateClickListener( () -> {
+            showMonPicker();
+        } );
+
+
+
+        String currentTime = TimeUtil.getCurrentDateInString1();
+        StringTokenizer tokenizer = new StringTokenizer(currentTime, "-");
+        String year = tokenizer.nextToken();
+        String month = tokenizer.nextToken();
+
+        initMonthView(year, month);
+
+        String date = mToolbar.getDate();
+        String monthTemp = date.substring(5, date.length());
+        year = date.substring(0, 4);
+        month = monthTemp.substring(0, monthTemp.length()-1);
+        int monthValue = Integer.parseInt(month);
+        int yearValue = Integer.parseInt(year);
+        //上个月23号到下个月的6号就行了
+
+        IBiz.ICallback iCallback = data -> {
+            try {
+                List<String> time = (List<String>) data;
+
+                this.timeList = time;
+
+                initWeekView(null);
+
+                mMonthView.setTaskDay(time);
+
+
+
+            }catch (Exception e){
+                Toast.makeText(this, (String) data, Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        if( monthValue == 12 )
+            presenter.queryByMonth( year + "年11月23日 00:00",
+                    (yearValue+1) + "年1月6日 23:59", iCallback);
+        else if( monthValue == 1 )
+            presenter.queryByMonth( (yearValue-1) + "年12月23日 00:00",
+                    yearValue + "年2月6日 23:59", iCallback);
+        else
+            presenter.queryByMonth( year + "年"+ (monthValue-1) + "月23日 00:00",
+                    year + "年"+ (monthValue+1) +"月6日 23:59", iCallback);
+
+        setListData();
+
+        mToolbar.setOnAddClickListener( () -> {
+            startActivity(new Intent(this, ScheduleAddCloneActivity.class));
         });
 
-        setUpMenu();
+    }
+
+    private void showMonPicker() {
+        String time = TimeUtil.getCurrentDateInString1();
+        StringTokenizer tokenizer = new StringTokenizer(time, "-");
+        int year = Integer.parseInt(tokenizer.nextToken());
+        int month = Integer.parseInt(tokenizer.nextToken());
+        int day = Integer.parseInt(tokenizer.nextToken());
+
+        DatePicker picker = new DatePicker(this, DatePicker.YEAR_MONTH);
+        picker.setRange(1910, 2050);
+        picker.setSelectedItem(year, month);
+        picker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
+            @Override
+            public void onDatePicked(String year, String month) {
+                mToolbar.setTitle(year + "年" + month + "月");
+                mTaskAdapter.setDatas(null);
+                mTaskAdapter.notifyDataSetChanged();
+                initMonthView(year, month);
+                initWeekView(new DayInfo(year + "-" + month + "-" + day, day+"", "", ""));
+            }
+        });
+        picker.show();
+    }
+
+
+    /**
+     * 初始化月视图
+     */
+    private void initMonthView(String year, String month) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        int dayOfWeek = 0;
+        int lastMonthCount = 0;
+        int monthCount = 0;
+
+        try {
+            String time = "";
+
+            int yearValue = Integer.parseInt(year);
+            int monthValue = Integer.parseInt(month);
+
+            time = year + "-" + (monthValue-1) + "-" + 1;
+            String lastMonth = year + "-" + monthValue + "-" + 1;
+
+            monthCount = DateUtil.getDaysOfMonth(sdf.parse(time));
+
+            dayOfWeek = CalendarUtil.dayOfWeek(yearValue, monthValue, 0);
+
+            lastMonthCount = DateUtil.getDaysOfMonth(sdf.parse(lastMonth));
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        List<DayInfo> monthInfos = new ArrayList<>();
+
+        //先添加进上个月到这个月的补位
+        int j=0;
+        for(int i=dayOfWeek; i > 0 ; i--){
+            String week = getWeek(j);
+            j++;
+            int monthValue = Integer.parseInt(month);
+            String date = "";
+            if( monthValue > 9 )
+                date = year + "-" + (monthValue-1) + "-" + (lastMonthCount - i + 1);
+            else
+                date = year + "-0" + (monthValue-1) + "-" + (lastMonthCount - i + 1);
+
+            DayInfo dayInfo = new DayInfo(date, "", week, "");
+            monthInfos.add(dayInfo);
+//            monthInfos.add(new DayInfo(date, (lastMonthCount - i + 1) + "", week, ""));
+        }
+
+        //添加这个月的
+        for(int i=1; i <= monthCount; i++){
+            String week = getWeek(j);
+            j++;
+            String date =year + "-" + month + "-";
+            if( i < 10 )
+                date += "0" + i;
+            else
+                date += i;
+            monthInfos.add(new DayInfo(date, i + "", week, ""));
+        }
+
+        //最后添加进下个月到这个月的补位
+        for(int i = j%7, k=1; i<7; i++,k++){
+            String week = getWeek(j);
+            j++;
+            int monthValue = Integer.parseInt(month);
+            String date = year + "-";
+            if( monthValue < 10 )
+                date += "0" + (monthValue+1) + "-";
+            else
+                date += (monthValue+1) + "-";
+
+            if( k < 10 )
+                date += "0" + k;
+            else
+                date += k;
+            monthInfos.add(new DayInfo(date, "", week, ""));
+//            monthInfos.add(new DayInfo(date, k + "", week, ""));
+        }
+
+
+        mMonthView.setData(monthInfos);
+
+
+        mMonthView.setOnClickListener(new MonthView.OnClickListener() {
+            @Override
+            public void onClick(DayInfo dayInfo) {
+                detailCalendar();
+                if( !dayInfo.getDay().equals("") ) {
+                    initWeekView(dayInfo);
+                    String time = mToolbar.getDate();
+                    time += dayInfo.getDay() + "日";
+                    mTaskAdapter.setDatas(null);
+                    mTaskAdapter.notifyDataSetChanged();
+                    presenter.getBacklogInfos(time, data -> {
+                        setData(data);
+                    });
+                }
+            }
+        });
+    }
+
+    private String getWeek(int dayOfWeek) {
+        switch (dayOfWeek % 7){
+            case 0:
+                return "日";
+            case 1:
+                return "一";
+            case 2:
+                return "二";
+            case 3:
+                return "三";
+            case 4:
+                return "四";
+            case 5:
+                return "五";
+            default:
+                return "六";
+        }
+    }
+
+    /**
+     * 初始化周期视图
+     */
+    private void initWeekView(DayInfo dayInfo) {
 
         List<DayInfo> dayInfos = new ArrayList<>();
-        dayInfos.add(new DayInfo("16", "日", ""));
-        dayInfos.add(new DayInfo("17", "一", ""));
-        dayInfos.add(new DayInfo("18", "二", ""));
-        dayInfos.add(new DayInfo("19", "三", ""));
-        dayInfos.add(new DayInfo("20", "四", ""));
-        dayInfos.add(new DayInfo("21", "五", ""));
-        dayInfos.add(new DayInfo("22", "六", ""));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        int dayOfWeek = 0;
+
+        //一个月的天数
+        int lastMonthCount = 0;
+        int monthCount = 0;
+        String year = "";
+        String month = "";
+        String day = "";
+
+        int yearValue = 0;
+        int dayValue = 0;
+        int monthValue = 0;
+
+        String time = "";
+        try {
+            if(  dayInfo == null )
+                time = TimeUtil.getCurrentDateInString1();
+            else
+                time = dayInfo.getDate();
 
 
 
+
+            StringTokenizer tokenizer = new StringTokenizer(time, "-");
+            year = tokenizer.nextToken();
+            month = tokenizer.nextToken();
+            day = tokenizer.nextToken();
+
+
+            yearValue = Integer.parseInt(year);
+            monthValue = Integer.parseInt(month);
+            dayValue = Integer.parseInt(day);
+
+            time = year + "-" + (monthValue-1) + "-" + 1;
+            String lastMonth = year + "-" + monthValue + "-" + 1;
+
+            monthCount = DateUtil.getDaysOfMonth(sdf.parse(time));
+
+            dayOfWeek = CalendarUtil.dayOfWeek(yearValue, monthValue, dayValue-1);
+
+            //如果是星期日，则视为0
+            if( dayOfWeek == 7 )
+                dayOfWeek = 0;
+
+            lastMonthCount = DateUtil.getDaysOfMonth(sdf.parse(lastMonth));
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int j=0;
+        int currentWeek = 0;
+        int allWeek = 0;
+
+        if(  dayInfo == null )
+            time = TimeUtil.getCurrentDateInString1();
+        else
+            time = dayInfo.getDate();
+
+        String currentMonthLast = year+"-"+monthValue+"-"+monthCount;
+        try {
+            currentWeek = CalendarUtil.getWeek(time);
+            allWeek = CalendarUtil.getWeek(currentMonthLast);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if( currentWeek == 1 ){
+            for(int i = dayOfWeek - dayValue; i>=0; i--){
+                String week = getWeek(j);
+                j++;
+                String date = year + "-" + (monthValue - 1) + "-" + (lastMonthCount - i);
+                dayInfos.add(new DayInfo(date, (lastMonthCount - i) + "", week, ""));
+            }
+            for(int i=1; j<7; i++){
+                String week = getWeek(j);
+                j++;
+                String date = year + "-" + monthValue + "-" + i;
+                dayInfos.add(new DayInfo(date, i + "", week, ""));
+            }
+        }
+
+        else if( currentWeek == allWeek ){
+
+            j = 0;
+
+            //获取月尾的星期
+            dayOfWeek = CalendarUtil.dayOfWeek(yearValue, monthValue, monthCount);
+
+            for(int i = dayOfWeek; i>=0; i--) {
+                String week = getWeek(j++);
+                String date = year + "-" + monthValue + "-" + ( monthCount - i + 1);
+                dayInfos.add(new DayInfo(date, ( monthCount - i + 1) + "", week, ""));
+            }
+
+            for(int k=1; j<7; k++, j++){
+                String week = getWeek(j);
+                String date = year + "-" + (monthValue + 1) + "-" + k;
+                dayInfos.add(new DayInfo(date, k + "", week, ""));
+            }
+
+        }else{
+            j=0;
+            for(int i=0; i<dayOfWeek; i++){
+                String week = getWeek(j);
+                j++;
+                String date = year + "-" + monthValue + "-" + (dayValue + i - dayOfWeek);
+                dayInfos.add(new DayInfo(date, (dayValue + i - dayOfWeek) + "", week, ""));
+            }
+
+            for(int i=0; i<7-dayOfWeek; i++){
+                String week = getWeek(j);
+                j++;
+                String date = year + "-" + monthValue + "-" + (dayValue + i);
+                dayInfos.add(new DayInfo(date, (dayValue + i) + "", week, ""));
+            }
+        }
 
         mWeekItemView.setData(dayInfos);
+
+        mWeekItemView.setTaskDay(timeList);
+
+        if( dayInfo != null ) {
+            mWeekItemView.setSelectItem(dayInfo);
+        }
 
         mWeekItemView.setOnClickListener(new WeekItemView.OnClickListener() {
             @Override
             public void onClick(String day) {
 
-                String time = TimeUtil.getCurrentDateInString();
-                time = time.substring(0, time.length() - 3);
+                String time = mToolbar.getDate();
                 time += day + "日";
                 mTaskAdapter.setDatas(null);
                 mTaskAdapter.notifyDataSetChanged();
@@ -120,92 +462,8 @@ public class HomeCloneActivity extends BaseFragmentActivity implements View.OnCl
                 });
             }
         });
-
-
-        List<DayInfo> monthInfos = new ArrayList<>();
-        monthInfos.add(new DayInfo("26", "日", ""));
-        monthInfos.add(new DayInfo("27", "一", ""));
-        monthInfos.add(new DayInfo("28", "二", ""));
-        monthInfos.add(new DayInfo("29", "三", ""));
-        monthInfos.add(new DayInfo("30", "四", ""));
-        monthInfos.add(new DayInfo("31", "五", ""));
-        monthInfos.add(new DayInfo("1", "六", ""));
-        monthInfos.add(new DayInfo("2", "日", ""));
-        monthInfos.add(new DayInfo("3", "一", ""));
-        monthInfos.add(new DayInfo("4", "二", ""));
-        monthInfos.add(new DayInfo("5", "三", ""));
-        monthInfos.add(new DayInfo("6", "四", ""));
-        monthInfos.add(new DayInfo("7", "五", ""));
-        monthInfos.add(new DayInfo("8", "六", ""));
-        monthInfos.add(new DayInfo("9", "日", ""));
-        monthInfos.add(new DayInfo("10", "一", ""));
-        monthInfos.add(new DayInfo("11", "二", ""));
-        monthInfos.add(new DayInfo("12", "三", ""));
-        monthInfos.add(new DayInfo("13", "四", ""));
-        monthInfos.add(new DayInfo("14", "五", ""));
-        monthInfos.add(new DayInfo("15", "六", ""));
-        monthInfos.add(new DayInfo("16", "日", ""));
-        monthInfos.add(new DayInfo("17", "一", ""));
-        monthInfos.add(new DayInfo("18", "二", ""));
-        monthInfos.add(new DayInfo("19", "三", ""));
-        monthInfos.add(new DayInfo("20", "四", ""));
-        monthInfos.add(new DayInfo("21", "五", ""));
-        monthInfos.add(new DayInfo("22", "六", ""));
-        monthInfos.add(new DayInfo("23", "日", ""));
-        monthInfos.add(new DayInfo("24", "一", ""));
-        monthInfos.add(new DayInfo("25", "二", ""));
-        monthInfos.add(new DayInfo("26", "三", ""));
-        monthInfos.add(new DayInfo("27", "四", ""));
-        monthInfos.add(new DayInfo("28", "五", ""));
-        monthInfos.add(new DayInfo("29", "六", ""));
-
-        mMonthView.setData(monthInfos);
-
-        mMonthView.setOnClickListener( () -> {
-            detailCalendar();
-        });
-
-        setListData();
-
-        mToolbar.setOnAddClickListener( () -> {
-            startActivity(new Intent(this, ScheduleAddCloneActivity.class));
-        });
     }
 
-    @Override
-    public void onClick(View view) {
-
-        resideMenu.closeMenu();
-    }
-
-    private void setUpMenu() {
-
-        // attach to current activity;
-        resideMenu = new ResideMenu(this);
-//        resideMenu.setUse3D(true);
-        resideMenu.setBackgroundColor(getResources().getColor(R.color.cyan_week_view_current));
-        resideMenu.attachToActivity(this);
-        resideMenu.setMenuListener(menuListener);
-        //valid scale factor is between 0.0f and 1.0f. leftmenu'width is 150dip.
-        resideMenu.setScaleValue(0.6f);
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        return resideMenu.dispatchTouchEvent(ev);
-    }
-
-    private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
-        @Override
-        public void openMenu() {
-            Toast.makeText(HomeCloneActivity.this, "Menu is opened!", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void closeMenu() {
-            Toast.makeText(HomeCloneActivity.this, "Menu is closed!", Toast.LENGTH_SHORT).show();
-        }
-    };
 
     @Override
     public int getLayout() {
@@ -229,7 +487,13 @@ public class HomeCloneActivity extends BaseFragmentActivity implements View.OnCl
         mTaskLv.setEnabled(false);
         mTaskSv.smoothScrollTo(0, 0);
 
-        presenter.getBackLogInfoToday(data -> setData(data));
+        String time = TimeUtil.getCurrentDateInString();
+        mTaskAdapter.setDatas(null);
+        mTaskAdapter.notifyDataSetChanged();
+        presenter.getBacklogInfos(time, data -> {
+            setData(data);
+        });
+
     }
 
     @Override
@@ -249,32 +513,13 @@ public class HomeCloneActivity extends BaseFragmentActivity implements View.OnCl
 
     @OnClick(R.id.iv_home_calendar)
     public void changeCalendar() {
-//        Animation animation = AnimationUtils.loadAnimation(this, R.anim.scale_small);
-//        animation.setRepeatCount(1);
-//        mCalendarBgRl.clearAnimation();
-//        mCalendarBgRl.startAnimation(animation
-//
-//        for(int i=mCalendarBgRl.getHeight(); i>=0; i-=10){
-//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(mCalendarBgRl.getWidth(), mCalendarBgRl.getHeight());
-//            if( layoutParams.height < 10 )
-//                layoutParams.height = 0;
-//            else
-//                layoutParams.height -= 10;
-//            mCalendarBgRl.setLayoutParams(layoutParams);
-//
-//            i = layoutParams.height;
-//
-//        }
+
 
         mCalendarIv.setEnabled(false);
 
-        mMonthView.setOnClickListener( () -> {
-            detailCalendar();
-        });
-
         //属性动画对象
         ValueAnimator va ;
-        va = ValueAnimator.ofInt(mCalendarBgLl.getHeight(),0);
+        va = ValueAnimator.ofInt(calendarHeight,0);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -291,7 +536,7 @@ public class HomeCloneActivity extends BaseFragmentActivity implements View.OnCl
 
         //属性动画对象
         ValueAnimator va1 ;
-        va1 = ValueAnimator.ofInt(0, 280);
+        va1 = ValueAnimator.ofInt(0, calendarHeight);
         va1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -305,6 +550,7 @@ public class HomeCloneActivity extends BaseFragmentActivity implements View.OnCl
         va1.setDuration(1000);
         //开始动画
         va1.start();
+
 
     }
 
@@ -312,11 +558,8 @@ public class HomeCloneActivity extends BaseFragmentActivity implements View.OnCl
 
         mCalendarIv.setEnabled(true);
 
-        mMonthView.setOnClickListener(() -> {});
-
-
         ValueAnimator va ;
-        va = ValueAnimator.ofInt(0, 270);
+        va = ValueAnimator.ofInt(0, calendarHeight);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -333,21 +576,17 @@ public class HomeCloneActivity extends BaseFragmentActivity implements View.OnCl
 
         //属性动画对象
         ValueAnimator va1 ;
-        va1 = ValueAnimator.ofInt(280, 0);
-        va1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+        va1 = ValueAnimator.ofInt(calendarHeight, 0);
+        va1.addUpdateListener(valueAnimator -> {
                 //获取当前的height值
                 int h =(Integer)valueAnimator.getAnimatedValue();
                 //动态更新view的高度
                 mMonthView.getLayoutParams().height = h;
                 mMonthView.requestLayout();
-            }
         });
         va1.setDuration(1000);
         //开始动画
         va1.start();
-
 
     }
 }

@@ -13,6 +13,7 @@ import com.young.planhelper.util.TimeUtil;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -73,7 +74,7 @@ public class ScheduleBIz extends Biz implements IScheduleBiz {
     }
 
     @Override
-    public void getBackLogInfoToday(String date, ICallback callback) {
+    public void getBackLogInfoByday(String date, ICallback callback) {
         if( mRealm == null ){
             LogUtil.eLog(REALM_NOT_INIT);
             callback.onResult(ADD_FAILED);
@@ -97,23 +98,11 @@ public class ScheduleBIz extends Biz implements IScheduleBiz {
         cal.setTime(date2);
         long timestamp2 = cal.getTimeInMillis();
 
-        List<BacklogInfo> backlogInfos = mRealm.where(BacklogInfo.class).between("toTime", timestamp1, timestamp2).findAll();
+        List<BacklogInfo> backlogInfos = mRealm.where(BacklogInfo.class).between("fromTime", timestamp1, timestamp2).findAll();
 
         callback.onResult(backlogInfos);
     }
 
-    @Override
-    public void getBackLogInfoToday(ICallback callback) {
-        if( mRealm == null ){
-            LogUtil.eLog(REALM_NOT_INIT);
-            callback.onResult(ADD_FAILED);
-            return;
-        }
-
-        List<BacklogInfo> backlogInfos = mRealm.where(BacklogInfo.class).between("toTime", TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime()).findAll();
-
-        callback.onResult(backlogInfos);
-    }
 
     @Override
     public void getBackLogInfoFuture(ICallback callback) {
@@ -152,6 +141,50 @@ public class ScheduleBIz extends Biz implements IScheduleBiz {
         BacklogInfo backlogInfo = mRealm.where(BacklogInfo.class).equalTo("backlogInfoId", backlogInfoId).findFirst();
 
         callback.onResult(backlogInfo);
+    }
+
+    @Override
+    public void queryByMonth(String monthBegin, String monthEnd, ICallback callback) {
+        if( mRealm == null ){
+            LogUtil.eLog(REALM_NOT_INIT);
+            callback.onResult(ADD_FAILED);
+            return;
+        }
+
+        long begin = 0;
+        long end = 0;
+        try {
+            begin = TimeUtil.dateToStamp(monthBegin);
+            end = TimeUtil.dateToStamp(monthEnd);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        LogUtil.eLog("时间开始："+begin+"，时间结束："+end);
+
+        List<BacklogInfo> backlogInfoList = mRealm.where(BacklogInfo.class)
+                .greaterThan("fromTime", begin)
+                .lessThan("toTime", end)
+                .findAll();
+
+        List<String> dateList = new ArrayList<>();
+        if( backlogInfoList.size() == 0)
+            callback.onResult(null);
+        else{
+            dateList.add(TimeUtil.getTime6(backlogInfoList.get(0).getFromTime()));
+            for(int i=1, j=0; i<backlogInfoList.size(); i++){
+                if( dateList.get(j).equals( TimeUtil.getTime6(backlogInfoList.get(i).getFromTime()) ) ){
+                    continue;
+                }else{
+                    dateList.add(TimeUtil.getTime6(backlogInfoList.get(i).getFromTime()));
+                    j++;
+                }
+            }
+
+            LogUtil.eLog("告诉我有多少个："+dateList.size());
+            callback.onResult(dateList);
+        }
+
     }
 
 }

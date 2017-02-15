@@ -27,14 +27,12 @@ import butterknife.BindView;
 
 public class PlanFragment extends BaseFragment implements IView{
 
-    private static final String TAG = "ScheduleFragment";
 
     @BindView(R.id.rv_plan)
     RecyclerView mRecyclerView;
 
     private IPlanPresenter presenter;
     private PlanAdapter adapter;
-    private long planInfoId;
 
     @Override
     protected void initUI() {

@@ -141,7 +141,7 @@ public class ScheduleFragment extends BaseFragment {
         mFutureRv.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL));
         mOverdueRv.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL));
 
-        presenter.getBackLogInfoToday(data -> setData(data));
+//        presenter.getBackLogInfoToday(data -> setData(data));
 
     }
 

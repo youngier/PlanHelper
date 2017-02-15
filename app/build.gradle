@@ -17,11 +17,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.young.planhelper_sit"
+        applicationId "com.young.planhelper"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 10
+        versionName "1.1"
 
 //        /**
 //         * AS新版本java8新特性需要jack工具链
@@ -88,6 +88,7 @@ dependencies {
     //配置Glide图片加载
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile files('libs/javax.annotation.jar')
+    //高德地图
     compile files('libs/Amap_2DMap_V2.9.1_20160825 2.jar')
     //选择图片
     compile 'com.github.sd6352051:android-image-picker:v1.0.1'
@@ -105,5 +106,16 @@ dependencies {
     compile 'com.wrapp.floatlabelededittext:library:0.0.6'
     //选择日期时间
     compile 'com.feezu.liuli:timeselector:1.1.3+'
+    //侧滑菜单
     compile project(':resideMenu')
+    //弹上去的列表动画
+    compile 'com.github.zzz40500:AndroidSweetSheet:1.1.0'
+    //多级联动选择器
+    compile 'cn.qqtheme.framework:WheelPicker:1.1.2'
+    compile 'cn.qqtheme.framework:FilePicker:1.1.2'
+
+    //图表
+    compile project(':williamChart')
+    compile project(':holoColorPicker')
+
 }

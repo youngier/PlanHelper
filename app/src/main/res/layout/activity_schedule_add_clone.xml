@@ -18,8 +18,8 @@
 
     <LinearLayout
         android:background="@color/white"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:layout_below="@+id/ll_list_head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                 android:layout_centerVertical="true"
                 android:textColor="@color/gray_01"
                 android:textSize="16sp"
-                android:text="All Day"/>
+                android:text="一天"/>
 
             <com.zcw.togglebutton.ToggleButton
                 android:id="@+id/tgbtn_schedule_add_switch"
@@ -97,7 +97,7 @@
                     android:layout_centerVertical="true"
                     android:textColor="@color/gray_01"
                     android:textSize="16sp"
-                    android:text="From"/>
+                    android:text="开始"/>
 
 
                 <TextView
@@ -131,7 +131,7 @@
                     android:layout_centerVertical="true"
                     android:textColor="@color/gray_01"
                     android:textSize="16sp"
-                    android:text="To"/>
+                    android:text="结束"/>
 
                 <TextView
                     android:id="@+id/tv_schedule_add_to_time"
@@ -162,7 +162,7 @@
                 android:layout_centerVertical="true"
                 android:textColor="@color/gray_01"
                 android:textSize="16sp"
-                android:text="Location"/>
+                android:text="位置"/>
 
             <TextView
                 android:id="@+id/tv_add_location"
@@ -170,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="Starbucks"/>
+                android:text="点击选择位置"/>
 
             <ImageView
                 android:layout_width="20dp"
@@ -197,7 +197,7 @@
                 android:layout_centerVertical="true"
                 android:textColor="@color/gray_01"
                 android:textSize="16sp"
-                android:text="People"/>
+                android:text="人员"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -238,7 +238,7 @@
                 android:layout_centerVertical="true"
                 android:textColor="@color/gray_01"
                 android:textSize="16sp"
-                android:text="Repeat"/>
+                android:text="重复类型"/>
 
             <TextView
                 android:id="@+id/tv_schedule_add_repeat"
@@ -246,7 +246,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="Monthly"/>
+                android:text="不重复"/>
 
         </RelativeLayout>
 

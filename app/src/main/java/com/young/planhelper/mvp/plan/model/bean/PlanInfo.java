@@ -29,6 +29,7 @@ public class PlanInfo extends RealmObject{
     private int authority;
 
 
+
     public long getPlanInfoId() {
         return planInfoId;
     }

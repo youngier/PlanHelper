@@ -42,8 +42,7 @@
                 android:id="@+id/iv_sun"
                 android:layout_width="6dp"
                 android:layout_height="6dp"
-                android:layout_marginTop="@dimen/margin_vertical_week_view_01"
-                android:src="@mipmap/ic_week_view_have"/>
+                android:layout_marginTop="@dimen/margin_vertical_week_view_01" />
 
 
         </LinearLayout>
@@ -86,8 +85,7 @@
                 android:id="@+id/iv_mon"
                 android:layout_width="6dp"
                 android:layout_height="6dp"
-                android:layout_marginTop="@dimen/margin_vertical_week_view_01"
-                android:src="@mipmap/ic_week_view_have_current"/>
+                android:layout_marginTop="@dimen/margin_vertical_week_view_01" />
 
 
         </LinearLayout>
@@ -172,8 +170,7 @@
                 android:id="@+id/iv_wednes"
                 android:layout_width="6dp"
                 android:layout_height="6dp"
-                android:layout_marginTop="@dimen/margin_vertical_week_view_01"
-                android:src="@mipmap/ic_week_view_have"/>
+                android:layout_marginTop="@dimen/margin_vertical_week_view_01" />
 
 
         </LinearLayout>
@@ -215,8 +212,7 @@
                 android:id="@+id/iv_thurs"
                 android:layout_width="6dp"
                 android:layout_height="6dp"
-                android:layout_marginTop="@dimen/margin_vertical_week_view_01"
-                android:src="@mipmap/ic_week_view_have"/>
+                android:layout_marginTop="@dimen/margin_vertical_week_view_01" />
 
 
         </LinearLayout>
@@ -287,7 +283,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray_week_view_text"
-                android:text="日"/>
+                android:text="六"/>
 
             <TextView
                 android:layout_marginTop="@dimen/margin_vertical_week_view"
@@ -302,8 +298,7 @@
                 android:id="@+id/iv_satur"
                 android:layout_width="6dp"
                 android:layout_height="6dp"
-                android:layout_marginTop="@dimen/margin_vertical_week_view_01"
-                android:src="@mipmap/ic_week_view_have"/>
+                android:layout_marginTop="@dimen/margin_vertical_week_view_01" />
 
 
         </LinearLayout>

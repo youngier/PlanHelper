@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
+import com.young.planhelper.mvp.plan.view.PlanActiveFragment;
 import com.young.planhelper.mvp.plan.view.planitem.seconditem.PlanSecondItemAdapter;
 
 import java.util.ArrayList;

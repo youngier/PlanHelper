@@ -20,4 +20,36 @@
 
     <string name="time_next">Next</string>
     <string name="time_prev">Previous</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="menu_item1">全部</string>
+    <string name="menu_item2">已完成</string>
+    <string name="menu_item3">处理中</string>
+    <string name="menu_item4">未完成</string>
+
+    <!--图表-->
+    <string name="github_str">Github</string>
+    <string name="gplay_str">Google Play</string>
+
+    <string-array name="easing">
+        <item>CUBIC</item>
+        <item>QUART</item>
+        <item>QUINT</item>
+        <item>BOUNCE</item>
+        <item>ELASTIC</item>
+        <item>EXPO</item>
+        <item>CIRC</item>
+        <item>QUAD</item>
+        <item>SINE</item>
+        <item>LINEAR</item>
+    </string-array>
+
+    <string-array name="duration">
+        <item>500ms</item>
+        <item>1000ms</item>
+        <item>1500ms</item>
+        <item>2000ms</item>
+        <item>2500ms</item>
+        <item>3000ms</item>
+        <item>3500ms</item>
+    </string-array>
 </resources>

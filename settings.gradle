@@ -1,1 +1,1 @@
-include ':app', ':calendarview', ':resideMenu'
+include ':app', ':calendarview', ':resideMenu', ':williamChart', ':holoColorPicker'

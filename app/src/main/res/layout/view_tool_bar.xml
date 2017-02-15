@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="2015年3月"/>
+            android:text="2017年2月"/>
 
         <ImageView
             android:id="@+id/iv_toolbar_content"

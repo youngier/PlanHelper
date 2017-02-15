@@ -10,9 +10,12 @@ import android.widget.TextView;
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.schedule.model.bean.DayInfo;
 import com.young.planhelper.mvp.schedule.model.bean.WeekInfo;
+import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.TimeUtil;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * @author: young
@@ -42,6 +45,8 @@ public class WeekItemView extends LinearLayout implements View.OnClickListener {
     private LinearLayout[] lls = new LinearLayout[7];
 
     private OnClickListener onClickListener;
+
+    private List<DayInfo> mDayInfo;
 
     public WeekItemView(Context context) {
         super(context);
@@ -127,6 +132,9 @@ public class WeekItemView extends LinearLayout implements View.OnClickListener {
     }
 
     public void setData(List<DayInfo> dayInfo) {
+
+        this.mDayInfo = dayInfo;
+
         mSunTv.setText(dayInfo.get(0).getDay());
         mMonTv.setText(dayInfo.get(1).getDay());
         mTuesTv.setText(dayInfo.get(2).getDay());
@@ -166,6 +174,8 @@ public class WeekItemView extends LinearLayout implements View.OnClickListener {
                 tvs[0].setTextColor(getResources().getColor(R.color.white));
                 showTvs[0].setTextColor(getResources().getColor(R.color.white));
                 onClickListener.onClick(tvs[0].getText().toString());
+                if( mDayInfo.get(0).isHave() )
+                    ivs[0].setImageResource(R.mipmap.ic_week_view_have_current);
                 break;
             case R.id.ll_mon:
                 resetStatue();
@@ -173,6 +183,8 @@ public class WeekItemView extends LinearLayout implements View.OnClickListener {
                 tvs[1].setTextColor(getResources().getColor(R.color.white));
                 showTvs[1].setTextColor(getResources().getColor(R.color.white));
                 onClickListener.onClick(tvs[1].getText().toString());
+                if( mDayInfo.get(1).isHave() )
+                    ivs[1].setImageResource(R.mipmap.ic_week_view_have_current);
                 break;
             case R.id.ll_tues:
                 resetStatue();
@@ -180,6 +192,8 @@ public class WeekItemView extends LinearLayout implements View.OnClickListener {
                 tvs[2].setTextColor(getResources().getColor(R.color.white));
                 showTvs[2].setTextColor(getResources().getColor(R.color.white));
                 onClickListener.onClick(tvs[2].getText().toString());
+                if( mDayInfo.get(2).isHave() )
+                    ivs[2].setImageResource(R.mipmap.ic_week_view_have_current);
                 break;
             case R.id.ll_wednes:
                 resetStatue();
@@ -187,6 +201,8 @@ public class WeekItemView extends LinearLayout implements View.OnClickListener {
                 tvs[3].setTextColor(getResources().getColor(R.color.white));
                 showTvs[3].setTextColor(getResources().getColor(R.color.white));
                 onClickListener.onClick(tvs[3].getText().toString());
+                if( mDayInfo.get(3).isHave() )
+                    ivs[3].setImageResource(R.mipmap.ic_week_view_have_current);
                 break;
             case R.id.ll_thurs:
                 resetStatue();
@@ -194,6 +210,8 @@ public class WeekItemView extends LinearLayout implements View.OnClickListener {
                 tvs[4].setTextColor(getResources().getColor(R.color.white));
                 showTvs[4].setTextColor(getResources().getColor(R.color.white));
                 onClickListener.onClick(tvs[4].getText().toString());
+                if( mDayInfo.get(4).isHave() )
+                    ivs[4].setImageResource(R.mipmap.ic_week_view_have_current);
                 break;
             case R.id.ll_fri:
                 resetStatue();
@@ -201,6 +219,8 @@ public class WeekItemView extends LinearLayout implements View.OnClickListener {
                 tvs[5].setTextColor(getResources().getColor(R.color.white));
                 showTvs[5].setTextColor(getResources().getColor(R.color.white));
                 onClickListener.onClick(tvs[5].getText().toString());
+                if( mDayInfo.get(5).isHave() )
+                    ivs[5].setImageResource(R.mipmap.ic_week_view_have_current);
                 break;
             case R.id.ll_satur:
                 resetStatue();
@@ -208,6 +228,8 @@ public class WeekItemView extends LinearLayout implements View.OnClickListener {
                 tvs[6].setTextColor(getResources().getColor(R.color.white));
                 showTvs[6].setTextColor(getResources().getColor(R.color.white));
                 onClickListener.onClick(tvs[6].getText().toString());
+                if( mDayInfo.get(6).isHave() )
+                    ivs[6].setImageResource(R.mipmap.ic_week_view_have_current);
                 break;
         }
     }
@@ -218,12 +240,79 @@ public class WeekItemView extends LinearLayout implements View.OnClickListener {
             tvs[i].setTextColor(getResources().getColor(R.color.black_week_view));
             showTvs[i].setTextColor(getResources().getColor(R.color.gray_week_view_text));
 
+            if( mDayInfo.get(i).isHave() )
+                ivs[i].setImageResource(R.mipmap.ic_week_view_have);
+
         }
     }
 
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
+
+    public void setTaskDay(List<String> taskDay){
+
+        int k=0;
+
+        for(int i=0; i<7; i++){
+            String date = mDayInfo.get(i).getDate();
+            StringTokenizer tokenizer = new StringTokenizer(date, "-");
+            String year = tokenizer.nextToken();
+            String month = tokenizer.nextToken();
+            String day = tokenizer.nextToken();
+
+            date = year+"-";
+            if( month.length() == 1 )
+                date += "0" + month + "-";
+            else
+                date += month + "-";
+
+            if( day.length() == 1 )
+                date += "0" + day;
+            else
+                date += day;
+
+            if( taskDay != null )
+                for (int j=0; j+k < taskDay.size(); j++){
+                    if( date.equals(taskDay.get(j+k)) ){
+                        k++;
+                        mDayInfo.get(i).setHave(true);
+                        ivs[i].setVisibility(VISIBLE);
+                        if( TimeUtil.getCurrentDateInString1().equals(date) )
+                            ivs[i].setImageResource(R.mipmap.ic_week_view_have_current);
+                        else
+                            ivs[i].setImageResource(R.mipmap.ic_week_view_have);
+                    }else
+                        ivs[i].setVisibility(INVISIBLE);
+
+                }
+
+        }
+
+    }
+
+    public void setSelectItem(DayInfo dayInfo) {
+        resetStatue();
+        for(int i=0; i<7; i++){
+            if( mDayInfo.get(i).getDay().equals(dayInfo.getDay()) ){
+                lls[i].setBackgroundColor(getResources().getColor(R.color.cyan_week_view_current));
+                tvs[i].setTextColor(getResources().getColor(R.color.white));
+                showTvs[i].setTextColor(getResources().getColor(R.color.white));
+                onClickListener.onClick(tvs[i].getText().toString());
+                if( mDayInfo.get(i).isHave() ) {
+                    ivs[i].setImageResource(R.mipmap.ic_week_view_have_current);
+                    ivs[i].setVisibility(VISIBLE);
+                }
+                else
+                    ivs[i].setVisibility(INVISIBLE);
+            }
+        }
+    }
+
+    public void clear() {
+        mDayInfo = null;
+    }
+
 
     public interface OnClickListener{
         void onClick(String day);

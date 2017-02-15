@@ -2,6 +2,7 @@ package com.young.planhelper.mvp.schedule;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -65,6 +66,12 @@ public class ScheduleAddCloneActivity extends BaseActivity {
 
         mToolbar.setMode(Toolbar.ADD);
 
+        mToolbar.setTitle("添加任务");
+
+        mToolbar.setOnDateClickListener( () -> {
+
+        });
+
         mToolbar.setOnAddClickListener( () -> {
             saveBacklog();
         });
@@ -87,7 +94,6 @@ public class ScheduleAddCloneActivity extends BaseActivity {
                 }
             }
         });
-
     }
 
     @Override
@@ -130,6 +136,11 @@ public class ScheduleAddCloneActivity extends BaseActivity {
             mRepeatTv.setText(repeatsShow[which]);
         });
         builder.show();
+    }
+
+    @OnClick(R.id.tv_add_location)
+    public void selectLocation(){
+        startActivity(new Intent(this, MarkerActivity.class));
     }
 
     /**

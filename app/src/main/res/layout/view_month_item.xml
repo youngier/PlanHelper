@@ -29,6 +29,7 @@
                 android:id="@+id/tv_day" />
 
             <ImageView
+                android:id="@+id/iv_month_item_have"
                 android:layout_width="6dp"
                 android:layout_height="6dp"
                 android:layout_marginTop="@dimen/margin_vertical_week_view_01"

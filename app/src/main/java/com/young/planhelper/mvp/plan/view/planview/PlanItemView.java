@@ -1,6 +1,7 @@
 package com.young.planhelper.mvp.plan.view.planview;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
  */
 
 
-public class PlanItemView extends LinearLayout {
+public class PlanItemView extends CardView {
 
     @BindView(R.id.tv_plan_item_title)
     TextView mTitleTv;

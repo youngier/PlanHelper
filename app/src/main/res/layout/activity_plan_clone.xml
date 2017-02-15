@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/default_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/view_tool_bar"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:id="@+id/ll_plan_active"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="线上合作"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/ll_plan_active_line"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/cyan_week_view_current"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_plan_archived"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="独立副本"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/ll_plan_archived_line"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/white"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <com.young.planhelper.widget.NoScrollViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/nsvp_plan">
+
+    </com.young.planhelper.widget.NoScrollViewPager>
+
+</LinearLayout>

@@ -42,12 +42,7 @@ public class SchedulePresenter extends Presenter implements ISchedulePresenter{
 
     @Override
     public void getBacklogInfos(String date, IBiz.ICallback callback) {
-        mBiz.getBackLogInfoToday(date, callback);
-    }
-
-    @Override
-    public void getBackLogInfoToday(IBiz.ICallback callback) {
-        mBiz.getBackLogInfoToday(callback);
+        mBiz.getBackLogInfoByday(date, callback);
     }
 
     @Override
@@ -58,5 +53,10 @@ public class SchedulePresenter extends Presenter implements ISchedulePresenter{
     @Override
     public void getBackLogInfoOverdue(IBiz.ICallback callback) {
         mBiz.getBackLogInfoOverdue(callback);
+    }
+
+    @Override
+    public void queryByMonth(String timeBegin, String timeEnd, IBiz.ICallback callback) {
+        mBiz.queryByMonth(timeBegin, timeEnd, callback);
     }
 }

@@ -19,6 +19,10 @@ public class DayInfo {
     private String week;
     private String holiday;
 
+    private String date;
+
+    private boolean isHave = false;
+
 
     public DayInfo(){
         day = "";
@@ -35,6 +39,13 @@ public class DayInfo {
         this.day = day;
         this.week = week;
         this.holiday = holiday;
+    }
+
+    public DayInfo(String date, String day, String week, String holiday){
+        this.day = day;
+        this.week = week;
+        this.holiday = holiday;
+        this.date = date;
     }
 
     public String getDay() {
@@ -57,4 +68,19 @@ public class DayInfo {
         return holiday;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public boolean isHave() {
+        return isHave;
+    }
+
+    public void setHave(boolean have) {
+        isHave = have;
+    }
 }

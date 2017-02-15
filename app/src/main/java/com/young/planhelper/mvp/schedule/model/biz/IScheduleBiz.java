@@ -30,13 +30,8 @@ public interface IScheduleBiz extends IBiz{
      * @param date
      * @param callback
      */
-    void getBackLogInfoToday(String date, ICallback callback);
+    void getBackLogInfoByday(String date, ICallback callback);
 
-    /**
-     * 获取今天的所有任务
-     * @param callback
-     */
-    void getBackLogInfoToday(final ICallback callback);
 
     /**
      * 获取未来的所有任务
@@ -58,4 +53,11 @@ public interface IScheduleBiz extends IBiz{
     void getBackLogInfoDetail(long backlogInfoId, final ICallback callback);
 
 
+    /**
+     * 查询是否有任务
+     * @param timeBegin
+     * @param timeEnd
+     * @param callback
+     */
+    void queryByMonth(String timeBegin, String timeEnd, ICallback callback);
 }

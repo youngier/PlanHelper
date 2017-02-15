@@ -26,12 +26,6 @@ public interface ISchedulePresenter extends IPresenter{
 
 
     /**
-     * 获取今天的任务
-     * @param callback
-     */
-    void getBackLogInfoToday(IBiz.ICallback callback);
-
-    /**
      * 获取未来的任务
      * @param callback
      */
@@ -43,4 +37,11 @@ public interface ISchedulePresenter extends IPresenter{
      */
     void getBackLogInfoOverdue(IBiz.ICallback callback);
 
+    /**
+     * 查询是否存在任务
+     * @param timeBegin
+     * @param timeEnd
+     * @param callback
+     */
+    void queryByMonth(String timeBegin, String timeEnd, IBiz.ICallback callback);
 }

@@ -9,9 +9,11 @@ import com.young.planhelper.R;
 import com.young.planhelper.mvp.home.view.weekview.WeekItemView;
 import com.young.planhelper.mvp.schedule.model.bean.DayInfo;
 import com.young.planhelper.mvp.schedule.model.bean.WeekInfo;
+import com.young.planhelper.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 
 /**
@@ -26,6 +28,8 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthViewHolder> {
     private List<DayInfo> mDatas;
 
     private OnClickListener onClickListener;
+
+    private List<String> taskDay;
 
     public MonthAdapter(Context context, List<DayInfo> datas){
         this.mContext = context;
@@ -52,7 +56,7 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthViewHolder> {
         MonthViewHolder viewHolder = new MonthViewHolder(view);
         viewHolder.mMonthItemView = (MonthItemView) view.findViewById(R.id.mv_view_item);
         viewHolder.mMonthItemView.setOnClickListener(v -> {
-            onClickListener.onClick();
+            onClickListener.onClick(viewHolder.mMonthItemView.getDayInfo());
         });
 
         return viewHolder;
@@ -60,8 +64,38 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthViewHolder> {
 
     @Override
     public void onBindViewHolder(MonthViewHolder holder, int position) {
+
+        int k=0;
+
+        String date = mDatas.get(position).getDate();
+        StringTokenizer tokenizer = new StringTokenizer(date, "-");
+        String year = tokenizer.nextToken();
+        String month = tokenizer.nextToken();
+        String day = tokenizer.nextToken();
+
+        date = year+"-";
+        if( month.length() == 1 )
+            date += "0" + month + "-";
+        else
+            date += month + "-";
+
+        if( day.length() == 1 )
+            date += "0" + day;
+        else
+            date += day;
+
+        if( taskDay != null )
+            for (int j=0; j+k < taskDay.size(); j++){
+                if( date.equals(taskDay.get(j+k)) ){
+                    LogUtil.eLog("日历时间："+date+"，任务时间："+taskDay.get(j+k));
+                    k++;
+                    mDatas.get(position).setHave(true);
+                }
+            }
+
         holder.mMonthItemView.setData(mDatas.get(position));
     }
+
 
     @Override
     public int getItemCount() {
@@ -72,7 +106,11 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthViewHolder> {
         this.onClickListener = onClickListener;
     }
 
+    public void setTaskDay(List<String> taskDay) {
+        this.taskDay = taskDay;
+    }
+
     interface OnClickListener{
-        public void onClick();
+        void onClick(DayInfo dayInfo);
     }
 }

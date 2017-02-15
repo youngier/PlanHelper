@@ -13,8 +13,10 @@ import android.widget.LinearLayout;
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.schedule.model.bean.DayInfo;
 import com.young.planhelper.mvp.schedule.model.bean.WeekInfo;
+import com.young.planhelper.util.LogUtil;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
 
 /**
@@ -63,8 +65,8 @@ public class MonthView extends LinearLayout {
     public void setData(List<DayInfo> datas) {
         adapter.setData(datas);
         adapter.notifyDataSetChanged();
-        adapter.setOnClickListener( () -> {
-            onClickListener.onClick();
+        adapter.setOnClickListener( (dayInfo) -> {
+            onClickListener.onClick(dayInfo);
         });
 
     }
@@ -73,7 +75,12 @@ public class MonthView extends LinearLayout {
         this.onClickListener = onClickListener;
     }
 
+    public void setTaskDay(List<String> taskDay) {
+        adapter.setTaskDay(taskDay);
+        adapter.notifyDataSetChanged();
+    }
+
     public interface OnClickListener{
-        void onClick();
+        void onClick(DayInfo dayInfo);
     }
 }

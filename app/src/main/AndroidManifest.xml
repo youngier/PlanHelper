@@ -33,7 +33,7 @@
         <activity
             android:name=".mvp.home.HomeActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".mvp.schedule.ScheduleAddActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
@@ -58,15 +58,33 @@
         <activity
             android:name=".mvp.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".mvp.home.HomeCloneActivity">
+        <activity
+            android:name=".mvp.home.HomeCloneActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.schedule.ScheduleAddCloneActivity"></activity>
-
+        <activity android:name=".mvp.schedule.ScheduleAddCloneActivity" />
+        <activity
+            android:name=".mvp.overview.OverviewActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".mvp.timeline.TimelineActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".mvp.profile.view.ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".mvp.schedule.MarkerActivity" />
+        <activity
+            android:name=".mvp.plan.view.PlanCloneActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".mvp.register.RegisterActivity"></activity>
     </application>
 
 </manifest>

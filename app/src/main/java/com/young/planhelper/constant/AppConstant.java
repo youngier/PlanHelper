@@ -11,6 +11,7 @@ public class AppConstant {
 
     public static final String ADD_SUCCESS = "添加成功";
     public static final String ADD_FAILED = "添加成功";
+    public static final String GET_FAILED = "获取失败";
 
     public static final String REALM_NOT_INIT = "Realm没有初始化";
 
