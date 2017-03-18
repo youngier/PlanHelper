@@ -25,6 +25,7 @@ import com.young.planhelper.mvp.overview.OverviewActivity;
 import com.young.planhelper.mvp.plan.view.PlanCloneActivity;
 import com.young.planhelper.mvp.profile.view.ProfileActivity;
 import com.young.planhelper.mvp.timeline.TimelineActivity;
+import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.SharePreferenceUtil;
 import com.young.planhelper.widget.Toolbar;
 
@@ -118,6 +119,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
         AppApplication.get(this).getmAppComponent().getUserInfo().copyWith(user);
 
         if( !user.getIconUrl().equals("") ){
+            LogUtil.eLog("首页图片："+AppConstant.RECOUSE_IMAGE_URL + user.getIconUrl());
             Glide.with(this)
                     .load(AppConstant.RECOUSE_IMAGE_URL + user.getIconUrl())
                     .into(itemIcon.getIconView());

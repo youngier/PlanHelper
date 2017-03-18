@@ -71,6 +71,8 @@ public class PlanSecondItemAddActivity extends BaseActivity {
 
         scheduleAddPresenter = new ScheduleAddPresenter(this, this);
 
+        setStatueBarColor();
+
         mToolbar.setOnMenuClickListener( () -> finish());
 
         mToolbar.setMode(Toolbar.BACK);

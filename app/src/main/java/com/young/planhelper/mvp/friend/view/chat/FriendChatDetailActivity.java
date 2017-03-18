@@ -19,6 +19,7 @@ import com.young.planhelper.mvp.friend.presenter.IFriendPresenter;
 import com.young.planhelper.mvp.login.model.bean.User;
 import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.TimeUtil;
+import com.young.planhelper.widget.Toolbar;
 
 import java.util.List;
 
@@ -43,6 +44,9 @@ public class FriendChatDetailActivity extends BaseActivity {
     @BindView(R.id.et_friend_chat_detail)
     EditText mEt;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
     User user;
 
     FriendChatDetailAdapter adapter;
@@ -55,6 +59,14 @@ public class FriendChatDetailActivity extends BaseActivity {
         user = (User) getIntent().getSerializableExtra("user");
 
         LogUtil.eLog("FriendChatDetailActivity: userId:"+user.getUserId());
+
+        setStatueBarColor();
+
+        mToolbar.setOnMenuClickListener( () -> finish());
+
+        mToolbar.setMode(Toolbar.BACK);
+
+        mToolbar.setTitle(user.getAccount());
 
         adapter = new FriendChatDetailAdapter(this, null);
 

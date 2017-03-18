@@ -104,6 +104,8 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
 
         planInfoId = getIntent().getLongExtra("planInfoId", 0);
 
+        setStatueBarColor();
+
         mToolbar.setOnMenuClickListener( () -> finish());
 
         mToolbar.setMode(Toolbar.BACK);

@@ -49,6 +49,9 @@ public class PlanItemEditActivity extends BaseActivity implements IView {
 
     @Override
     protected void initUI() {
+
+        setStatueBarColor();
+
         planInfoId = getIntent().getLongExtra("planInfoId", 0);
         presenter = new PlanItemAddPresenter(this, this);
 

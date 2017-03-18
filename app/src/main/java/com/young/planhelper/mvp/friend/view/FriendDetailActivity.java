@@ -14,6 +14,7 @@ import com.young.planhelper.mvp.friend.presenter.IFriendPresenter;
 import com.young.planhelper.mvp.friend.view.chat.FriendChatDetailActivity;
 import com.young.planhelper.mvp.login.model.bean.User;
 import com.young.planhelper.util.LogUtil;
+import com.young.planhelper.widget.Toolbar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,6 +36,9 @@ public class FriendDetailActivity extends BaseActivity {
     @BindView(R.id.btn_friend_detail)
     Button mBtn;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
     IFriendPresenter presenter;
 
     private User user;
@@ -45,6 +49,14 @@ public class FriendDetailActivity extends BaseActivity {
         user = (User) getIntent().getSerializableExtra("user");
 
         LogUtil.eLog("FriendDetailActivity: userId:"+user.getUserId());
+
+        setStatueBarColor();
+
+        mToolbar.setOnMenuClickListener( () -> finish());
+
+        mToolbar.setMode(Toolbar.BACK);
+
+        mToolbar.setTitle("好友详情");
 
         showProgress();
 

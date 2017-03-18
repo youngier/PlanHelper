@@ -7,9 +7,11 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.young.planhelper.R;
 import com.young.planhelper.application.AppApplication;
+import com.young.planhelper.constant.AppConstant;
 import com.young.planhelper.mvp.base.BaseFragmentActivity;
 import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.login.model.bean.User;
@@ -143,8 +145,9 @@ public class HomeCloneActivity extends BaseFragmentActivity{
         AppApplication.get(this).getmAppComponent().getUserInfo().copyWith(user);
 
         if( !user.getIconUrl().equals("") ){
-            Bitmap bitmap = getLoacalBitmap(user.getIconUrl()); //从本地取图片
-            itemIcon.setIconByLocal(bitmap);
+            Glide.with(this)
+                    .load(AppConstant.RECOUSE_IMAGE_URL + user.getIconUrl())
+                    .into(itemIcon.getIconView());
         }
     }
 
