@@ -19,6 +19,7 @@ import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanItemAddPresenter;
 import com.young.planhelper.mvp.plan.presenter.PlanItemAddPresenter;
 import com.young.planhelper.util.TimeUtil;
+import com.young.planhelper.widget.Toolbar;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -41,6 +42,9 @@ public class PlanItemEditActivity extends BaseActivity implements IView {
 
     private long planInfoId;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
     private IPlanItemAddPresenter presenter;
 
     @Override
@@ -48,6 +52,11 @@ public class PlanItemEditActivity extends BaseActivity implements IView {
         planInfoId = getIntent().getLongExtra("planInfoId", 0);
         presenter = new PlanItemAddPresenter(this, this);
 
+        mToolbar.setMode(Toolbar.BACK);
+
+        mToolbar.setTitle("添加任务项");
+
+        mToolbar.setOnMenuClickListener( () -> finish() );
 
     }
 

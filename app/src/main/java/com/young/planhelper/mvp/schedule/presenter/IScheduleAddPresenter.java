@@ -1,5 +1,6 @@
 package com.young.planhelper.mvp.schedule.presenter;
 
+import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.base.presenter.IPresenter;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 
@@ -12,6 +13,11 @@ import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 
 public interface IScheduleAddPresenter extends IPresenter{
 
-    void addBacklogInfo(BacklogInfo backlogInfo);
+    /**
+     *
+     * @param backlogInfo
+     * @param callback
+     */
+    void addBacklogInfo(BacklogInfo backlogInfo, IBiz.ICallback callback);
 
 }

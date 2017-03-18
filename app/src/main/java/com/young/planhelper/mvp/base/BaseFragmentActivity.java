@@ -1,25 +1,35 @@
 package com.young.planhelper.mvp.base;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
 import com.special.ResideMenu.ResideMenuItem01;
 import com.young.planhelper.R;
+import com.young.planhelper.application.AppApplication;
+import com.young.planhelper.constant.AppConstant;
 import com.young.planhelper.mvp.base.view.IView;
+import com.young.planhelper.mvp.friend.view.FriendActivity;
 import com.young.planhelper.mvp.home.HomeCloneActivity;
-import com.young.planhelper.mvp.login.LoginActivity;
+import com.young.planhelper.mvp.login.model.bean.User;
+import com.young.planhelper.mvp.login.view.LoginActivity;
 import com.young.planhelper.mvp.overview.OverviewActivity;
 import com.young.planhelper.mvp.plan.view.PlanCloneActivity;
 import com.young.planhelper.mvp.profile.view.ProfileActivity;
 import com.young.planhelper.mvp.timeline.TimelineActivity;
+import com.young.planhelper.util.SharePreferenceUtil;
 import com.young.planhelper.widget.Toolbar;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +53,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
     protected ResideMenuItem itemTimeline;
     protected ResideMenuItem itemProfile;
     protected ResideMenuItem itemPlan;
+    protected ResideMenuItem itemFriend;
 
     @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
@@ -99,6 +110,19 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
 
         itemIcon = new ResideMenuItem01(this, R.mipmap.ic_profile_bg);
         itemIcon.setOnClickListener(this);
+
+        SharePreferenceUtil sharePreferenceUtil = new SharePreferenceUtil(this);
+
+        User user = sharePreferenceUtil.getUserInfo();
+
+        AppApplication.get(this).getmAppComponent().getUserInfo().copyWith(user);
+
+        if( !user.getIconUrl().equals("") ){
+            Glide.with(this)
+                    .load(AppConstant.RECOUSE_IMAGE_URL + user.getIconUrl())
+                    .into(itemIcon.getIconView());
+        }
+
         resideMenu.setLeftMenuIcon(itemIcon);
 
         itemHome = new ResideMenuItem(this, "Home");
@@ -116,6 +140,9 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
         itemPlan = new ResideMenuItem(this, "Plan");
         itemPlan.setOnClickListener(this);
         resideMenu.addMenuItem(itemPlan, ResideMenu.DIRECTION_LEFT);
+        itemFriend = new ResideMenuItem(this, "Friend");
+        itemFriend.setOnClickListener(this);
+        resideMenu.addMenuItem(itemFriend, ResideMenu.DIRECTION_LEFT);
     }
 
     @Override
@@ -148,7 +175,25 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
             startActivity(new Intent(this, HomeCloneActivity.class));
         else if( view == itemIcon )
             startActivity(new Intent(this, LoginActivity.class));
+        else if( view == itemFriend )
+            startActivity(new Intent(this, FriendActivity.class));
 
         resideMenu.closeMenu();
+    }
+
+    /**
+     * 加载本地图片
+     * @param url
+     * @return
+     */
+    public static Bitmap getLoacalBitmap(String url) {
+        try {
+            FileInputStream fis = new FileInputStream(url);
+            return BitmapFactory.decodeStream(fis);  ///把流转化为Bitmap图片
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -16,6 +16,7 @@ import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.TimeUtil;
 
 import java.sql.Time;
+import java.text.ParseException;
 import java.util.List;
 
 import io.realm.Realm;
@@ -262,16 +263,19 @@ public class PlanBiz extends Biz implements IPlanBiz{
         mRealm.beginTransaction();
 
         planSecondItemInfo.setContent(content);
-        planSecondItemInfo.setTime(mTime);
 
-        String oTime = TimeUtil.getCurrentDateTimeInString();
+        try {
+            planSecondItemInfo.setTime(TimeUtil.dateToStamp(time));
+        } catch (ParseException e) {
+
+        }
 
         switch ( modifyModle ){
             case MODIFY_CONTENT:
                 PlanOperationInfo planOperationInfo = new PlanOperationInfo();
                 planOperationInfo.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
                 planOperationInfo.setName("三分钟热度");
-                planOperationInfo.setTime(oTime);
+                planOperationInfo.setTime(time);
                 planOperationInfo.setType(PlanOperationInfo.MODIFY_TEXT);
                 planOperationInfo.setContent("修改了任务的内容，原内容为："+mContent);
                 planOperationInfo.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
@@ -282,7 +286,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
                 planOperationInfo1.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
                 planOperationInfo1.setName("三分钟热度");
                 planOperationInfo1.setType(PlanOperationInfo.MODIFY_TIME);
-                planOperationInfo1.setTime(oTime);
+                planOperationInfo1.setTime(time);
                 planOperationInfo1.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
                 if( mTime == 0 )
                     planOperationInfo1.setContent("修改了任务的时间，原时间并没有指定");
@@ -294,7 +298,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
                 PlanOperationInfo planOperationInfo2 = new PlanOperationInfo();
                 planOperationInfo2.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
                 planOperationInfo2.setName("三分钟热度");
-                planOperationInfo2.setTime(oTime);
+                planOperationInfo2.setTime(time);
                 planOperationInfo2.setType(PlanOperationInfo.MODIFY_TEXT);
                 planOperationInfo2.setContent("修改了任务的内容，原内容为："+mContent);
                 planOperationInfo2.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
@@ -303,7 +307,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
                 PlanOperationInfo planOperationInfo3 = new PlanOperationInfo();
                 planOperationInfo3.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
                 planOperationInfo3.setName("三分钟热度");
-                planOperationInfo3.setTime(oTime);
+                planOperationInfo3.setTime(time);
                 planOperationInfo3.setType(PlanOperationInfo.MODIFY_TIME);
                 planOperationInfo3.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
                 if( mTime == 0 )
@@ -344,7 +348,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
             planOperationInfo.setType(PlanOperationInfo.FINISH);
             planOperationInfo.setContent("完成了单元任务：" + planThirdItemInfo.getTitle());
         }else{
-            planOperationInfo.setType(PlanOperationInfo.FINISH);
+            planOperationInfo.setType(PlanOperationInfo.RESTART);
             planOperationInfo.setContent("重新开启了单元任务：" + planThirdItemInfo.getTitle());
         }
         planOperationInfo.setPlanSecondItemInfoId(planThirdItemInfo.getPlanSecondItemInfoId());
@@ -374,7 +378,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
             planOperationInfo.setType(PlanOperationInfo.FINISH);
             planOperationInfo.setContent("完成了子任务：" + planSecondItemInfo.getTitle());
         }else{
-            planOperationInfo.setType(PlanOperationInfo.FINISH);
+            planOperationInfo.setType(PlanOperationInfo.RESTART);
             planOperationInfo.setContent("重新开启了子任务：" + planSecondItemInfo.getTitle());
         }
         planOperationInfo.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());

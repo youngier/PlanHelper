@@ -24,15 +24,17 @@ public class BacklogInfo extends RealmObject {
     private long backlogInfoId;     //当前时间戳来设置为id
 
     @Required
-    private String content;
+    private String content = "";
 
     private long fromTime;
 
     private long toTime;
 
-    private String location;
+    private String location = "";
     private RealmList<BacklogImageInfo> backlogImageInfos;
     private int statue;
+
+    private long planInfoId;
 
     public BacklogInfo(){
 
@@ -95,5 +97,13 @@ public class BacklogInfo extends RealmObject {
 
     public void setToTime(long toTime) {
         this.toTime = toTime;
+    }
+
+    public void setPlanInfoId(long planInfoId) {
+        this.planInfoId = planInfoId;
+    }
+
+    public long getPlanInfoId() {
+        return planInfoId;
     }
 }

@@ -14,7 +14,7 @@ public class AlarmReceiver extends BroadcastReceiver{
  public void onReceive(Context context, Intent intent) {
     //设置通知内容并在onReceive()这个函数执行时开启
      NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-     Notification notification=new Notification(R.mipmap.ic_launcher,"用电脑时间过长了！白痴！"
+     Notification notification=new Notification(R.mipmap.ic_launcher,"到时间干活！"
              ,System.currentTimeMillis());
      notification.defaults = Notification.DEFAULT_ALL;
      manager.notify(1, notification);

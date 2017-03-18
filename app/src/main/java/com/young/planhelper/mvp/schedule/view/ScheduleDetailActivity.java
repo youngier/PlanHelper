@@ -1,4 +1,4 @@
-package com.young.planhelper.mvp.schedule;
+package com.young.planhelper.mvp.schedule.view;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

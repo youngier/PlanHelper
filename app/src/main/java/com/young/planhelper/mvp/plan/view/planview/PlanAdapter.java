@@ -42,7 +42,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanViewHolder>{
         PlanViewHolder viewHolder = new PlanViewHolder(view);
         viewHolder.planItemView = (PlanItemView) view.findViewById(R.id.plan_item_view);
         if( listener != null )
-            viewHolder.planItemView.setOnClickListener(v -> listener.onClick(viewHolder.planItemView.getPlanInfoId()));
+            viewHolder.planItemView.setOnClickListener(v -> listener.onClick(viewHolder.planItemView.getPlanInfo()));
         return viewHolder;
     }
 
@@ -65,7 +65,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanViewHolder>{
     }
 
     public interface OnClickListener{
-        void onClick(long id);
+        void onClick(PlanInfo planInfo);
     }
 
 }

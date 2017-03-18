@@ -8,6 +8,7 @@ import com.young.planhelper.config.app.AppComponent;
 import com.young.planhelper.config.app.AppModule;
 import com.young.planhelper.config.app.DaggerAppComponent;
 import com.young.planhelper.config.orm.OrmModule;
+import com.young.planhelper.mvp.common.crop.basic.ActivityStack;
 
 /**
  * @author: young
@@ -24,6 +25,10 @@ public class AppApplication extends Application{
 
     private AppComponent mAppComponent;
 
+    /** Activity 栈 */
+    /** 裁剪图片需要 **/
+    public ActivityStack mActivityStack = null;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -32,6 +37,7 @@ public class AppApplication extends Application{
                 .apiServiceModule(new ApiServiceModule())
                 .ormModule(new OrmModule())
                 .build();
+        mActivityStack = new ActivityStack();   // 初始化Activity 栈
     }
 
     public AppComponent getmAppComponent(){

@@ -2,6 +2,8 @@ package com.young.planhelper.mvp.plan.model.bean;
 
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 
+import java.io.Serializable;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -14,7 +16,7 @@ import io.realm.annotations.PrimaryKey;
  */
 
 
-public class PlanInfo extends RealmObject{
+public class PlanInfo extends RealmObject implements Serializable{
 
     public static final int AUTHORITY_ALL = 0;
     public static final int AUTHORITY_MENMBER = 1;
@@ -27,6 +29,8 @@ public class PlanInfo extends RealmObject{
     private String title;
     private RealmList<BacklogInfo> backlogInfos;
     private int authority;
+
+    private boolean isSynchronized = false;
 
 
 
@@ -61,5 +65,13 @@ public class PlanInfo extends RealmObject{
 
     public void setAuthority(int authority) {
         this.authority = authority;
+    }
+
+    public boolean isSynchronized() {
+        return isSynchronized;
+    }
+
+    public void setSynchronized(boolean aSynchronized) {
+        isSynchronized = aSynchronized;
     }
 }

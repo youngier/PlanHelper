@@ -1,4 +1,4 @@
-package com.young.planhelper.mvp.schedule;
+package com.young.planhelper.mvp.schedule.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -168,10 +168,10 @@ public class ScheduleAddActivity extends BaseOtherActivity{
             e.printStackTrace();
         }
         backlogInfo.setStatue(BacklogInfo.UNFINISH);
-        backlogInfo.setLocation("广东省");
+        backlogInfo.setLocation("");
         backlogInfo.setContent(mContentEt.getText().toString());
         backlogInfo.setBacklogImageInfos(new RealmList<>());
-        presenter.addBacklogInfo(backlogInfo);
+        presenter.addBacklogInfo(backlogInfo, data -> {});
     }
 
     @Override

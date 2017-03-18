@@ -13,10 +13,17 @@ import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.plan.model.bean.PlanSecondItemInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanSecondItemAddPresenter;
 import com.young.planhelper.mvp.plan.presenter.PlanSecondItemAddPresenter;
+import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
+import com.young.planhelper.mvp.schedule.presenter.IScheduleAddPresenter;
+import com.young.planhelper.mvp.schedule.presenter.ScheduleAddPresenter;
 import com.young.planhelper.util.TimeUtil;
 import com.young.planhelper.widget.DateTimePickDialog;
+import com.young.planhelper.widget.Toolbar;
 import com.zcw.togglebutton.ToggleButton;
 
+import org.feezu.liuli.timeselector.TimeSelector;
+
+import java.sql.Time;
 import java.text.ParseException;
 
 import butterknife.BindView;
@@ -40,9 +47,17 @@ public class PlanSecondItemAddActivity extends BaseActivity {
     @BindView(R.id.togglebtn)
     ToggleButton mToggleBtn;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
     private IPlanSecondItemAddPresenter presenter;
 
+    private IScheduleAddPresenter scheduleAddPresenter;
+
     private long planItemInfoId;
+
+    private long planInfoId;
+
     private boolean hasNotification = true;
 
     @Override
@@ -50,7 +65,17 @@ public class PlanSecondItemAddActivity extends BaseActivity {
 
         planItemInfoId = getIntent().getLongExtra("planItemInfoId", 0);
 
+        planInfoId = getIntent().getLongExtra("planInfoId", 0);
+
         presenter = new PlanSecondItemAddPresenter(this, this);
+
+        scheduleAddPresenter = new ScheduleAddPresenter(this, this);
+
+        mToolbar.setOnMenuClickListener( () -> finish());
+
+        mToolbar.setMode(Toolbar.BACK);
+
+        mToolbar.setTitle("添加子任务");
 
         mToggleBtn.setToggleOn();
 
@@ -70,8 +95,24 @@ public class PlanSecondItemAddActivity extends BaseActivity {
 
     @Override
     public void setData(Object data) {
-        Toast.makeText(this, (String)data, Toast.LENGTH_SHORT).show();
-        finish();
+
+        BacklogInfo backlogInfo = new BacklogInfo();
+
+        backlogInfo.setPlanInfoId(planInfoId);
+        backlogInfo.setContent(mContentEt.getText().toString());
+        backlogInfo.setBacklogInfoId(TimeUtil.getCurrentTimeInLong());
+        backlogInfo.setStatue(BacklogInfo.UNFINISH);
+        backlogInfo.setFromTime(TimeUtil.getCurrentTimeInLong());
+        try {
+            backlogInfo.setToTime(TimeUtil.dateToStamp(mTimeTv.getText().toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        scheduleAddPresenter.addBacklogInfo(backlogInfo, data1 -> {
+            Toast.makeText(this, (String)data1, Toast.LENGTH_SHORT).show();
+            finish();
+        });
     }
 
     /**
@@ -79,11 +120,13 @@ public class PlanSecondItemAddActivity extends BaseActivity {
      */
     @OnClick(R.id.ll_time)
     void selectTime(){
-        DateTimePickDialog dateTimePickDialog = new DateTimePickDialog(
-                this, TimeUtil.getCurrentDateTimeInString());
-        dateTimePickDialog.dateTimePicKDialog();
-        dateTimePickDialog.setOnTimeSelectListener( time -> {mTimeTv.setText(time);}
-        );
+        TimeSelector timeSelector = new TimeSelector(this, time -> {
+
+            mTimeTv.setText(TimeUtil.transfromToChinese(time));
+
+        }, TimeUtil.getCurrentDateTimeInString1(), "2050-12-30 23:59");
+
+        timeSelector.show();
     }
 
     @OnClick(R.id.btn_confirm)
@@ -102,18 +145,17 @@ public class PlanSecondItemAddActivity extends BaseActivity {
         }
 
         String time = mTimeTv.getText().toString();
-        if( hasNotification == true ){
-            if(TextUtils.isEmpty(time)){
-                Toast.makeText(this, "设置通知提醒，时间不能为空", Toast.LENGTH_SHORT).show();
-                return;
-            }
+
+        if(TextUtils.isEmpty(time)){
+            Toast.makeText(this, "设置通知提醒，时间不能为空", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         PlanSecondItemInfo planSecondItemInfo = new PlanSecondItemInfo();
         planSecondItemInfo.setTitle(title);
         planSecondItemInfo.setContent(content);
         if( TextUtils.isEmpty(time) )
-            planSecondItemInfo.setTime(0);
+            planSecondItemInfo.setTime(TimeUtil.getCurrentTimeInLong());
         else
             try {
                 planSecondItemInfo.setTime(TimeUtil.dateToStamp(time));

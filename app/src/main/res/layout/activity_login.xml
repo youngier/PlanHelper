@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.young.planhelper.mvp.login.LoginActivity">
+    tools:context="com.young.planhelper.mvp.login.view.LoginActivity">
 
     <RelativeLayout
         android:id="@+id/rl"
@@ -18,7 +18,7 @@
         android:layout_height="160dp"
         android:layout_centerInParent="true"
         android:src="@mipmap/ic_login_logo"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="60dp"
         android:layout_above="@+id/rl"/>
 
     <LinearLayout
@@ -35,11 +35,13 @@
             android:layout_height="50dp">
 
             <EditText
-                android:id="@+id/et_schedule_add_account"
+                android:id="@+id/et_login_account"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:textSize="16sp"
                 android:background="@null"
+                android:singleLine="true"
+                android:inputType=""
                 android:hint="账号" />
 
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
@@ -70,10 +72,13 @@
                 android:layout_toLeftOf="@+id/tv_login_forget">
 
                 <EditText
-                    android:id="@+id/et_schedule_add_password"
+                    android:id="@+id/et_login_password"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:textSize="16sp"
+                    android:singleLine="true"
+                    android:inputType="textPassword"
+                    android:digits="@string/digits"
                     android:background="@null"
                     android:hint="密码" />
 
@@ -87,6 +92,7 @@
             android:background="@color/gray"/>
 
         <Button
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@color/cyan_week_view_current"

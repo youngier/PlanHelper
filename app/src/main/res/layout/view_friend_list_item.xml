@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.young.planhelper.mvp.friend.view.FriendListItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:id="@+id/friend_list_item_view"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civ_friend_list_item"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:src="@mipmap/ic_plan_bg_01"/>
+
+    <TextView
+        android:id="@+id/tv_friend_list_item"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black"
+        android:text="呵呵哒"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"/>
+
+</com.young.planhelper.mvp.friend.view.FriendListItemView>

@@ -30,6 +30,9 @@ public class Toolbar extends RelativeLayout {
     public static final int PROFILE = 3;
     public static final int PLAN = 4;
     public static final int REGISTER = 5;
+    public static final int FRIEND = 6;
+    public static final int SELECT = 7;
+    public static final int BACK = 8;
 
 
     private int mode;
@@ -111,15 +114,23 @@ public class Toolbar extends RelativeLayout {
                 mRightIv.setVisibility(GONE);
                 break;
             case PLAN:
+            case FRIEND:
                 mContentIv.setVisibility(GONE);
                 mContentLl.setOnClickListener(null);
                 mRightIv.setImageResource(R.mipmap.ic_home_add);
                 break;
             case REGISTER:
+            case SELECT:
                 mContentIv.setVisibility(GONE);
                 mContentLl.setOnClickListener(null);
                 mRightIv.setImageResource(0);
                 mMenuIv.setImageResource(R.mipmap.ic_close);
+                break;
+            case BACK:
+                mContentIv.setVisibility(GONE);
+                mContentLl.setOnClickListener(null);
+                mRightIv.setImageResource(0);
+                mMenuIv.setImageResource(R.mipmap.ic_back);
                 break;
         }
     }

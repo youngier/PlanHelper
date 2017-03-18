@@ -61,9 +61,10 @@ public class PlanArchiveFragment extends BaseFragment implements IView {
         mArchiveRv.setHasFixedSize(true);
         mArchiveRv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
-        mPlanAdapter.setOnClickListener(id -> {
+        mPlanAdapter.setOnClickListener(planInfo -> {
             Intent intent = new Intent(getActivity(), PlanItemActivity.class);
-            intent.putExtra("planInfoId", id);
+            intent.putExtra("planInfoId", planInfo.getPlanInfoId());
+            intent.putExtra("planInfoTitle", planInfo.getTitle());
             startActivity(intent);
         });
 

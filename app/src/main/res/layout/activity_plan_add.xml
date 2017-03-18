@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_plan_add"
-    android:layout_width="300dp"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
@@ -34,18 +34,28 @@
             android:padding="5dp"
             android:background="@drawable/et_border_gray"/>
 
-        <TextView
-            android:layout_marginTop="15dp"
+        <LinearLayout
+            android:id="@+id/ll_plan_add_friend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="成员"/>
+            android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@mipmap/default_image"/>
+            <TextView
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="成员"/>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_plan_add_select_person"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+        </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_plan_add_authority"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/activity_add_plan_item_height"

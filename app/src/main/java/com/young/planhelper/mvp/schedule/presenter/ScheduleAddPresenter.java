@@ -30,13 +30,8 @@ public class ScheduleAddPresenter extends Presenter implements IScheduleAddPrese
      * @param backlogInfo
      */
     @Override
-    public void addBacklogInfo(BacklogInfo backlogInfo) {
-        mBiz.addBacklogInfo(backlogInfo, new IBiz.ICallback() {
-            @Override
-            public void onResult(Object data) {
-                view.setData(data);
-            }
-        });
+    public void addBacklogInfo(BacklogInfo backlogInfo, IBiz.ICallback callback) {
+        mBiz.addBacklogInfo(backlogInfo, callback);
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +29,11 @@ import com.young.planhelper.mvp.schedule.view.backlogview.RecycleViewDivider;
 import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.TimeUtil;
 import com.young.planhelper.widget.DateTimePickDialog;
+import com.young.planhelper.widget.Toolbar;
 import com.young.planhelper.widget.manager.CustomLinearLayoutManager;
 import com.zcw.togglebutton.ToggleButton;
+
+import org.feezu.liuli.timeselector.TimeSelector;
 
 import java.util.List;
 
@@ -69,10 +73,19 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
     @BindView(R.id.togglebtn)
     ToggleButton mToggleBtn;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @BindView(R.id.scrollView)
+    ScrollView mSv;
+
 
     private IPlanSecondItemDetailPresenter presenter;
 
     private long planSecondItemInfoId;
+
+    private long planInfoId;
+
 
     private PlanThirdItemAdapter adapter;
 
@@ -88,6 +101,14 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
     protected void initUI() {
 
         planSecondItemInfoId = getIntent().getLongExtra("planSecondItemInfoId", 0);
+
+        planInfoId = getIntent().getLongExtra("planInfoId", 0);
+
+        mToolbar.setOnMenuClickListener( () -> finish());
+
+        mToolbar.setMode(Toolbar.BACK);
+
+        mToolbar.setTitle("子任务详情");
 
         presenter = new PlanSecondItemDetailPresenter(this, this);
 
@@ -204,15 +225,13 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
             modifyModle = MODIFY_TIME;
         else if( modifyModle == MODIFY_CONTENT )
             modifyModle = MODIFY_CONTENT_AND_TIME;
-        DateTimePickDialog dateTimePickDialog = new DateTimePickDialog(
-                this, TimeUtil.getCurrentDateTimeInString());
-        dateTimePickDialog.dateTimePicKDialog();
-        dateTimePickDialog.setOnTimeSelectListener(new DateTimePickDialog.OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(String time) {
-                mTimeTv.setText(time);
-            }
-        });
+        TimeSelector timeSelector = new TimeSelector(this, time -> {
+
+            mTimeTv.setText(TimeUtil.transfromToChinese(time));
+
+        }, TimeUtil.getCurrentDateTimeInString1(), "2050-12-30 23:59");
+
+        timeSelector.show();
     }
 
 
@@ -220,6 +239,7 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
     void addItem(){
         Intent intent = new Intent(this, PlanThirdItemAddActivity.class);
         intent.putExtra("planSecondItemInfoId", planSecondItemInfoId);
+        intent.putExtra("planInfoId", planInfoId);
         startActivity(intent);
     }
 

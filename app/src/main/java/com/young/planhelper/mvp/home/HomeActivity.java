@@ -17,15 +17,14 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.home.view.IHomeView;
 import com.young.planhelper.mvp.plan.view.PlanAddActivity;
 import com.young.planhelper.mvp.plan.view.PlanFragment;
-import com.young.planhelper.mvp.schedule.ScheduleAddActivity;
-import com.young.planhelper.mvp.schedule.ScheduleFragment;
+import com.young.planhelper.mvp.schedule.view.ScheduleAddActivity;
+import com.young.planhelper.mvp.schedule.view.ScheduleFragment;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -84,10 +84,11 @@ public class PlanItemFragment extends BaseFragment{
         }
     }
 
-    @OnClick(R.id.fabtn_fragment_plan_item)
+    @OnClick(R.id.iv_fragment_plan_item)
     void addSecondItem(){
         Intent intent = new Intent(getActivity(), PlanSecondItemAddActivity.class);
         intent.putExtra("planItemInfoId", mPlanItemInfo.getPlanItemInfoId());
+        intent.putExtra("planInfoId", mPlanItemInfo.getPlanInfoId());
         startActivity(intent);
     }
 
@@ -96,6 +97,7 @@ public class PlanItemFragment extends BaseFragment{
         adapter.setOnClickListener(id -> {
             Intent intent = new Intent(getActivity(), PlanSecondItemDetailActivity.class);
             intent.putExtra("planSecondItemInfoId", id);
+            intent.putExtra("planInfoId", mPlanItemInfo.getPlanInfoId());
             startActivity(intent);
         });
 

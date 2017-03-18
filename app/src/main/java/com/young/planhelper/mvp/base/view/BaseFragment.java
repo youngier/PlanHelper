@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mingle.widget.ShapeLoadingDialog;
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.base.presenter.IPresenter;
 import com.young.planhelper.mvp.base.presenter.Presenter;
@@ -28,12 +29,18 @@ public abstract class BaseFragment extends Fragment implements IView{
 
     View view;
 
+    private ShapeLoadingDialog shapeLoadingDialog;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             view = inflater.inflate(
                 getLayoutId(), container, false);
         ButterKnife.bind(this, view);
+
+        shapeLoadingDialog=new ShapeLoadingDialog(getActivity());
+        shapeLoadingDialog.setLoadingText("加载中...");
+
         initUI();
         setData();
         return view;
@@ -49,5 +56,19 @@ public abstract class BaseFragment extends Fragment implements IView{
     @Override
     public View getView() {
         return view;
+    }
+
+    /**
+     * 显示加载框
+     */
+    public void showProgress(){
+        shapeLoadingDialog.show();
+    }
+
+    /**
+     * 关闭加载框
+     */
+    public void hideProgress(){
+        shapeLoadingDialog.dismiss();
     }
 }

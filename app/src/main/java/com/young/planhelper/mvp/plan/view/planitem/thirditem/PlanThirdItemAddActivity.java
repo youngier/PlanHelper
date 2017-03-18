@@ -12,8 +12,16 @@ import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.plan.model.bean.PlanThirdItemInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanThirdItemPresenter;
 import com.young.planhelper.mvp.plan.presenter.PlanThirdItemPresenter;
+import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
+import com.young.planhelper.mvp.schedule.presenter.IScheduleAddPresenter;
+import com.young.planhelper.mvp.schedule.presenter.ScheduleAddPresenter;
 import com.young.planhelper.util.TimeUtil;
 import com.young.planhelper.widget.DateTimePickDialog;
+import com.young.planhelper.widget.Toolbar;
+
+import org.feezu.liuli.timeselector.TimeSelector;
+
+import java.text.ParseException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -26,16 +34,33 @@ public class PlanThirdItemAddActivity extends BaseActivity {
     @BindView(R.id.tv_time)
     TextView mTimeTv;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
     private IPlanThirdItemPresenter presenter;
 
+    private IScheduleAddPresenter scheduleAddPresenter;
+
     private long planSecondItemInfoId;
+
+    private long planInfoId;
 
     @Override
     protected void initUI() {
 
         presenter = new PlanThirdItemPresenter(this,this);
 
+        scheduleAddPresenter = new ScheduleAddPresenter(this, this);
+
         planSecondItemInfoId = getIntent().getLongExtra("planSecondItemInfoId", 0);
+
+        planInfoId = getIntent().getLongExtra("planInfoId", 0);
+
+        mToolbar.setOnMenuClickListener( () -> finish());
+
+        mToolbar.setMode(Toolbar.BACK);
+
+        mToolbar.setTitle("添加单元子任务");
 
     }
 
@@ -46,8 +71,24 @@ public class PlanThirdItemAddActivity extends BaseActivity {
 
     @Override
     public void setData(Object data) {
-        Toast.makeText(this, (String)data, Toast.LENGTH_SHORT).show();
-        finish();
+
+        BacklogInfo backlogInfo = new BacklogInfo();
+        backlogInfo.setPlanInfoId(TimeUtil.getCurrentTimeInLong());
+        backlogInfo.setContent(mTitleEt.getText().toString());
+        backlogInfo.setFromTime(TimeUtil.getCurrentTimeInLong());
+        try {
+            backlogInfo.setToTime(TimeUtil.dateToStamp(mTimeTv.getText().toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        backlogInfo.setStatue(BacklogInfo.UNFINISH);
+        backlogInfo.setPlanInfoId(planInfoId);
+
+        scheduleAddPresenter.addBacklogInfo(backlogInfo, data1 -> {
+            Toast.makeText(this, (String)data, Toast.LENGTH_SHORT).show();
+            finish();
+        });
+
     }
 
     /**
@@ -55,15 +96,13 @@ public class PlanThirdItemAddActivity extends BaseActivity {
      */
     @OnClick(R.id.ll_time)
     void selectTime(){
-        DateTimePickDialog dateTimePickDialog = new DateTimePickDialog(
-                this, TimeUtil.getCurrentDateTimeInString());
-        dateTimePickDialog.dateTimePicKDialog();
-        dateTimePickDialog.setOnTimeSelectListener(new DateTimePickDialog.OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(String time) {
-                mTimeTv.setText(time);
-            }
-        });
+        TimeSelector timeSelector = new TimeSelector(this, time -> {
+
+            mTimeTv.setText(time);
+
+        }, TimeUtil.getCurrentDateTimeInString1(), "2050-12-30 23:59");
+
+        timeSelector.show();
     }
 
     @OnClick(R.id.btn_confirm)

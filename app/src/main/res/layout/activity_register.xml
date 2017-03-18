@@ -17,7 +17,8 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_register_icon"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@mipmap/ic_profile_bg"/>
@@ -33,6 +34,8 @@
                 android:layout_height="30dp"
                 android:textSize="16sp"
                 android:background="@null"
+                android:singleLine="true"
+                android:digits="@string/digits"
                 android:hint="账号" />
 
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
@@ -48,6 +51,8 @@
             android:layout_height="50dp">
 
             <EditText
+                android:digits="@string/digits"
+                android:singleLine="true"
                 android:id="@+id/et_register_email"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -68,11 +73,14 @@
             android:layout_height="50dp">
 
             <EditText
+                android:digits="@string/digits"
+                android:singleLine="true"
                 android:id="@+id/et_register_password"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:textSize="16sp"
                 android:background="@null"
+                android:inputType="textPassword"
                 android:hint="密码" />
 
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
@@ -88,6 +96,9 @@
             android:layout_height="50dp">
 
             <EditText
+                android:inputType="textPassword"
+                android:digits="@string/digits"
+                android:singleLine="true"
                 android:id="@+id/et_register_password_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -103,13 +114,14 @@
             android:background="@color/gray"/>
 
         <Button
+            android:id="@+id/btn_register"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:background="@color/cyan_week_view_current"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:layout_marginTop="40dp"
-            android:text="登 录"/>
+            android:text="注  册"/>
 
         <LinearLayout
             android:layout_width="match_parent"

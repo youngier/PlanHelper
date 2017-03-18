@@ -113,9 +113,18 @@ dependencies {
     //多级联动选择器
     compile 'cn.qqtheme.framework:WheelPicker:1.1.2'
     compile 'cn.qqtheme.framework:FilePicker:1.1.2'
-
     //图表
     compile project(':williamChart')
     compile project(':holoColorPicker')
+    //加载框
+    compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
 
+    // 图像剪切
+    compile('com.kevin:crop:1.0.2') {
+        // 如果已经引入 support:appcompat-v7 可以加上这句话
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
+
+    // 圆形头像
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }

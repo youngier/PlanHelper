@@ -16,6 +16,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".application.AppApplication"
@@ -35,28 +37,30 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".mvp.schedule.ScheduleAddActivity"
+            android:name=".mvp.schedule.view.ScheduleAddActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-        <activity android:name=".mvp.common.photo.SelectPhotoActivity" />
+        <activity
+            android:name=".mvp.common.photo.SelectPhotoActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".mvp.plan.view.PlanAddActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".mvp.plan.view.planitem.PlanItemActivity"
-            android:label="@string/title_activity_plan_detail"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_plan_detail" />
         <activity android:name=".mvp.plan.view.planitem.PlanItemEditActivity" />
         <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemAddActivity" />
         <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemDetailActivity" />
         <activity android:name=".mvp.plan.view.planitem.thirditem.PlanThirdItemAddActivity" />
-        <activity android:name=".mvp.schedule.ScheduleDetailActivity" />
+        <activity android:name=".mvp.schedule.view.ScheduleDetailActivity" />
 
         <service android:name=".mvp.common.service.TaskTimeService" />
 
         <receiver android:name=".mvp.common.service.AlarmReceiver" />
 
         <activity
-            android:name=".mvp.login.LoginActivity"
+            android:name=".mvp.login.view.LoginActivity"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".mvp.home.HomeCloneActivity"
@@ -67,7 +71,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.schedule.ScheduleAddCloneActivity" />
+        <activity android:name=".mvp.schedule.view.ScheduleAddCloneActivity" />
         <activity
             android:name=".mvp.overview.OverviewActivity"
             android:launchMode="singleTask"
@@ -80,11 +84,28 @@
             android:label="@string/title_activity_profile"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".mvp.schedule.MarkerActivity" />
+        <activity android:name=".mvp.schedule.view.MarkerActivity" />
         <activity
             android:name=".mvp.plan.view.PlanCloneActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".mvp.register.RegisterActivity"></activity>
+        <activity
+            android:name=".mvp.register.RegisterActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".mvp.friend.view.FriendActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".mvp.friend.view.add.FriendAddActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".mvp.common.crop.activity.CropActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".mvp.friend.view.search.FriendSearchActivity" />
+        <activity android:name=".mvp.friend.view.FriendDetailActivity" />
+        <activity
+            android:name=".mvp.friend.view.FriendRemarkActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".mvp.friend.view.chat.FriendChatDetailActivity"></activity>
     </application>
 
 </manifest>

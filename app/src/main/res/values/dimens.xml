@@ -53,5 +53,6 @@
     <dimen name="play_chart_padding">15dp</dimen>
 
     <dimen name="item_margin">6dp</dimen>
+    <dimen name="view_friend_chat_item_margin">10dp</dimen>
 
 </resources>

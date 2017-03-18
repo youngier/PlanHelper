@@ -1,11 +1,17 @@
 package com.young.planhelper.mvp.plan.view.planitem;
 
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.hwangjr.rxbus.annotation.Subscribe;
@@ -19,6 +25,7 @@ import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanItemPresenter;
 import com.young.planhelper.mvp.plan.presenter.PlanItemPresenter;
 import com.young.planhelper.util.LogUtil;
+import com.young.planhelper.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,20 +37,29 @@ public class PlanItemActivity extends BaseActivity implements IView{
     @BindView(R.id.vp_plan_detail)
     ViewPager mViewPager;
 
-    private Long planInfoId;
+    private long planInfoId;
 
     private Adapter adapter;
 
     private IPlanItemPresenter presenter;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     @Override
     protected void initUI() {
+
+        setStatueBarColor();
+
+        mToolbar.setMode(Toolbar.BACK);
+
+        mToolbar.setOnMenuClickListener( () -> finish() );
 
         presenter = new PlanItemPresenter(this, this);
 
         planInfoId = getIntent().getLongExtra("planInfoId", 0);
 
+        mToolbar.setTitle(getIntent().getStringExtra("planInfoTitle"));
 
     }
 

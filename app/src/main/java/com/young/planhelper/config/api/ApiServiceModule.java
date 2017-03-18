@@ -3,6 +3,7 @@ package com.young.planhelper.config.api;
 import android.app.Application;
 
 import com.young.planhelper.application.AppApplication;
+import com.young.planhelper.constant.AppConstant;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,6 +13,8 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author: young
@@ -23,42 +26,42 @@ import retrofit2.Retrofit;
 public class ApiServiceModule {
 
     /**
-     * 提供项目唯一的OkHttpClient实例
+     * 提供项目唯一的Retrofit实例
+     * @param application
      * @return
      */
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient(){
+    Retrofit provideRetrofit(AppApplication application){
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build();
-        return okHttpClient;
+
+        GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create();
+        OkHttpClient.Builder builder = okHttpClient.newBuilder();
+        builder.retryOnConnectionFailure(true);
+        Retrofit retrofit = new Retrofit.Builder().client(okHttpClient)
+                .baseUrl(AppConstant.REQUEST_URL)
+                .addConverterFactory(gsonConverterFactory)
+
+                //RxJava和Retrofit结合的关键。
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        return retrofit;
     }
 
-    /**
-     * 提供项目唯一的Retrofit实例
-     * @param application
-     * @param okHttpClient
-     * @return
-     */
-    @Provides
-    @Singleton
-    Retrofit provideRetrofit(AppApplication application, OkHttpClient okHttpClient){
-        Retrofit.Builder builder = new Retrofit.Builder();
-        builder.client(okHttpClient);
-        return builder.build();
-    }
-
-    /**
-     * 提供项目唯一的ApiService实例
-     * @param retrofit
-     * @return
-     */
-    @Provides
-    @Singleton
-    ApiService provideApiService(Retrofit retrofit){
-        return retrofit.create(ApiService.class);
-    }
+//    /**
+//     * 提供项目唯一的ApiService实例
+//     * @param retrofit
+//     * @return
+//     */
+//    @Provides
+//    @Singleton
+//    ApiService provideApiService(Retrofit retrofit){
+//        return retrofit.create(ApiService.class);
+//    }
 }

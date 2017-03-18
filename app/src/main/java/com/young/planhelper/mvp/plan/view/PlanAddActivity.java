@@ -3,9 +3,14 @@ package com.young.planhelper.mvp.plan.view;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +20,7 @@ import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanAddPresenter;
 import com.young.planhelper.mvp.plan.presenter.PlanAddPresenter;
+import com.young.planhelper.mvp.plan.view.planview.PlanAdapter;
 import com.young.planhelper.util.TimeUtil;
 import com.zcw.togglebutton.ToggleButton;
 
@@ -35,13 +41,54 @@ public class PlanAddActivity extends BaseOtherActivity {
     @BindView(R.id.togglebtn)
     ToggleButton mToggleBtn;
 
+    @BindView(R.id.ll_plan_add_friend)
+    LinearLayout mFriendLl;
+
+    @BindView(R.id.rv_plan_add_select_person)
+    RecyclerView mSelectPersonRv;
+
+    @BindView(R.id.rl_plan_add_authority)
+    RelativeLayout mAuthorityRl;
+
+
     private int authority = 0;
+
+    private boolean isSynchronized = false;
+
+    private PlanSelectAdapter adapter;
 
     private IPlanAddPresenter presenter;
 
+    private boolean isActive;
+
+
+
     @Override
     protected void initUI() {
-        //开关切换事件
+
+        isActive = getIntent().getBooleanExtra("isActive", true);
+
+        if( isActive ){
+
+            adapter = new PlanSelectAdapter(this, null);
+
+            mSelectPersonRv.setAdapter(adapter);
+
+            LinearLayoutManager lm = new LinearLayoutManager(this);
+            lm.setOrientation(LinearLayoutManager.HORIZONTAL);
+            mSelectPersonRv.setLayoutManager(lm);
+
+        }else{
+            mFriendLl.setVisibility(View.GONE);
+            mAuthorityRl.setVisibility(View.GONE);
+        }
+
+        mToggleBtn.setOnToggleChanged( on -> {
+            if( on )
+                isSynchronized = true;
+            else
+                isSynchronized = false;
+        });
 
     }
 
@@ -81,12 +128,23 @@ public class PlanAddActivity extends BaseOtherActivity {
             return;
         }
 
-        PlanInfo planInfo = new PlanInfo();
-        planInfo.setPlanInfoId(TimeUtil.getCurrentTimeInLong());
+        if( !isActive ){
+            PlanInfo planInfo = new PlanInfo();
+            planInfo.setPlanInfoId(TimeUtil.getCurrentTimeInLong());
 
-        planInfo.setTitle(title);
-        planInfo.setAuthority(authority);
-        presenter.addPlan(planInfo, data -> setData(data));
+            planInfo.setTitle(title);
+            planInfo.setAuthority(authority);
+            planInfo.setSynchronized(isSynchronized);
+            presenter.addPlan(planInfo, data -> setData(data));
+        }else{
+            PlanInfo planInfo = new PlanInfo();
+            planInfo.setPlanInfoId(TimeUtil.getCurrentTimeInLong());
+
+            planInfo.setTitle(title);
+            planInfo.setAuthority(authority);
+            planInfo.setSynchronized(isSynchronized);
+            presenter.addPlan(planInfo, data -> setData(data));
+        }
     }
 
 

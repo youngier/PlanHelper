@@ -4,16 +4,10 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
 
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.base.BaseFragmentActivity;
-import com.young.planhelper.mvp.home.HomeActivity;
-import com.young.planhelper.mvp.schedule.ScheduleFragment;
 import com.young.planhelper.widget.NoScrollViewPager;
 import com.young.planhelper.widget.Toolbar;
 
@@ -42,7 +36,12 @@ public class PlanCloneActivity extends BaseFragmentActivity {
         mToolbar.setTitle("计划");
 
         mToolbar.setOnAddClickListener( () -> {
-            startActivity(new Intent(this, PlanAddActivity.class));
+            Intent intent = new Intent(this, PlanAddActivity.class);
+            if( mPlanVp.getCurrentItem() == 0 )
+                intent.putExtra("isActive", true);
+            else
+                intent.putExtra("isActive", false);
+            startActivity(intent);
         });
 
         setupViewPager();

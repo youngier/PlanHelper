@@ -1,11 +1,7 @@
-package com.young.planhelper.mvp.schedule;
+package com.young.planhelper.mvp.schedule.view;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -25,8 +21,6 @@ import com.zcw.togglebutton.ToggleButton;
 import org.feezu.liuli.timeselector.TimeSelector;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -61,6 +55,8 @@ public class ScheduleAddCloneActivity extends BaseActivity {
 
     @Override
     protected void initUI() {
+
+        setStatueBarColor();
 
         presenter = new ScheduleAddPresenter(this, this);
 
@@ -162,13 +158,13 @@ public class ScheduleAddCloneActivity extends BaseActivity {
             e.printStackTrace();
         }
         backlogInfo.setStatue(BacklogInfo.UNFINISH);
-        backlogInfo.setLocation("广东省");
+        backlogInfo.setLocation("");
         backlogInfo.setContent(mContentEt.getText().toString());
         backlogInfo.setBacklogImageInfos(new RealmList<>());
 
         LogUtil.eLog("success");
 
-        presenter.addBacklogInfo(backlogInfo);
+        presenter.addBacklogInfo(backlogInfo, data -> setData(data));
     }
 
     /**

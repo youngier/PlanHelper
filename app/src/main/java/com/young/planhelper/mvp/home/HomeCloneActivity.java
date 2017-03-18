@@ -1,70 +1,36 @@
 package com.young.planhelper.mvp.home;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.alexvasilkov.foldablelayout.FoldableListLayout;
 import com.nineoldandroids.animation.ValueAnimator;
-import com.special.ResideMenu.ResideMenu;
-import com.special.ResideMenu.ResideMenuItem;
 import com.young.planhelper.R;
-import com.young.planhelper.mvp.base.BaseActivity;
+import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.mvp.base.BaseFragmentActivity;
 import com.young.planhelper.mvp.base.model.IBiz;
+import com.young.planhelper.mvp.login.model.bean.User;
 import com.young.planhelper.mvp.home.view.monthview.MonthView;
 import com.young.planhelper.mvp.home.view.weekview.WeekItemView;
-import com.young.planhelper.mvp.overview.OverviewActivity;
-import com.young.planhelper.mvp.plan.view.planitem.PlanItemActivity;
-import com.young.planhelper.mvp.plan.view.planview.PlanAdapter;
-import com.young.planhelper.mvp.profile.view.ProfileActivity;
-import com.young.planhelper.mvp.schedule.ScheduleAddActivity;
-import com.young.planhelper.mvp.schedule.ScheduleAddCloneActivity;
-import com.young.planhelper.mvp.schedule.ScheduleDetailActivity;
+import com.young.planhelper.mvp.schedule.view.ScheduleAddCloneActivity;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 import com.young.planhelper.mvp.schedule.model.bean.DayInfo;
-import com.young.planhelper.mvp.schedule.model.bean.WeekInfo;
 import com.young.planhelper.mvp.schedule.presenter.ISchedulePresenter;
 import com.young.planhelper.mvp.schedule.presenter.SchedulePresenter;
 import com.young.planhelper.mvp.schedule.view.backlogview.BacklogAdapter;
-import com.young.planhelper.mvp.schedule.view.backlogview.RecycleViewDivider;
-import com.young.planhelper.mvp.timeline.TimelineActivity;
 import com.young.planhelper.util.CalendarUtil;
 import com.young.planhelper.util.DateUtil;
-import com.young.planhelper.util.LogUtil;
+import com.young.planhelper.util.SharePreferenceUtil;
 import com.young.planhelper.util.TimeUtil;
 import com.young.planhelper.widget.NestListView;
 import com.young.planhelper.widget.Toolbar;
-import com.young.planhelper.widget.calendar.manager.Week;
-import com.young.planhelper.widget.manager.CustomLinearLayoutManager;
-
-import org.feezu.liuli.timeselector.TimeSelector;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -165,6 +131,21 @@ public class HomeCloneActivity extends BaseFragmentActivity{
             startActivity(new Intent(this, ScheduleAddCloneActivity.class));
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharePreferenceUtil sharePreferenceUtil = new SharePreferenceUtil(this);
+
+        User user = sharePreferenceUtil.getUserInfo();
+
+        AppApplication.get(this).getmAppComponent().getUserInfo().copyWith(user);
+
+        if( !user.getIconUrl().equals("") ){
+            Bitmap bitmap = getLoacalBitmap(user.getIconUrl()); //从本地取图片
+            itemIcon.setIconByLocal(bitmap);
+        }
     }
 
     private void showMonPicker() {

@@ -56,4 +56,7 @@
     <color name="selected">#009688</color>
     <color name="unselected">#CFD8DC</color>
     <color name="stacked">#ffa5adb1</color>
+
+    <color name="gray_friend_person_item_group_bg">#ebebeb</color>
+    <color name="gray_friend_person_item_group_text">#969696</color>
 </resources>

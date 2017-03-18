@@ -50,7 +50,8 @@ public class PlanItemView extends CardView {
         mTitleTv.setText(data.getTitle());
     }
 
-    public long getPlanInfoId(){
-        return mData.getPlanInfoId();
+
+    public PlanInfo getPlanInfo() {
+        return mData;
     }
 }

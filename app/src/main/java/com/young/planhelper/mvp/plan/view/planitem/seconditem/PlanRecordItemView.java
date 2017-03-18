@@ -61,6 +61,12 @@ public class PlanRecordItemView extends LinearLayout{
             case PlanOperationInfo.MODIFY_TIME:
                 mIv.setImageResource(R.mipmap.ic_record_date);
                 break;
+            case PlanOperationInfo.FINISH:
+                mIv.setImageResource(R.mipmap.ic_record_finish);
+                break;
+            case PlanOperationInfo.RESTART:
+                mIv.setImageResource(R.mipmap.ic_record_restart);
+                break;
         }
     }
 

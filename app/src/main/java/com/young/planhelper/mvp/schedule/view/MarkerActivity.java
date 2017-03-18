@@ -1,4 +1,4 @@
-package com.young.planhelper.mvp.schedule;
+package com.young.planhelper.mvp.schedule.view;
 
 import android.graphics.Point;
 import android.os.Handler;

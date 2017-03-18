@@ -21,4 +21,9 @@ public interface IPlanPresenter extends IPresenter{
      */
     void getPlanInfo(final IBiz.ICallback callback);
 
+    /**
+     * 根据网络获取所有计划内容
+     * @param callback
+     */
+    void getPlanInfoByNetWork(final IBiz.ICallback callback);
 }

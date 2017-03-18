@@ -406,5 +406,25 @@ public class TimeUtil {
     public static String getCurrentDateInString1() {
         return getTime6(getCurrentTimeInLong());
     }
+
+    /**
+     * 将yyyy-MM-dd HH:MM转换成yyyy年MM月dd日 HH:MM
+     * @param time
+     * @return
+     */
+    public static String transfromToChinese(String time) {
+
+        String year = time.substring(0, 4);
+
+        String month = time.substring(5,7);
+
+        String day = time.substring(8, 10);
+
+        String hour = time.substring(11, 13);
+
+        String minute = time.substring(14, 16);
+
+        return year + "年" + month + "月" +  day +"日 " + hour + ":" + minute;
+    }
 }
 
