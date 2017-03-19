@@ -30,7 +30,7 @@ public class TimelinePresenter extends Presenter implements ITimelinePresenter{
     }
 
     @Override
-    public void getTimelineInfo(IBiz.ICallback callback) {
-        mBiz.getTimelineInfo(callback);
+    public void getTimelineInfoByStatue(int statue, IBiz.ICallback callback) {
+        mBiz.getTimelineInfoByStatue(statue, callback);
     }
 }

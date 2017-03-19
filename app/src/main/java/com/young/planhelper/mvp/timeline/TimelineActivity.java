@@ -50,6 +50,10 @@ public class TimelineActivity extends BaseFragmentActivity implements View.OnCli
 
         mToolbar.setTitle("时间轴");
 
+        mToolbar.setOnStatueClickListener( selectItem -> {
+            presenter.getTimelineInfoByStatue(selectItem, data -> setData(data));
+        });
+
         presenter = new TimelinePresenter(this, this);
 
 
@@ -68,7 +72,7 @@ public class TimelineActivity extends BaseFragmentActivity implements View.OnCli
 
         mTimelineElv.setAdapter(mTimelineAdapter);
 
-        presenter.getTimelineInfo(data -> setData(data));
+        presenter.getTimelineInfoByStatue(Toolbar.ALL, data -> setData(data));
     }
 
     @Override

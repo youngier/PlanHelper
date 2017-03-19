@@ -24,7 +24,7 @@
     <string name="menu_item1">全部</string>
     <string name="menu_item2">已完成</string>
     <string name="menu_item3">处理中</string>
-    <string name="menu_item4">未完成</string>
+    <string name="menu_item4">已过期</string>
 
     <!--图表-->
     <string name="github_str">Github</string>

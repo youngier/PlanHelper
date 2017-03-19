@@ -72,5 +72,17 @@ public class TimelineChildItemView extends LinearLayout{
         mLocationTv.setText(backlogInfo.getLocation());
         mTimeTv.setText(TimeUtil.getTime2(backlogInfo.getToTime()));
 
+        switch (backlogInfo.getStatue()){
+            case BacklogInfo.FINISHED:
+                mTagLl.setBackgroundColor(getResources().getColor(R.color.cyan_week_view_current));
+                break;
+            case BacklogInfo.UNFINISH:
+                mTagLl.setBackgroundColor(getResources().getColor(R.color.puple_backlog_statue));
+                break;
+            case BacklogInfo.OVERDUE:
+                mTagLl.setBackgroundColor(getResources().getColor(R.color.orange_backlog_statue));
+                break;
+        }
+
     }
 }

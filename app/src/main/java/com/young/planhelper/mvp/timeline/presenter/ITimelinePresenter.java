@@ -13,10 +13,11 @@ import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 
 public interface ITimelinePresenter extends IPresenter{
 
+
     /**
-     * 获取历史记录
+     * 根据状态获取历史记录
+     * @param statue
      * @param callback
      */
-    void getTimelineInfo(IBiz.ICallback callback);
-
+    void getTimelineInfoByStatue(int statue, IBiz.ICallback callback);
 }

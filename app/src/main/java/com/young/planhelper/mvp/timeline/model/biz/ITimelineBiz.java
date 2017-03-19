@@ -14,7 +14,8 @@ public interface ITimelineBiz extends IBiz{
 
     /**
      * 获取时间线记录的数据
+     * @param statue
      * @param callback
      */
-    void getTimelineInfo(ICallback callback);
+    void getTimelineInfoByStatue(int statue, ICallback callback);
 }

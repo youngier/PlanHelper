@@ -35,6 +35,11 @@ public class Toolbar extends RelativeLayout {
     public static final int BACK = 8;
     public static final int MODIFY = 9;
 
+    public static final int ALL = 0;
+    public static final int FINISHED = 1;
+    public static final int DOING = 2;
+    public static final int OVERDUE = 3;
+
 
     private int mode;
 
@@ -47,6 +52,10 @@ public class Toolbar extends RelativeLayout {
     private OnDateClickListener onDateClickListener;
 
     private PopupWindow mPopupWindow;
+
+    private int selectItem;
+
+    private OnStatueClickListener onStatueClickListener;
 
     public Toolbar(Context context) {
         super(context);
@@ -176,6 +185,10 @@ public class Toolbar extends RelativeLayout {
         this.onDateClickListener = onDateClickListener;
     }
 
+    public void setOnStatueClickListener(OnStatueClickListener onStatueClickListener){
+        this.onStatueClickListener = onStatueClickListener;
+    }
+
     public String getDate() {
         return mContentTv.getText().toString();
     }
@@ -205,13 +218,59 @@ public class Toolbar extends RelativeLayout {
         // 一个自定义的布局，作为显示的内容
         int layoutId = R.layout.view_popup_content;   // 布局ID
         View contentView = LayoutInflater.from(getContext()).inflate(layoutId, null);
+        ImageView iv01 = (ImageView) contentView.findViewById(R.id.iv_menu_item1);
+        ImageView iv02 = (ImageView) contentView.findViewById(R.id.iv_menu_item2);
+        ImageView iv03 = (ImageView) contentView.findViewById(R.id.iv_menu_item3);
+        ImageView iv04 = (ImageView) contentView.findViewById(R.id.iv_menu_item4);
+
+        switch (selectItem){
+            case ALL:
+                iv01.setVisibility(VISIBLE);
+                iv02.setVisibility(GONE);
+                iv03.setVisibility(GONE);
+                iv04.setVisibility(GONE);
+                break;
+            case FINISHED:
+                iv01.setVisibility(GONE);
+                iv02.setVisibility(VISIBLE);
+                iv03.setVisibility(GONE);
+                iv04.setVisibility(GONE);
+                break;
+            case DOING:
+                iv01.setVisibility(GONE);
+                iv02.setVisibility(GONE);
+                iv03.setVisibility(VISIBLE);
+                iv04.setVisibility(GONE);
+                break;
+            case OVERDUE:
+                iv01.setVisibility(GONE);
+                iv02.setVisibility(GONE);
+                iv03.setVisibility(GONE);
+                iv04.setVisibility(VISIBLE);
+                break;
+        }
+
         View.OnClickListener menuItemOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Click " + ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+                switch (v.getId()){
+                    case R.id.menu_item1:
+                        selectItem = ALL;
+                        break;
+                    case R.id.menu_item2:
+                        selectItem = FINISHED;
+                        break;
+                    case R.id.menu_item3:
+                        selectItem = DOING;
+                        break;
+                    case R.id.menu_item4:
+                        selectItem = OVERDUE;
+                        break;
+                }
                 if (mPopupWindow != null) {
                     mPopupWindow.dismiss();
                 }
+                onStatueClickListener.onStatueClick(selectItem);
             }
         };
         contentView.findViewById(R.id.menu_item1).setOnClickListener(menuItemOnClickListener);
@@ -221,4 +280,7 @@ public class Toolbar extends RelativeLayout {
         return contentView;
     }
 
+    public interface OnStatueClickListener {
+        void onStatueClick(int selectItem);
+    }
 }
