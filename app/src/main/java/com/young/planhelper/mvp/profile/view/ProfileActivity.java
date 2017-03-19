@@ -95,8 +95,17 @@ public class ProfileActivity extends BaseFragmentActivity {
 
         mTaskLv.setAdapter(mProfileAdapter);
 
-        String time = TimeUtil.getCurrentYearInString();
-        time += "年" + mMonthTv.getText();
+        String currentTime = TimeUtil.getCurrentDateInString1();
+        StringTokenizer tokenizer = new StringTokenizer(currentTime, "-");
+        String year = tokenizer.nextToken();
+        String month = tokenizer.nextToken();
+
+        if( month.charAt(0) == '0' )
+            month = month.substring(1, 2);
+
+        mMonthTv.setText(month + "月");
+
+        String time = year + "年" + mMonthTv.getText();
 
         presenter.getProfileInfoByMonth(selectType, time, data -> setData(data));
     }

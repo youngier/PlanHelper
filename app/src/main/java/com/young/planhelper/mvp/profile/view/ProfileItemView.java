@@ -2,6 +2,7 @@ package com.young.planhelper.mvp.profile.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,6 +31,9 @@ public class ProfileItemView extends LinearLayout {
     @BindView(R.id.tv_profile_item_location)
     TextView mLocationTv;
 
+    @BindView(R.id.iv_profile_item_tag)
+    ImageView mTagIv;
+
     private long backlogInfoId;
 
     public ProfileItemView(Context context) {
@@ -56,7 +60,19 @@ public class ProfileItemView extends LinearLayout {
 
         mContentTv.setText(data.getContent());
         mLocationTv.setText(data.getLocation());
-//        mTimeTv.setText(TimeUtil.getTime2(data.getToTime()));
+        mTimeTv.setText(TimeUtil.getTime2(data.getToTime()));
+
+        switch (data.getStatue()){
+            case BacklogInfo.FINISHED:
+                mTagIv.setBackgroundColor(getResources().getColor(R.color.cyan_week_view_current));
+                break;
+            case BacklogInfo.UNFINISH:
+                mTagIv.setBackgroundColor(getResources().getColor(R.color.puple_backlog_statue));
+                break;
+            case BacklogInfo.OVERDUE:
+                mTagIv.setBackgroundColor(getResources().getColor(R.color.orange_backlog_statue));
+                break;
+        }
     }
 
     public long getBacklogInfoId() {

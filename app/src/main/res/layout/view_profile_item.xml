@@ -8,6 +8,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/iv_profile_item_tag"
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:background="@color/cyan_week_view_current"
