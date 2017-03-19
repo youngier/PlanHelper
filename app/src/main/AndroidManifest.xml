@@ -52,7 +52,9 @@
         <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemAddActivity" />
         <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemDetailActivity" />
         <activity android:name=".mvp.plan.view.planitem.thirditem.PlanThirdItemAddActivity" />
-        <activity android:name=".mvp.schedule.view.ScheduleDetailActivity" />
+        <activity android:name=".mvp.schedule.view.ScheduleDetailCloneActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"/>
 
         <service android:name=".mvp.common.service.TaskTimeService" />
 

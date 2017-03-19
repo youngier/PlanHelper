@@ -53,6 +53,8 @@ public class ScheduleAddCloneActivity extends BaseActivity {
 
     IScheduleAddPresenter presenter;
 
+    private int repeatType;
+
     @Override
     protected void initUI() {
 
@@ -68,7 +70,7 @@ public class ScheduleAddCloneActivity extends BaseActivity {
 
         });
 
-        mToolbar.setOnAddClickListener( () -> {
+        mToolbar.setOnRightClickListener( () -> {
             saveBacklog();
         });
 
@@ -126,10 +128,11 @@ public class ScheduleAddCloneActivity extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //    指定下拉列表的显示数据
         final String[] repeatsShow = {"不重复", "每年一次", "每月一次", "每日一次"};
-        final String[] repeats = {"none", "yearly", "monthly", "daily"};
+        final int[] repeats = {BacklogInfo.NONE, BacklogInfo.YEARLY, BacklogInfo.MONTHLY, BacklogInfo.DAILY};
         //    设置一个下拉的列表选择项
         builder.setItems(repeatsShow, (dialog, which) -> {
             mRepeatTv.setText(repeatsShow[which]);
+            repeatType = repeats[which];
         });
         builder.show();
     }
@@ -157,6 +160,7 @@ public class ScheduleAddCloneActivity extends BaseActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        backlogInfo.setRepeatType(repeatType);
         backlogInfo.setStatue(BacklogInfo.UNFINISH);
         backlogInfo.setLocation("");
         backlogInfo.setContent(mContentEt.getText().toString());

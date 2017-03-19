@@ -33,12 +33,13 @@ public class Toolbar extends RelativeLayout {
     public static final int FRIEND = 6;
     public static final int SELECT = 7;
     public static final int BACK = 8;
+    public static final int MODIFY = 9;
 
 
     private int mode;
 
     private ImageView mMenuIv, mRightIv, mContentIv;
-    private TextView mContentTv;
+    private TextView mContentTv, mRightTv;
     private LinearLayout mContentLl;
 
     private OnRightClickListener onRightClickListener;
@@ -67,6 +68,7 @@ public class Toolbar extends RelativeLayout {
         mContentTv = (TextView) findViewById(R.id.tv_toolbar_content);
         mContentLl = (LinearLayout) findViewById(R.id.ll_toolbar_content);
         mContentIv = (ImageView) findViewById(R.id.iv_toolbar_content);
+        mRightTv = (TextView) findViewById(R.id.tv_toolbar_right);
 
         mMenuIv.setOnClickListener(v -> {
             onMenuClickListener.onMenuClick();
@@ -76,13 +78,17 @@ public class Toolbar extends RelativeLayout {
             onRightClickListener.onRightClick();
         });
 
+        mRightTv.setOnClickListener(v -> {
+            onRightClickListener.onRightClick();
+        });
+
         mContentLl.setOnClickListener(v -> {
             onDateClickListener.onDateClick();
         });
 
     }
 
-    public void setOnAddClickListener(OnRightClickListener onRightClickListener) {
+    public void setOnRightClickListener(OnRightClickListener onRightClickListener) {
         this.onRightClickListener = onRightClickListener;
     }
 
@@ -94,11 +100,13 @@ public class Toolbar extends RelativeLayout {
                 mContentIv.setVisibility(GONE);
                 mMenuIv.setImageResource(R.mipmap.ic_close);
                 mRightIv.setImageResource(R.mipmap.ic_confirm);
+                mRightTv.setVisibility(GONE);
                 break;
             case NORMAL:
                 mContentIv.setVisibility(VISIBLE);
                 mMenuIv.setImageResource(R.mipmap.ic_home_menu);
                 mRightIv.setImageResource(R.mipmap.ic_home_add);
+                mRightTv.setVisibility(GONE);
                 break;
             case TIMELINE:
                 mContentIv.setVisibility(GONE);
@@ -107,17 +115,20 @@ public class Toolbar extends RelativeLayout {
                 mRightIv.setOnClickListener(v -> {
                     showPopupWindow();
                 });
+                mRightTv.setVisibility(GONE);
                 break;
             case PROFILE:
                 mContentIv.setVisibility(GONE);
                 mContentLl.setOnClickListener(null);
                 mRightIv.setVisibility(GONE);
+                mRightTv.setVisibility(GONE);
                 break;
             case PLAN:
             case FRIEND:
                 mContentIv.setVisibility(GONE);
                 mContentLl.setOnClickListener(null);
                 mRightIv.setImageResource(R.mipmap.ic_home_add);
+                mRightTv.setVisibility(GONE);
                 break;
             case REGISTER:
             case SELECT:
@@ -125,12 +136,21 @@ public class Toolbar extends RelativeLayout {
                 mContentLl.setOnClickListener(null);
                 mRightIv.setImageResource(0);
                 mMenuIv.setImageResource(R.mipmap.ic_close);
+                mRightTv.setVisibility(GONE);
                 break;
             case BACK:
                 mContentIv.setVisibility(GONE);
                 mContentLl.setOnClickListener(null);
                 mRightIv.setImageResource(0);
                 mMenuIv.setImageResource(R.mipmap.ic_back);
+                mRightTv.setVisibility(GONE);
+                break;
+            case MODIFY:
+                mContentIv.setVisibility(GONE);
+                mContentLl.setOnClickListener(null);
+                mRightIv.setImageResource(0);
+                mMenuIv.setImageResource(R.mipmap.ic_back);
+                mRightTv.setVisibility(VISIBLE);
                 break;
         }
     }
@@ -162,6 +182,10 @@ public class Toolbar extends RelativeLayout {
 
     public void setTitle(String title){
         mContentTv.setText(title);
+    }
+
+    public void setRightText(String rightText) {
+        mRightTv.setText(rightText);
     }
 
     public interface OnRightClickListener{

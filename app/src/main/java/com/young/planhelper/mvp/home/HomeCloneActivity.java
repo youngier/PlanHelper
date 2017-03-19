@@ -2,6 +2,9 @@ package com.young.planhelper.mvp.home;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -22,9 +25,11 @@ import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 import com.young.planhelper.mvp.schedule.model.bean.DayInfo;
 import com.young.planhelper.mvp.schedule.presenter.ISchedulePresenter;
 import com.young.planhelper.mvp.schedule.presenter.SchedulePresenter;
+import com.young.planhelper.mvp.schedule.view.ScheduleDetailCloneActivity;
 import com.young.planhelper.mvp.schedule.view.backlogview.BacklogAdapter;
 import com.young.planhelper.util.CalendarUtil;
 import com.young.planhelper.util.DateUtil;
+import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.SharePreferenceUtil;
 import com.young.planhelper.util.TimeUtil;
 import com.young.planhelper.widget.NestListView;
@@ -90,6 +95,8 @@ public class HomeCloneActivity extends BaseFragmentActivity{
         String year = tokenizer.nextToken();
         String month = tokenizer.nextToken();
 
+        mToolbar.setTitle(year + "年" + month + "月");
+
         initMonthView(year, month);
 
         String date = mToolbar.getDate();
@@ -127,9 +134,7 @@ public class HomeCloneActivity extends BaseFragmentActivity{
             presenter.queryByMonth( year + "年"+ (monthValue-1) + "月23日 00:00",
                     year + "年"+ (monthValue+1) +"月6日 23:59", iCallback);
 
-        setListData();
-
-        mToolbar.setOnAddClickListener( () -> {
+        mToolbar.setOnRightClickListener( () -> {
             startActivity(new Intent(this, ScheduleAddCloneActivity.class));
         });
 
@@ -149,6 +154,12 @@ public class HomeCloneActivity extends BaseFragmentActivity{
                     .load(AppConstant.RECOUSE_IMAGE_URL + user.getIconUrl())
                     .into(itemIcon.getIconView());
         }
+
+        initUI();
+
+        setListData();
+
+
     }
 
     private void showMonPicker() {
@@ -461,14 +472,14 @@ public class HomeCloneActivity extends BaseFragmentActivity{
 
         mTaskAdapter = new BacklogAdapter(this, null);
 
-//        mTaskAdapter.(id -> {
-//            Intent intent = new Intent(this, ScheduleDetailActivity.class);
-//            intent.putExtra("backlogInfoId", id);
-//            startActivity(intent);
-//        });
+        mTaskLv.setOnItemClickListener((parent, view, position, id) -> {
+                Intent intent = new Intent(this, ScheduleDetailCloneActivity.class);
+                BacklogInfo backlogInfo = (BacklogInfo)mTaskAdapter.getItem(position);
+                intent.putExtra("backlogInfoId", backlogInfo.getBacklogInfoId());
+                startActivity(intent);
+        });
 
         mTaskLv.setAdapter(mTaskAdapter);
-        mTaskLv.setEnabled(false);
         mTaskSv.smoothScrollTo(0, 0);
 
         String time = TimeUtil.getCurrentDateInString();

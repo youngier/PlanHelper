@@ -2,6 +2,7 @@ package com.young.planhelper.mvp.schedule.presenter;
 
 import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.base.presenter.IPresenter;
+import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 
 /**
  * @author: young
@@ -44,4 +45,33 @@ public interface ISchedulePresenter extends IPresenter{
      * @param callback
      */
     void queryByMonth(String timeBegin, String timeEnd, IBiz.ICallback callback);
+
+    /**
+     * 根据id获取日程任务详情
+     * @param backlogInfoId
+     * @param callback
+     */
+    void getBacklogDetailById(long backlogInfoId, IBiz.ICallback callback);
+
+    /**
+     * 修改日程任务
+     * @param mBacklogInfo
+     * @param backlogInfo
+     * @param callback
+     */
+    void modifyBacklogInfo(BacklogInfo mBacklogInfo, BacklogInfo backlogInfo, IBiz.ICallback callback);
+
+    /**
+     * 删除日程任务
+     * @param mBacklogInfo
+     * @param callback
+     */
+    void deleteBacklog(BacklogInfo mBacklogInfo, IBiz.ICallback callback);
+
+    /**
+     * 完成任务
+     * @param mBacklogInfo
+     * @param callback
+     */
+    void finishBacklogInfo(BacklogInfo mBacklogInfo, IBiz.ICallback callback);
 }

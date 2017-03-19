@@ -37,7 +37,7 @@ public class FriendActivity extends BaseFragmentActivity {
 
         mToolbar.setTitle("交友");
 
-        mToolbar.setOnAddClickListener( () -> {
+        mToolbar.setOnRightClickListener( () -> {
             startActivity(new Intent(this, FriendAddActivity.class));
         });
 

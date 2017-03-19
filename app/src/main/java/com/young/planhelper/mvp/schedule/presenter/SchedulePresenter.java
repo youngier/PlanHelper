@@ -59,4 +59,24 @@ public class SchedulePresenter extends Presenter implements ISchedulePresenter{
     public void queryByMonth(String timeBegin, String timeEnd, IBiz.ICallback callback) {
         mBiz.queryByMonth(timeBegin, timeEnd, callback);
     }
+
+    @Override
+    public void getBacklogDetailById(long backlogInfoId, IBiz.ICallback callback) {
+        mBiz.getBackLogInfoDetail(backlogInfoId, callback);
+    }
+
+    @Override
+    public void modifyBacklogInfo(BacklogInfo mBacklogInfo, BacklogInfo backlogInfo, IBiz.ICallback callback) {
+        mBiz.modifyBacklogInfo(mBacklogInfo, backlogInfo, callback);
+    }
+
+    @Override
+    public void deleteBacklog(BacklogInfo mBacklogInfo, IBiz.ICallback callback) {
+        mBiz.deleteBacklog(mBacklogInfo, callback);
+    }
+
+    @Override
+    public void finishBacklogInfo(BacklogInfo mBacklogInfo, IBiz.ICallback callback) {
+        mBiz.finishBacklogInfo(mBacklogInfo, callback);
+    }
 }

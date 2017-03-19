@@ -59,4 +59,5 @@
 
     <color name="gray_friend_person_item_group_bg">#ebebeb</color>
     <color name="gray_friend_person_item_group_text">#969696</color>
+    <color name="orange_backlog_statue">#fcab53</color>
 </resources>

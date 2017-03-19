@@ -60,4 +60,26 @@ public interface IScheduleBiz extends IBiz{
      * @param callback
      */
     void queryByMonth(String timeBegin, String timeEnd, ICallback callback);
+
+    /**
+     * 修改日程任务
+     * @param mBacklogInfo
+     * @param backlogInfo
+     * @param callback
+     */
+    void modifyBacklogInfo(BacklogInfo mBacklogInfo, BacklogInfo backlogInfo, ICallback callback);
+
+    /**
+     * 删除日程任务
+     * @param mBacklogInfo
+     * @param callback
+     */
+    void deleteBacklog(BacklogInfo mBacklogInfo, ICallback callback);
+
+    /**
+     * 完成日程任务
+     * @param mBacklogInfo
+     * @param callback
+     */
+    void finishBacklogInfo(BacklogInfo mBacklogInfo, ICallback callback);
 }

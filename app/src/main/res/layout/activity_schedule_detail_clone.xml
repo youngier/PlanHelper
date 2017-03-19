@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/ll_schedule_detail"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true">
+
+    <include
+        layout="@layout/view_tool_bar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:background="@color/white"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_below="@+id/ll_list_head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    float:fletPadding="10dp">
+
+                    <EditText
+                        android:id="@+id/et_schedule_detail_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:textSize="16sp"
+                        android:background="@null"
+                        android:hint="内容" />
+                </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/gray"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_activity_add_margin_top"
+                    android:layout_marginBottom="@dimen/dimen_activity_add_margin_top">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/gray_01"
+                        android:textSize="16sp"
+                        android:text="一天"/>
+
+                    <com.zcw.togglebutton.ToggleButton
+                        android:id="@+id/tgbtn_schedule_detail_switch"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/ic_switch"
+                        android:layout_gravity="right"/>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    tools:visibility="visible"
+                    android:id="@+id/ll_schedule_detail_time"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/gray"/>
+
+                    <RelativeLayout
+                        android:layout_marginTop="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_activity_add_margin_left"
+                        android:layout_marginRight="@dimen/dimen_activity_add_margin_right">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:textColor="@color/gray_01"
+                            android:textSize="16sp"
+                            android:text="开始"/>
+
+
+                        <TextView
+                            android:id="@+id/tv_schedule_detail_from_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:textSize="16sp"
+                            android:text="February 9, 2015"/>
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:layout_marginTop="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginLeft="@dimen/dimen_activity_add_margin_left"
+                        android:layout_marginRight="@dimen/dimen_activity_add_margin_right"
+                        android:background="@color/gray"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_activity_add_margin_top"
+                        android:layout_marginLeft="@dimen/dimen_activity_add_margin_left"
+                        android:layout_marginRight="@dimen/dimen_activity_add_margin_right"
+                        android:layout_marginBottom="@dimen/dimen_activity_add_margin_bottom">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:textColor="@color/gray_01"
+                            android:textSize="16sp"
+                            android:text="结束"/>
+
+                        <TextView
+                            android:id="@+id/tv_schedule_detail_to_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:textSize="16sp"
+                            android:text="February 9, 2015"/>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/gray"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_activity_add_margin_bottom"
+                    android:layout_marginTop="@dimen/dimen_activity_add_margin_top">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/gray_01"
+                        android:textSize="16sp"
+                        android:text="位置"/>
+
+                    <TextView
+                        android:id="@+id/tv_detail_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="点击选择位置"/>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_toLeftOf="@+id/tv_detail_location"
+                        android:layout_marginRight="10dp"
+                        android:src="@mipmap/ic_location"/>
+
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/gray"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_activity_add_margin_bottom"
+                    android:layout_marginTop="@dimen/dimen_activity_add_margin_top">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/gray_01"
+                        android:textSize="16sp"
+                        android:text="人员"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@mipmap/pic_user_s_01" />
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@mipmap/pic_user_s_02" />
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@mipmap/pic_user_s_03" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/gray"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_activity_add_margin_bottom"
+                    android:layout_marginTop="@dimen/dimen_activity_add_margin_top">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/gray_01"
+                        android:textSize="16sp"
+                        android:text="重复类型"/>
+
+                    <TextView
+                        android:id="@+id/tv_schedule_detail_repeat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="不重复"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/rl_schedule_detail_buttons"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_schedule_detail_delete"
+                        android:layout_width="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_height="wrap_content"
+                        android:background="@color/red_01">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_centerHorizontal="true"
+                            android:ems="1"
+                            android:textColor="@color/white"
+                            android:text="删  除"/>
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/rl_schedule_detail_modify"
+                        android:layout_toLeftOf="@+id/rl_schedule_detail_delete"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/orange_backlog_statue">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_centerHorizontal="true"
+                            android:ems="1"
+                            android:textColor="@color/white"
+                            android:text="修  改"/>
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/rl_schedule_detail_finish"
+                        android:layout_toLeftOf="@+id/rl_schedule_detail_modify"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/cyan_week_view_current">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_centerHorizontal="true"
+                            android:ems="1"
+                            android:textColor="@color/white"
+                            android:text="完  成"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_schedule_detail_grap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"/>
+
+                <ImageView
+                    android:id="@+id/iv_schedule_detail_finish"
+                    android:layout_below="@+id/ll_schedule_detail_grap"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:visibility="gone"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/ic_finish"/>
+
+                <ImageView
+                    android:layout_below="@+id/ll_schedule_detail_grap"
+                    android:id="@+id/iv_schedule_detail_finish_big"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:alpha="0.1"
+                    android:visibility="gone"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/ic_finish"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

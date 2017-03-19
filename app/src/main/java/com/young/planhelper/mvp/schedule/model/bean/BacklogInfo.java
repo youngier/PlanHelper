@@ -1,5 +1,6 @@
 package com.young.planhelper.mvp.schedule.model.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 import io.realm.RealmList;
@@ -14,11 +15,19 @@ import io.realm.annotations.Required;
  */
 
 
-public class BacklogInfo extends RealmObject {
+public class BacklogInfo extends RealmObject implements Serializable{
 
     public static final int UNFINISH = 0;
     public static final int FINISHED = 1;
     public static final int OVERDUE = 2;
+
+    /**
+     * 重复类型
+     */
+    public static final int NONE = 0;
+    public static final int DAILY = 1;
+    public static final int MONTHLY = 2;
+    public static final int YEARLY = 3;
 
     @PrimaryKey
     private long backlogInfoId;     //当前时间戳来设置为id
@@ -35,6 +44,7 @@ public class BacklogInfo extends RealmObject {
     private int statue;
 
     private long planInfoId;
+    private int repeatType;
 
     public BacklogInfo(){
 
@@ -105,5 +115,13 @@ public class BacklogInfo extends RealmObject {
 
     public long getPlanInfoId() {
         return planInfoId;
+    }
+
+    public void setRepeatType(int repeatType) {
+        this.repeatType = repeatType;
+    }
+
+    public int getRepeatType() {
+        return repeatType;
     }
 }

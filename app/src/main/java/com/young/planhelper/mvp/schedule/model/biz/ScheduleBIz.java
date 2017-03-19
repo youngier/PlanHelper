@@ -187,4 +187,63 @@ public class ScheduleBIz extends Biz implements IScheduleBiz {
 
     }
 
+    @Override
+    public void modifyBacklogInfo(BacklogInfo mBacklogInfo, BacklogInfo backlogInfo, ICallback callback) {
+        if( mRealm == null ){
+            LogUtil.eLog("Realm没有初始化");
+            callback.onResult("获取失败");
+            return;
+        }
+
+        mRealm.beginTransaction();
+
+        mBacklogInfo.setContent(backlogInfo.getContent());
+        mBacklogInfo.setFromTime(backlogInfo.getFromTime());
+        mBacklogInfo.setToTime(backlogInfo.getToTime());
+        mBacklogInfo.setRepeatType(backlogInfo.getRepeatType());
+
+        mRealm.commitTransaction();
+
+        callback.onResult("");
+    }
+
+    @Override
+    public void deleteBacklog(BacklogInfo mBacklogInfo, ICallback callback) {
+        if( mRealm == null ){
+            LogUtil.eLog("Realm没有初始化");
+            callback.onResult("获取失败");
+            return;
+        }
+
+        mRealm.beginTransaction();
+
+        BacklogInfo backlogInfo = mRealm.where(BacklogInfo.class)
+                                    .equalTo("backlogInfoId", mBacklogInfo.getBacklogInfoId())
+                                    .findFirst();
+        backlogInfo.deleteFromRealm();
+
+        mRealm.commitTransaction();
+
+        callback.onResult("");
+    }
+
+    @Override
+    public void finishBacklogInfo(BacklogInfo mBacklogInfo, ICallback callback) {
+        if( mRealm == null ){
+            LogUtil.eLog("Realm没有初始化");
+            callback.onResult("获取失败");
+            return;
+        }
+
+        mRealm.beginTransaction();
+
+        mBacklogInfo.setStatue(BacklogInfo.FINISHED);
+
+        mRealm.commitTransaction();
+
+        callback.onResult("");
+
+        callback.onResult("");
+    }
+
 }

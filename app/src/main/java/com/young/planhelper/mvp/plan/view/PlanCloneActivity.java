@@ -35,7 +35,7 @@ public class PlanCloneActivity extends BaseFragmentActivity {
 
         mToolbar.setTitle("计划");
 
-        mToolbar.setOnAddClickListener( () -> {
+        mToolbar.setOnRightClickListener( () -> {
             Intent intent = new Intent(this, PlanAddActivity.class);
             if( mPlanVp.getCurrentItem() == 0 )
                 intent.putExtra("isActive", true);
