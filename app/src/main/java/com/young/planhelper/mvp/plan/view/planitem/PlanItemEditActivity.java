@@ -1,5 +1,6 @@
 package com.young.planhelper.mvp.plan.view.planitem;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -47,12 +48,17 @@ public class PlanItemEditActivity extends BaseActivity implements IView {
 
     private IPlanItemAddPresenter presenter;
 
+    private String planInfoTitle = "";
+
     @Override
     protected void initUI() {
 
         setStatueBarColor();
 
         planInfoId = getIntent().getLongExtra("planInfoId", 0);
+
+        planInfoTitle = getIntent().getStringExtra("planInfoTitle");
+
         presenter = new PlanItemAddPresenter(this, this);
 
         mToolbar.setMode(Toolbar.BACK);
@@ -73,7 +79,11 @@ public class PlanItemEditActivity extends BaseActivity implements IView {
     @Override
     public void setData(Object data) {
         Toast.makeText(this, (String) data, Toast.LENGTH_SHORT).show();
-        finish();
+        Intent intent = new Intent(this, PlanItemActivity.class);
+        intent.putExtra("add", true);
+        intent.putExtra("planInfoId", planInfoId);
+        intent.putExtra("planInfoTitle", planInfoTitle);
+        startActivity(intent);
 
     }
 

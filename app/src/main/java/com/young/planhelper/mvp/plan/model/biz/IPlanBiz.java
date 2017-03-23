@@ -121,4 +121,19 @@ public interface IPlanBiz extends IBiz{
      * @param callback
      */
     void modifyPlanSecondItemInfoStateById(long planSecondItemInfoId, boolean isChecked, ICallback callback);
+
+    /**
+     * 修改任务项的标题
+     * @param planItemInfoId
+     * @param title
+     * @param callback
+     */
+    void modifyPlanSecondItemInfoTitle(long planItemInfoId, String title, ICallback callback);
+
+    /**
+     * 删除任务项
+     * @param planItemInfoId
+     * @param callback
+     */
+    void deletePlanItemInfo(long planItemInfoId, ICallback callback);
 }

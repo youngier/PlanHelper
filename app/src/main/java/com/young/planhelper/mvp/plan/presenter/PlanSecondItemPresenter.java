@@ -38,4 +38,14 @@ public class PlanSecondItemPresenter extends Presenter implements IPlanSecondIte
     public void modifyPlanSecondItemInfoStateById(long planSecondItemInfoId, boolean isChecked, IBiz.ICallback callback) {
         mBiz.modifyPlanSecondItemInfoStateById(planSecondItemInfoId, isChecked, callback);
     }
+
+    @Override
+    public void modifyPlanSecondItemInfoTitle(long planItemInfoId, String title, IBiz.ICallback callback) {
+        mBiz.modifyPlanSecondItemInfoTitle(planItemInfoId, title, callback);
+    }
+
+    @Override
+    public void deletePlanItemInfo(long planItemInfoId, IBiz.ICallback callback) {
+        mBiz.deletePlanItemInfo(planItemInfoId, callback);
+    }
 }

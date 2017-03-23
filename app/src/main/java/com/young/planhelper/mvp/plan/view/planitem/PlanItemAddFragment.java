@@ -19,6 +19,7 @@ public class PlanItemAddFragment extends BaseFragment implements IView{
 
 
     private long planInfoId;
+    private String planInfoTitle;
 
     @Override
     protected void setData() {
@@ -44,11 +45,16 @@ public class PlanItemAddFragment extends BaseFragment implements IView{
     void edit(){
         Intent intent = new Intent(getActivity(), PlanItemEditActivity.class);
         intent.putExtra("planInfoId", planInfoId);
+        intent.putExtra("planInfoTitle", planInfoTitle);
         startActivity(intent);
     }
 
 
     public void setPlanInfoId(Long planInfoId) {
         this.planInfoId = planInfoId;
+    }
+
+    public void setPlanInfoTitle(String planInfoTitle) {
+        this.planInfoTitle = planInfoTitle;
     }
 }

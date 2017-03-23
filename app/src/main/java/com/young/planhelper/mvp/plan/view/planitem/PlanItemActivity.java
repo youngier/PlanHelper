@@ -1,6 +1,8 @@
 package com.young.planhelper.mvp.plan.view.planitem;
 
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.hwangjr.rxbus.annotation.Subscribe;
@@ -46,6 +49,39 @@ public class PlanItemActivity extends BaseActivity implements IView{
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 0x001:
+
+                    adapter = null;
+
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    List<Fragment> fragments = fm.getFragments();
+                    if(fragments != null && fragments.size() >0){
+                        int len = fragments.size();
+                        for (int i = 0; i < len; i++) {
+                            ft.remove(fragments.get(i));
+                        }
+                    }
+                    ft.commit();
+
+
+                    adapter = new Adapter(fm);
+
+                    mViewPager.setAdapter(adapter);
+
+                    presenter.getPlanItemInfo(planInfoId, data -> setData(data));
+
+                    break;
+            }
+        }
+    };
+    private boolean isAfterAdd;
+
     @Override
     protected void initUI() {
 
@@ -56,6 +92,8 @@ public class PlanItemActivity extends BaseActivity implements IView{
         mToolbar.setOnMenuClickListener( () -> finish() );
 
         presenter = new PlanItemPresenter(this, this);
+
+        isAfterAdd = getIntent().getBooleanExtra("add", false);
 
         planInfoId = getIntent().getLongExtra("planInfoId", 0);
 
@@ -105,17 +143,23 @@ public class PlanItemActivity extends BaseActivity implements IView{
                 int size = planInfos.size();
                 for(int i=0; i<size; i++){
                     PlanItemFragment fragment = new PlanItemFragment(planInfos.get(i));
-                    adapter.addFragment(fragment, "");
+                    fragment.setHandler(handler);
+                    adapter.addFragment(fragment, planInfos.get(i).getTitle());
                 }
 
             }
 
             PlanItemAddFragment fragment = new PlanItemAddFragment();
             fragment.setPlanInfoId(planInfoId);
+            fragment.setPlanInfoTitle(getIntent().getStringExtra("planInfoTitle"));
 
             adapter.addFragment(fragment, "");
 
             adapter.notifyDataSetChanged();
+
+            if( isAfterAdd )
+                if( adapter.getCount() >= 2 )
+                    mViewPager.setCurrentItem(adapter.getCount() - 2);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -140,6 +184,23 @@ public class PlanItemActivity extends BaseActivity implements IView{
             mFragments.add(fragment);
             mFragmentTitles.add(title);
         }
+
+        public void removeFragment(String title) {
+
+            int index = 0;
+            int size = mFragmentTitles.size();
+
+            for( ; index < size; index++){
+                String temp = mFragmentTitles.get(index);
+                if( title.equals(temp) )
+                    break;
+            }
+
+            mFragmentTitles.remove(index);
+            mFragments.remove(index);
+
+        }
+
 
         @Override
         public Fragment getItem(int position) {
@@ -175,6 +236,7 @@ public class PlanItemActivity extends BaseActivity implements IView{
             }
             // 这个则是缓存不刷新视图
             return super.getItemPosition(object);}
+
     }
 
 }
