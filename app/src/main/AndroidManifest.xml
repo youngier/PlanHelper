@@ -47,8 +47,10 @@
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".mvp.plan.view.planitem.PlanItemActivity"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_plan_detail" />
-        <activity android:name=".mvp.plan.view.planitem.PlanItemEditActivity" />
+        <activity android:name=".mvp.plan.view.planitem.PlanItemEditActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemAddActivity" />
         <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemDetailActivity" />
         <activity android:name=".mvp.plan.view.planitem.thirditem.PlanThirdItemAddActivity" />

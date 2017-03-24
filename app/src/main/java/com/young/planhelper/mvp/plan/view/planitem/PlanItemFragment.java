@@ -205,6 +205,7 @@ public class PlanItemFragment extends BaseFragment{
      * 移动任务
      */
     private void moveTask() {
+        Toast.makeText(getActivity(), "敬请期待", Toast.LENGTH_SHORT).show();
     }
 
     /**

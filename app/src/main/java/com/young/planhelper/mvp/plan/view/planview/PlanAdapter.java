@@ -26,6 +26,9 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanViewHolder>{
     private List<PlanInfo> mDatas;
     private Context mContext;
     private OnClickListener listener;
+    private OnLongClickListener longClickListener;
+    private OnDeleteListener onDeleteListener;
+    private boolean isDelete = false;
 
     public PlanAdapter(Context context, List<PlanInfo> datas) {
         this.mContext = context;
@@ -41,14 +44,23 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanViewHolder>{
         View view = LayoutInflater.from(mContext).inflate(R.layout.view_plan_item, parent, false);
         PlanViewHolder viewHolder = new PlanViewHolder(view);
         viewHolder.planItemView = (PlanItemView) view.findViewById(R.id.plan_item_view);
-        if( listener != null )
-            viewHolder.planItemView.setOnClickListener(v -> listener.onClick(viewHolder.planItemView.getPlanInfo()));
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(PlanViewHolder holder, int position) {
-        holder.planItemView.setData(mDatas.get(position));
+        holder.planItemView.setData(mDatas.get(position), isDelete);
+        if( listener != null )
+            holder.planItemView.setOnClickListener(v -> listener.onClick(holder.planItemView.getPlanInfo()));
+
+        if( longClickListener != null )
+            holder.planItemView.setOnLongClickListener( v -> {
+                longClickListener.onLongClick();
+                return false;
+            } );
+
+        if( onDeleteListener != null )
+            holder.planItemView.setOnDeleteListener( planInfo -> onDeleteListener.onDelete(planInfo) );
     }
 
     @Override
@@ -64,8 +76,31 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanViewHolder>{
         this.listener = listener;
     }
 
+    public void setOnLongClickListener(OnLongClickListener longClickListener) {
+        this.longClickListener = longClickListener;
+    }
+
+    public void setIsDelete(boolean isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public boolean IsDelete() {
+        return isDelete;
+    }
+
+    public void setOnDeleteListener(OnDeleteListener onDeleteListener) {
+        this.onDeleteListener = onDeleteListener;
+    }
+
     public interface OnClickListener{
         void onClick(PlanInfo planInfo);
     }
 
+    public interface OnLongClickListener{
+        void onLongClick();
+    }
+
+    public interface OnDeleteListener{
+        void onDelete(PlanInfo planInfo);
+    }
 }

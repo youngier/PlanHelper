@@ -57,4 +57,11 @@ public class PlanPresenter extends Presenter implements IPlanPresenter{
 
         callback.onResult(data);
     }
+
+    @Override
+    public void deletePlanInfo(PlanInfo planInfo, IBiz.ICallback callback) {
+
+        mBiz.deletePlanInfo(planInfo, callback);
+
+    }
 }

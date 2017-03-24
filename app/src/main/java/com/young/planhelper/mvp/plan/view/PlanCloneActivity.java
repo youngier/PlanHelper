@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.KeyEvent;
 import android.widget.LinearLayout;
 
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.base.BaseFragmentActivity;
+import com.young.planhelper.mvp.base.view.BaseFragment;
 import com.young.planhelper.widget.NoScrollViewPager;
 import com.young.planhelper.widget.Toolbar;
 
@@ -27,6 +29,7 @@ public class PlanCloneActivity extends BaseFragmentActivity {
 
     @BindView(R.id.nsvp_plan)
     NoScrollViewPager mPlanVp;
+    private Adapter adapter;
 
     @Override
     protected void initUI() {
@@ -48,7 +51,7 @@ public class PlanCloneActivity extends BaseFragmentActivity {
     }
 
     private void setupViewPager() {
-        Adapter adapter = new Adapter(getSupportFragmentManager());
+        adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new PlanActiveFragment(), "线上合作");
         adapter.addFragment(new PlanArchiveFragment(), "独立副本");
         mPlanVp.setAdapter(adapter);
@@ -107,5 +110,15 @@ public class PlanCloneActivity extends BaseFragmentActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitles.get(position);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(  keyCode == KeyEvent.KEYCODE_BACK ){
+            BaseFragment baseFragment = (BaseFragment) adapter.getItem((mPlanVp.getCurrentItem()));
+            baseFragment.back();
+            return true;
+        }
+        return false;
     }
 }

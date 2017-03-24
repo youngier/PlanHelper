@@ -136,4 +136,11 @@ public interface IPlanBiz extends IBiz{
      * @param callback
      */
     void deletePlanItemInfo(long planItemInfoId, ICallback callback);
+
+    /**
+     * 删除任务
+     * @param planInfo
+     * @param callback
+     */
+    void deletePlanInfo(PlanInfo planInfo, ICallback callback);
 }

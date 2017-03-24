@@ -71,4 +71,11 @@ public abstract class BaseFragment extends Fragment implements IView{
     public void hideProgress(){
         shapeLoadingDialog.dismiss();
     }
+
+    /**
+     * 点击了返回
+     */
+    public void back() {
+
+    }
 }

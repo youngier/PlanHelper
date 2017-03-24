@@ -460,6 +460,75 @@ public class PlanBiz extends Biz implements IPlanBiz{
 
     }
 
+    @Override
+    public void deletePlanInfo(PlanInfo planInfo, ICallback callback) {
+        checkRealm(callback);
+
+        List<PlanItemInfo> planItemInfoList = mRealm.where(PlanItemInfo.class)
+                .equalTo("planInfoId", planInfo.getPlanInfoId())
+                .findAll();
+
+
+
+        List<PlanSecondItemInfo> planSecondItemInfoList = new ArrayList<>();
+        List<PlanThirdItemInfo> planThirdItemInfoList = new ArrayList<>();
+        List<PlanOperationInfo> planOperationInfoList = new ArrayList<>();
+
+        int len = planItemInfoList.size();
+        for( int i=0; i < len; i++ ){
+
+            long planItemInfoId = planItemInfoList.get(i).getPlanItemInfoId();
+            List<PlanSecondItemInfo> secondItemInfoList = mRealm.where(PlanSecondItemInfo.class)
+                    .equalTo("planItemInfoId", planItemInfoId)
+                    .findAll();
+            planSecondItemInfoList.addAll(secondItemInfoList);
+
+            int secondLen = planSecondItemInfoList.size();
+            for (int j=0; j<secondLen; j++){
+
+                long planSecondItemInfoId = planSecondItemInfoList.get(j).getPlanSecondItemInfoId();
+                List<PlanThirdItemInfo> thirdItemInfoList = mRealm.where(PlanThirdItemInfo.class)
+                        .equalTo("planSecondItemInfoId", planSecondItemInfoId)
+                        .findAll();
+                planThirdItemInfoList.addAll(thirdItemInfoList);
+
+                List<PlanOperationInfo> operationInfoList = mRealm.where(PlanOperationInfo.class)
+                        .equalTo("planSecondItemInfoId", planSecondItemInfoId)
+                        .findAll();
+                planOperationInfoList.addAll(operationInfoList);
+
+            }
+        }
+
+        mRealm.beginTransaction();
+
+        len = planOperationInfoList.size();
+        for(int i=0; i < len; i++){
+            planOperationInfoList.get(i).deleteFromRealm();
+        }
+
+        len = planThirdItemInfoList.size();
+        for(int i=0; i < len; i++){
+            planThirdItemInfoList.get(i).deleteFromRealm();
+        }
+
+        len = planSecondItemInfoList.size();
+        for(int i=0; i < len; i++){
+            planSecondItemInfoList.get(i).deleteFromRealm();
+        }
+
+        len = planItemInfoList.size();
+        for(int i=0; i < len; i++){
+            planItemInfoList.get(i).deleteFromRealm();
+        }
+
+        planInfo.deleteFromRealm();
+
+        mRealm.commitTransaction();
+
+        callback.onResult("删除成功");
+    }
+
     private void checkRealm(ICallback callback){
         if( mRealm == null ){
             LogUtil.eLog("Realm没有初始化");

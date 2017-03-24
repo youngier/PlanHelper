@@ -26,4 +26,11 @@ public interface IPlanPresenter extends IPresenter{
      * @param callback
      */
     void getPlanInfoByNetWork(final IBiz.ICallback callback);
+
+    /**
+     * 删除计划
+     * @param planInfo
+     * @param callback
+     */
+    void deletePlanInfo(PlanInfo planInfo, final IBiz.ICallback callback);
 }

@@ -68,6 +68,16 @@ public class PlanArchiveFragment extends BaseFragment implements IView {
             startActivity(intent);
         });
 
+        mPlanAdapter.setOnLongClickListener( () -> {
+            mPlanAdapter.setIsDelete(true);
+            mPlanAdapter.notifyDataSetChanged();
+        } );
+
+        mPlanAdapter.setOnDeleteListener( planInfo -> presenter.deletePlanInfo(planInfo, data -> {
+            mPlanAdapter.setIsDelete(false);
+            onResume();
+        }) );
+
     }
 
     @Override
@@ -83,6 +93,16 @@ public class PlanArchiveFragment extends BaseFragment implements IView {
             mPlanAdapter.notifyDataSetChanged();
         }catch (Exception e){
             Toast.makeText(getActivity(), (String)data, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void back() {
+        if( mPlanAdapter.IsDelete() ){
+            mPlanAdapter.setIsDelete(false);
+            mPlanAdapter.notifyDataSetChanged();
+        }else{
+            getActivity().finish();
         }
     }
 }

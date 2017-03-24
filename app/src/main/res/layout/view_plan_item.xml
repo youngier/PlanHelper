@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,12 +23,30 @@
                 android:layout_height="170dp"
                 android:src="@mipmap/ic_plan_bg_01"/>
 
-            <TextView
-                android:id="@+id/tv_plan_item_title"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="Food"/>
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_plan_item_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:ems="12"
+                    android:ellipsize="end"
+                    android:text="Fooddededededededededed"/>
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_plan_item_delete"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_delete_pic"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
