@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.special.ResideMenu.ResideMenu;
@@ -38,6 +39,9 @@ public class TimelineActivity extends BaseFragmentActivity implements View.OnCli
 
     @BindView(R.id.elv_timeline)
     ExpandableListView mTimelineElv;
+
+    @BindView(R.id.rl_timeline)
+    RelativeLayout mTimelineRl;
 
     private TimelineAdapter mTimelineAdapter;
 
@@ -93,6 +97,7 @@ public class TimelineActivity extends BaseFragmentActivity implements View.OnCli
 
             if( backlogInfos != null && backlogInfos.size() != 0 ) {
 
+                mTimelineRl.setVisibility(View.GONE);
                 long id = backlogInfos.get(0).getBacklogInfoId();
 
                 TimelineInfo timelineInfo = new TimelineInfo();
@@ -100,6 +105,8 @@ public class TimelineActivity extends BaseFragmentActivity implements View.OnCli
                 timelineInfo.getBacklogInfoList().add(backlogInfos.get(0));
 
                 timelineInfoList.add(timelineInfo);
+            }else{
+                mTimelineRl.setVisibility(View.VISIBLE);
             }
 
             for(int i=1; i<backlogInfos.size(); i++){
