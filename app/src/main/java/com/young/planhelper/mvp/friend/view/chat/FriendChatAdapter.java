@@ -48,7 +48,7 @@ public class FriendChatAdapter extends RecyclerView.Adapter<FriendChatViewHolder
     public void onBindViewHolder(FriendChatViewHolder holder, int position) {
         holder.friendChatItemView.setData(mDatas.get(position));
         if( listener != null )
-            holder.friendChatItemView.setOnClickListener(v -> listener.onClick(mDatas.get(position).getUserId()));
+            holder.friendChatItemView.setOnClickListener(v -> listener.onClick(mDatas.get(position).getUserId(), mDatas.get(position).getIconUrl()));
     }
 
     @Override
@@ -65,6 +65,6 @@ public class FriendChatAdapter extends RecyclerView.Adapter<FriendChatViewHolder
     }
 
     public interface OnClickListener{
-        void onClick(String id);
+        void onClick(String id, String iconUrl);
     }
 }

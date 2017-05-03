@@ -55,6 +55,7 @@ public class RegisterActivity extends BaseActivity implements SelectPicturePopup
     @BindView(R.id.et_register_account)
     EditText mAccountEt;
 
+
     @BindView(R.id.et_register_password)
     EditText mPasswordEt;
 
@@ -173,6 +174,7 @@ public class RegisterActivity extends BaseActivity implements SelectPicturePopup
             return;
         }
 
+
         if( email.equals("") ){
             Toast.makeText(this, "请输入邮箱", Toast.LENGTH_SHORT).show();
             return;
@@ -196,7 +198,7 @@ public class RegisterActivity extends BaseActivity implements SelectPicturePopup
 
 
         showProgress();
-        presenter.register(account, password, email, data -> {
+        presenter.register(account, "", password, email, data -> {
             setData(data);
         });
     }

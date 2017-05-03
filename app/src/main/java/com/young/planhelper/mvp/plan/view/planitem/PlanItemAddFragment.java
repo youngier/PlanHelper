@@ -21,6 +21,11 @@ public class PlanItemAddFragment extends BaseFragment implements IView{
     private long planInfoId;
     private String planInfoTitle;
 
+    /**
+     * 是否时在线计划添加的
+     */
+    private boolean isActive;
+
     @Override
     protected void setData() {
 
@@ -46,6 +51,7 @@ public class PlanItemAddFragment extends BaseFragment implements IView{
         Intent intent = new Intent(getActivity(), PlanItemEditActivity.class);
         intent.putExtra("planInfoId", planInfoId);
         intent.putExtra("planInfoTitle", planInfoTitle);
+        intent.putExtra("isActive", isActive);
         startActivity(intent);
     }
 
@@ -56,5 +62,9 @@ public class PlanItemAddFragment extends BaseFragment implements IView{
 
     public void setPlanInfoTitle(String planInfoTitle) {
         this.planInfoTitle = planInfoTitle;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 }

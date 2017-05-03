@@ -61,4 +61,5 @@
     <color name="gray_friend_person_item_group_text">#969696</color>
     <color name="orange_backlog_statue">#fcab53</color>
     <color name="puple_backlog_statue">#9793fe</color>
+    <color name="blue_chat">#009cff</color>
 </resources>

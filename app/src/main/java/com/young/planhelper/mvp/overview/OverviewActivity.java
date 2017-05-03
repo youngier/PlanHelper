@@ -18,108 +18,45 @@ import com.young.planhelper.mvp.base.BaseFragmentActivity;
 import com.young.planhelper.mvp.home.HomeCloneActivity;
 import com.young.planhelper.mvp.profile.view.ProfileActivity;
 import com.young.planhelper.mvp.timeline.TimelineActivity;
+import com.young.planhelper.util.TimeUtil;
+import com.young.planhelper.widget.Toolbar;
 
-public class OverviewActivity extends AppCompatActivity implements DrawerFragment.NavigationDrawerCallbacks {
+import butterknife.BindView;
+
+public class OverviewActivity extends BaseFragmentActivity{
 
 
-    private DrawerFragment mDrawerFragment;
-    private SandboxFragment mCurrFragment;
+    private StackedFragment mCurrFragment;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_overview);
-
-        mDrawerFragment = (DrawerFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.navigation_drawer);
-
-        mDrawerFragment.setUp(R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
-    }
-
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
+    protected void initUI() {
 
-        switch (position){
-            case 0:
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new LineFragment())
-                        .commit();
-                break;
-            case 1:
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new BarFragment())
-                        .commit();
-                break;
-            case 2:
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new StackedFragment())
-                        .commit();
-                break;
-            case 3:
-                mCurrFragment = new SandboxFragment();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, mCurrFragment)
-                        .commit();
-            default:
-                break;
-        }
-    }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, new StackedFragment())
+                .commit();
 
+        mToolbar.setMode(Toolbar.BACK);
 
+        mToolbar.setTitle(TimeUtil.getCurrentYearInString() + "年");
 
-    private void restoreActionBar() {
+        mToolbar.setOnDateClickListener( () -> {} );
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-    }
+        mToolbar.setOnMenuClickListener( () -> finish() );
 
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        if (!mDrawerFragment.isDrawerOpen()) {
-            getMenuInflater().inflate(R.menu.menu, menu);
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.github:
-                startActivity(new Intent("android.intent.action.VIEW",
-                        Uri.parse("https://github.com/diogobernardino/WilliamChart")));
-                return true;
-            case R.id.play:
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("market://details?id="
-                                    + this.getApplicationContext().getPackageName())));
-                } catch (ActivityNotFoundException e) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("http://play.google.com/store/apps/details?id=" +
-                                    "https://play.google.com/store/apps/details?id=com.db.williamchartdemo")));
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public int getLayout() {
+        return R.layout.activity_overview;
     }
 
-    public void onMenuClick(View view){
-        mCurrFragment.onMenuClick(view);
-    }
 
-    public void onPlay(View view){
-        mCurrFragment.onPlay(view);
-    }
+    @Override
+    public void setData(Object data) {
 
+    }
 }
 

@@ -15,6 +15,8 @@ public class User implements Serializable{
 
     private String account = "";
 
+    private String nickname = "";
+
     private String password = "";
 
     private String email = "";
@@ -77,5 +79,13 @@ public class User implements Serializable{
 
     public void setSortLetters(String sortLetters){
         this.sortLetters = sortLetters;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

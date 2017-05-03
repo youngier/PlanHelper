@@ -1,8 +1,10 @@
 package com.young.planhelper.mvp.plan.view.planitem.seconditem;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,9 +12,12 @@ import android.widget.Toast;
 
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.base.BaseActivity;
+import com.young.planhelper.mvp.base.presenter.Presenter;
 import com.young.planhelper.mvp.plan.model.bean.PlanSecondItemInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanSecondItemAddPresenter;
 import com.young.planhelper.mvp.plan.presenter.PlanSecondItemAddPresenter;
+import com.young.planhelper.mvp.plan.view.planitem.PlanItemActivity;
+import com.young.planhelper.mvp.plan.view.planitem.PlanItemEditActivity;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 import com.young.planhelper.mvp.schedule.presenter.IScheduleAddPresenter;
 import com.young.planhelper.mvp.schedule.presenter.ScheduleAddPresenter;
@@ -29,6 +34,10 @@ import java.text.ParseException;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class PlanSecondItemAddActivity extends BaseActivity {
 
@@ -60,12 +69,16 @@ public class PlanSecondItemAddActivity extends BaseActivity {
 
     private boolean hasNotification = true;
 
+    private boolean isActive;
+
     @Override
     protected void initUI() {
 
         planItemInfoId = getIntent().getLongExtra("planItemInfoId", 0);
 
         planInfoId = getIntent().getLongExtra("planInfoId", 0);
+
+        isActive = getIntent().getBooleanExtra("isActive", false);
 
         presenter = new PlanSecondItemAddPresenter(this, this);
 
@@ -98,23 +111,52 @@ public class PlanSecondItemAddActivity extends BaseActivity {
     @Override
     public void setData(Object data) {
 
-        BacklogInfo backlogInfo = new BacklogInfo();
+        if( isActive ){
+            Observable<String> result = (Observable<String>) data;
+            result.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<String>() {
 
-        backlogInfo.setPlanInfoId(planInfoId);
-        backlogInfo.setContent(mContentEt.getText().toString());
-        backlogInfo.setBacklogInfoId(TimeUtil.getCurrentTimeInLong());
-        backlogInfo.setStatue(BacklogInfo.UNFINISH);
-        backlogInfo.setFromTime(TimeUtil.getCurrentTimeInLong());
-        try {
-            backlogInfo.setToTime(TimeUtil.dateToStamp(mTimeTv.getText().toString()));
-        } catch (ParseException e) {
-            e.printStackTrace();
+                        @Override
+                        public void onCompleted() {
+                            Log.i("way", "onCompleted");
+                            hideProgress();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.i("way", "onError" + e.toString());
+                            hideProgress();
+                        }
+
+                        @Override
+                        public void onNext(String s) {
+                            Log.i("way", "onNext" + s);
+                            hideProgress();
+                            finish();
+                        }
+                    });
+        }else{
+            finish();
         }
 
-        scheduleAddPresenter.addBacklogInfo(backlogInfo, data1 -> {
-            Toast.makeText(this, (String)data1, Toast.LENGTH_SHORT).show();
-            finish();
-        });
+//        BacklogInfo backlogInfo = new BacklogInfo();
+//
+//        backlogInfo.setPlanInfoId(planInfoId);
+//        backlogInfo.setContent(mContentEt.getText().toString());
+//        backlogInfo.setBacklogInfoId(TimeUtil.getCurrentTimeInLong());
+//        backlogInfo.setStatue(BacklogInfo.UNFINISH);
+//        backlogInfo.setFromTime(TimeUtil.getCurrentTimeInLong());
+//        try {
+//            backlogInfo.setToTime(TimeUtil.dateToStamp(mTimeTv.getText().toString()));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        scheduleAddPresenter.addBacklogInfo(backlogInfo, data1 -> {
+//            Toast.makeText(this, (String)data1, Toast.LENGTH_SHORT).show();
+//            finish();
+//        });
     }
 
     /**
@@ -168,6 +210,9 @@ public class PlanSecondItemAddActivity extends BaseActivity {
         planSecondItemInfo.setPlanItemInfoId(planItemInfoId);
         planSecondItemInfo.setHasNotification(hasNotification);
 
-        presenter.addPlanSecondItem(planSecondItemInfo, data -> setData(data));
+        if( !isActive )
+            presenter.addPlanSecondItem(planSecondItemInfo, data -> setData(data));
+        else
+            presenter.addPlanSecondItemByNetWork(planSecondItemInfo, data -> setData(data));
     }
 }

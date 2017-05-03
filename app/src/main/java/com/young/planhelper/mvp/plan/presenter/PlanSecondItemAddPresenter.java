@@ -8,6 +8,10 @@ import com.young.planhelper.mvp.base.view.IView;
 import com.young.planhelper.mvp.plan.model.bean.PlanSecondItemInfo;
 import com.young.planhelper.mvp.plan.model.biz.IPlanBiz;
 import com.young.planhelper.mvp.plan.model.biz.PlanBiz;
+import com.young.planhelper.network.plan.PlanAddApiService;
+import com.young.planhelper.network.plan.PlanAddSecondItemApiService;
+
+import rx.Observable;
 
 /**
  * @author: young
@@ -33,5 +37,17 @@ public class PlanSecondItemAddPresenter extends Presenter implements IPlanSecond
     @Override
     public void addPlanSecondItem(PlanSecondItemInfo planSecondItemInfo, IBiz.ICallback callback) {
         mBiz.addPlanSecondItem(planSecondItemInfo, callback);
+    }
+
+    @Override
+    public void addPlanSecondItemByNetWork(PlanSecondItemInfo planSecondItemInfo, IBiz.ICallback callback) {
+
+        PlanAddSecondItemApiService planAddSecondItemApiService = mRetrofit.create(PlanAddSecondItemApiService.class);
+
+        //获得Observable对象
+        Observable<String> data = planAddSecondItemApiService.addPlanSecondItem(planSecondItemInfo.getPlanItemInfoId(),
+                planSecondItemInfo.getTitle(), planSecondItemInfo.getContent(), planSecondItemInfo.getTime());
+
+        callback.onResult(data);
     }
 }

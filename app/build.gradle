@@ -36,7 +36,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+
 }
+
 
 /**
  * 引入第三方Java8兼容插件
@@ -116,6 +119,7 @@ dependencies {
     //图表
     compile project(':williamChart')
     compile project(':holoColorPicker')
+
     //加载框
     compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
 
@@ -127,4 +131,5 @@ dependencies {
 
     // 圆形头像
     compile 'de.hdodenhof:circleimageview:2.1.0'
+
 }

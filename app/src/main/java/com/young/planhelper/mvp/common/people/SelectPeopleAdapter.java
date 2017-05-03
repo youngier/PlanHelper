@@ -1,0 +1,164 @@
+package com.young.planhelper.mvp.common.people;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.SectionIndexer;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.young.planhelper.R;
+import com.young.planhelper.constant.AppConstant;
+import com.young.planhelper.mvp.login.model.bean.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+/**
+ * @author: young
+ * email:1160415122@qq.com
+ * date:17/3/24  09:51
+ */
+
+
+public class SelectPeopleAdapter extends BaseAdapter implements SectionIndexer {
+
+    private List<User> list = new ArrayList<>();
+    private Context mContext;
+
+    private List<User> selectUserList = new ArrayList<>();
+
+    public SelectPeopleAdapter(Context mContext, List<User> list) {
+        this.mContext = mContext;
+        this.list = list;
+    }
+
+
+    /**
+     * 当ListView数据发生变化时,调用此方法来更新ListView
+     *
+     * @param list
+     */
+    public void updateListView(List<User> list) {
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
+    public int getCount() {
+        return this.list.size();
+    }
+
+    public Object getItem(int position) {
+        return list.get(position);
+    }
+
+    public long getItemId(int position) {
+        return position;
+    }
+
+    public View getView(final int position, View view, ViewGroup arg2) {
+        ViewHolder viewHolder = null;
+        final User mContent = list.get(position);
+        if (view == null) {
+            viewHolder = new ViewHolder();
+            view = LayoutInflater.from(mContext).inflate(R.layout.view_select_people, null);
+            viewHolder.tvTitle = (TextView) view.findViewById(R.id.tv_friend_person_item);
+            viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
+            viewHolder.civ = (CircleImageView) view.findViewById(R.id.civ_friend_person_item);
+            viewHolder.cb = (CheckBox) view.findViewById(R.id.cb_friend_person_item);
+            viewHolder.cb.setOnCheckedChangeListener( (buttonView, isChecked) -> {
+                    if( isChecked == true )
+                        selectUserList.add(list.get(position));
+                    else
+                        selectUserList.remove(list.get(position));
+                }
+            );
+            view.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
+        }
+
+        // 根据position获取分类的首字母的Char ascii值
+        int section = getSectionForPosition(position);
+
+        Glide.with(mContext)
+                .load(AppConstant.RECOUSE_IMAGE_URL + list.get(position).getIconUrl())
+                .into(viewHolder.civ);
+        // 如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
+        if (position == getPositionForSection(section)) {
+            viewHolder.tvLetter.setVisibility(View.VISIBLE);
+            viewHolder.tvLetter.setText(mContent.getSortLetters());
+        } else {
+            viewHolder.tvLetter.setVisibility(View.GONE);
+        }
+
+        viewHolder.tvTitle.setText(this.list.get(position).getAccount());
+
+        return view;
+
+    }
+
+    public void setData(List<User> data) {
+        this.list = data;
+    }
+
+    public List<User> getSelectUserList() {
+        return selectUserList;
+    }
+
+    final static class ViewHolder {
+        TextView tvLetter;
+        TextView tvTitle;
+        CircleImageView civ;
+        CheckBox cb;
+    }
+
+    /**
+     * 根据ListView的当前位置获取分类的首字母的Char ascii值
+     */
+    public int getSectionForPosition(int position) {
+        return list.get(position).getSortLetters().charAt(0);
+    }
+
+    /**
+     * 根据分类的首字母的Char ascii值获取其第一次出现该首字母的位置
+     */
+    public int getPositionForSection(int section) {
+        for (int i = 0; i < getCount(); i++) {
+            String sortStr = list.get(i).getSortLetters();
+            char firstChar = sortStr.toUpperCase().charAt(0);
+            if (firstChar == section) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * 提取英文的首字母，非英文字母用#代替。
+     *
+     * @param str
+     * @return
+     */
+    private String getAlpha(String str) {
+        String sortStr = str.trim().substring(0, 1).toUpperCase();
+        // 正则表达式，判断首字母是否是英文字母
+        if (sortStr.matches("[A-Z]")) {
+            return sortStr;
+        } else {
+            return "#";
+        }
+    }
+
+    @Override
+    public Object[] getSections() {
+        return null;
+    }
+}

@@ -74,4 +74,16 @@ public interface ISchedulePresenter extends IPresenter{
      * @param callback
      */
     void finishBacklogInfo(BacklogInfo mBacklogInfo, IBiz.ICallback callback);
+
+    /**
+     * 初始化，初始过期任务
+     * @param callback
+     */
+    void initBacklogInfo(IBiz.ICallback callback);
+
+    /**
+     * 获取今日需要完成的任务
+     * @param callback
+     */
+    void getBacklogInfoNeed(String date, IBiz.ICallback callback);
 }

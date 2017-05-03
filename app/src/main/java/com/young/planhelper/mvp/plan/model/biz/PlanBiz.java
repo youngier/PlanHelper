@@ -6,6 +6,7 @@ import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.mvp.base.model.Biz;
 import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.common.model.NotificationInfo;
+import com.young.planhelper.mvp.login.model.bean.User;
 import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanOperationInfo;
@@ -37,8 +38,11 @@ public class PlanBiz extends Biz implements IPlanBiz{
 
     private final Realm mRealm;
 
+    private final User user;
+
     public PlanBiz(Context context) {
         mRealm = AppApplication.get(context).getmAppComponent().getRealm();
+        user = AppApplication.get(context).getmAppComponent().getUserInfo();
     }
 
     @Override
@@ -106,7 +110,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
          */
         PlanOperationInfo planOperationInfo = new PlanOperationInfo();
         planOperationInfo.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
-        planOperationInfo.setName("三分钟热度");
+        planOperationInfo.setName(user.getUserId());
         planOperationInfo.setType(PlanOperationInfo.CREATE);
         planOperationInfo.setTime(TimeUtil.getCurrentDateTimeInString());
         planOperationInfo.setContent("创建了这个子任务");
@@ -194,7 +198,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
 
         PlanOperationInfo planOperationInfo = new PlanOperationInfo();
         planOperationInfo.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
-        planOperationInfo.setName("三分钟热度");
+        planOperationInfo.setName(user.getUserId());
         planOperationInfo.setTime(TimeUtil.getCurrentDateTimeInString());
         planOperationInfo.setContent("创建了单元任务："+planThirdItemInfo.getTitle());
         planOperationInfo.setPlanSecondItemInfoId(planThirdItemInfo.getPlanSecondItemInfoId());
@@ -275,7 +279,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
             case MODIFY_CONTENT:
                 PlanOperationInfo planOperationInfo = new PlanOperationInfo();
                 planOperationInfo.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
-                planOperationInfo.setName("三分钟热度");
+                planOperationInfo.setName(user.getUserId());
                 planOperationInfo.setTime(time);
                 planOperationInfo.setType(PlanOperationInfo.MODIFY_TEXT);
                 planOperationInfo.setContent("修改了任务的内容，原内容为："+mContent);
@@ -285,7 +289,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
             case MODIFY_TIME:
                 PlanOperationInfo planOperationInfo1 = new PlanOperationInfo();
                 planOperationInfo1.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
-                planOperationInfo1.setName("三分钟热度");
+                planOperationInfo1.setName(user.getUserId());
                 planOperationInfo1.setType(PlanOperationInfo.MODIFY_TIME);
                 planOperationInfo1.setTime(time);
                 planOperationInfo1.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
@@ -298,7 +302,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
             case MODIFY_CONTENT_AND_TIME:
                 PlanOperationInfo planOperationInfo2 = new PlanOperationInfo();
                 planOperationInfo2.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
-                planOperationInfo2.setName("三分钟热度");
+                planOperationInfo2.setName(user.getUserId());
                 planOperationInfo2.setTime(time);
                 planOperationInfo2.setType(PlanOperationInfo.MODIFY_TEXT);
                 planOperationInfo2.setContent("修改了任务的内容，原内容为："+mContent);
@@ -307,7 +311,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
 
                 PlanOperationInfo planOperationInfo3 = new PlanOperationInfo();
                 planOperationInfo3.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
-                planOperationInfo3.setName("三分钟热度");
+                planOperationInfo3.setName(user.getUserId());
                 planOperationInfo3.setTime(time);
                 planOperationInfo3.setType(PlanOperationInfo.MODIFY_TIME);
                 planOperationInfo3.setPlanSecondItemInfoId(planSecondItemInfo.getPlanSecondItemInfoId());
@@ -343,7 +347,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
 
         PlanOperationInfo planOperationInfo = new PlanOperationInfo();
         planOperationInfo.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
-        planOperationInfo.setName("三分钟热度");
+        planOperationInfo.setName(user.getUserId());
         planOperationInfo.setTime(TimeUtil.getCurrentDateTimeInString());
         if( isFinished == true ) {
             planOperationInfo.setType(PlanOperationInfo.FINISH);
@@ -373,7 +377,7 @@ public class PlanBiz extends Biz implements IPlanBiz{
 
         PlanOperationInfo planOperationInfo = new PlanOperationInfo();
         planOperationInfo.setPlanOperationInfoId(TimeUtil.getCurrentTimeInLong());
-        planOperationInfo.setName("三分钟热度");
+        planOperationInfo.setName(user.getUserId());
         planOperationInfo.setTime(TimeUtil.getCurrentDateTimeInString());
         if( isChecked == true ) {
             planOperationInfo.setType(PlanOperationInfo.FINISH);

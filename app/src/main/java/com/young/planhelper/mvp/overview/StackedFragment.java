@@ -1,5 +1,6 @@
 package com.young.planhelper.mvp.overview;
 
+import android.animation.PropertyValuesHolder;
 import android.animation.TimeInterpolator;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -21,127 +22,186 @@ import android.widget.TextView;
 
 import com.db.chart.Tools;
 import com.db.chart.listener.OnEntryClickListener;
+import com.db.chart.model.Bar;
 import com.db.chart.model.BarSet;
 import com.db.chart.view.AxisController;
 import com.db.chart.view.ChartView;
+import com.db.chart.view.HorizontalBarChartView;
 import com.db.chart.view.HorizontalStackBarChartView;
 import com.db.chart.view.StackBarChartView;
+import com.db.chart.view.Tooltip;
 import com.db.chart.view.XController;
 import com.db.chart.view.YController;
 import com.db.chart.view.animation.Animation;
 import com.db.chart.view.animation.easing.ExpoEase;
 import com.young.planhelper.R;
+import com.young.planhelper.mvp.base.view.BaseFragment;
+import com.young.planhelper.mvp.overview.presenter.IOverviewPresenter;
+import com.young.planhelper.mvp.overview.presenter.OverviewPresenter;
+import com.young.planhelper.util.LogUtil;
+import com.young.planhelper.util.TimeUtil;
+import com.young.planhelper.widget.NewAlertDialog;
+import com.young.planhelper.widget.Toolbar;
 
+import java.sql.Time;
 import java.text.DecimalFormat;
+import java.util.concurrent.ForkJoinPool;
+
+import butterknife.BindView;
 
 
-public class StackedFragment extends Fragment {
+public class StackedFragment extends BaseFragment {
+
+
+    private IOverviewPresenter presenter;
 
     private final TimeInterpolator enterInterpolator = new DecelerateInterpolator(1.5f);
     private final TimeInterpolator exitInterpolator = new AccelerateInterpolator();
 
 
     /** First chart */
-    private StackBarChartView mChartOne;
-    private ImageButton mPlayOne;
+    @BindView(R.id.stackedchart1)
+    StackBarChartView mChartOne;
+
+    @BindView(R.id.play1)
+    ImageButton mPlayOne;
+
     private boolean mUpdateOne;
-    private final String[] mLabelsOne= {"JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"};
+    private final String[] mLabelsOne= {"一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"};
     private final float [][] mValuesOne = { {30f, 40f, 25f, 25f, 40f, 25f, 25f, 30f, 30f, 25f, 40f, 25f},
             {30f, 30f, 25f, 40f, 25f, 30f, 40f, 30f, 30f, 25f, 25f, 25f},
             {30f, 30f, 25f, 25f, 25f, 25f, 25f, 30f, 40f, 25, 25, 40f} };
-    private TextView mLegendOneRed;
-    private TextView mLegendOneYellow;
-    private TextView mLegendOneGreen;
+
+    @BindView(R.id.state_one)
+    TextView mLegendOneRed;
+
+    @BindView(R.id.state_two)
+    TextView mLegendOneYellow;
+
+    @BindView(R.id.state_three)
+    TextView mLegendOneGreen;
+
+
 
 
     /** Second chart */
-    private HorizontalStackBarChartView mChartTwo;
-    private ImageButton mPlayTwo;
+    @BindView(R.id.stackedchart2)
+    HorizontalStackBarChartView mChartTwo;
+
+    @BindView(R.id.play2)
+    ImageButton mPlayTwo;
     private boolean mUpdateTwo;
-    private final String[] mLabelsTwo= {"0-20", "20-40", "40-60", "60-80", "80-100", "100+"};
+    private final String[] mLabelsTwo= {"0:00-3:59", "4:00-7:59", "8:00-11:59", "12:00-15:59", "16:00-19:59", "20:00-23:59"};
     private final float [][] mValuesTwo = { {1.8f, 2f, 2.4f, 2.2f, 3.3f, 3.45f},
             {-1.8f, -2.1f, -2.55f, -2.40f, -3.40f, -3.5f}};
 
 
     /** Third chart */
-    private HorizontalStackBarChartView mChartThree;
-    private ImageButton mPlayThree;
+    @BindView(R.id.barchart2)
+    HorizontalBarChartView mChartThree;
+
+    @BindView(R.id.play3)
+    ImageButton mPlayThree;
     private boolean mUpdateThree;
-    private TextView mTooltipThree;
-    private final String[] mLabelsThree= {"", "", "", ""};
-    private final float[][] mValuesThree = {{30f, 60f, 50f, 80f},{-70f, -40f, -50f, -20f}};
+    private final String[] mLabelsThree= {"周一", "周二", "周三", "周四", "周五", "周六", "周日"};
+    private final float [] mValuesThree = {23f, 23f, 23f, 34f, 55f, 71f, 98f};
+    private int[] chartData2 = new int[7];
+
+    @BindView(R.id.value)
+    TextView mTextViewThree;
+
+    @BindView(R.id.metric)
+    TextView mTextViewMetricThree;
 
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.setHasOptionsMenu(true);
+    protected void setData() {
+
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View layout = inflater.inflate(R.layout.stacked, container, false);
+    protected void initUI() {
+        presenter = new OverviewPresenter(this, getActivity());
 
         // Init first chart
         mUpdateOne = true;
-        mChartOne = (StackBarChartView) layout.findViewById(R.id.stackedchart1);
-        mPlayOne = (ImageButton) layout.findViewById(R.id.play1);
+
         mPlayOne.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                if(mUpdateOne)
-                    updateChart(0, mChartOne, mPlayOne);
-                else {
-                    dismissChart(0, mChartOne, mPlayOne);
-                }
-                mUpdateOne = !mUpdateOne;
+                new NewAlertDialog(getActivity(), "视图内容", "显示一年之内各月份任务的完成情况").show();
+//                if(mUpdateOne)
+//                    updateChart(0, mChartOne, mPlayOne);
+//                else {
+//                    dismissChart(0, mChartOne, mPlayOne);
+//                }
+//                mUpdateOne = !mUpdateOne;
             }
         });
-        mLegendOneRed = (TextView) layout.findViewById(R.id.state_one);
-        mLegendOneYellow = (TextView) layout.findViewById(R.id.state_two);
-        mLegendOneGreen = (TextView) layout.findViewById(R.id.state_three);
 
         // Init second chart
         mUpdateTwo = true;
-        mChartTwo = (HorizontalStackBarChartView) layout.findViewById(R.id.stackedchart2);
-        mPlayTwo = (ImageButton) layout.findViewById(R.id.play2);
         mPlayTwo.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                if(mUpdateTwo)
-                    updateChart(1, mChartTwo, mPlayTwo);
-                else
-                    dismissChart(1, mChartTwo, mPlayTwo);
-                mUpdateTwo = !mUpdateTwo;
+
+                new NewAlertDialog(getActivity(), "视图内容", "显示一年之内创建任务和需完成任务的时间情况，左边为创建任务时间，右边为需完成任务时间").show();
+                //                if(mUpdateTwo)
+//                    updateChart(1, mChartTwo, mPlayTwo);
+//                else
+//                    dismissChart(1, mChartTwo, mPlayTwo);
+//                mUpdateTwo = !mUpdateTwo;
             }
         });
 
+
         // Init third chart
         mUpdateThree = true;
-        mChartThree = (HorizontalStackBarChartView) layout.findViewById(R.id.stackedchart3);
-        mPlayThree = (ImageButton) layout.findViewById(R.id.play3);
         mPlayThree.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                if(mUpdateThree)
-                    updateChart(2, mChartThree, mPlayThree);
-                else
-                    dismissChart(2, mChartThree, mPlayThree);
-                mUpdateThree = !mUpdateThree;
+//                if(mUpdateThree)
+//                    updateChart(1, mChartThree, mPlayThree);
+//                else
+//                    dismissChart(1, mChartThree, mPlayThree);
+//                mUpdateThree = !mUpdateThree;
+                new NewAlertDialog(getActivity(), "视图内容", "显示一年之内周期任务完成的需要情况").show();
+
             }
         });
 
-        showChart(0, mChartOne, mPlayOne);
-        showChart(1, mChartTwo, mPlayTwo);
-        showChart(2, mChartThree, mPlayThree);
-        return layout;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+            mTextViewThree.setAlpha(0);
+            mTextViewMetricThree.setAlpha(0);
+        }else{
+            mTextViewThree.setVisibility(View.INVISIBLE);
+            mTextViewMetricThree.setVisibility(View.INVISIBLE);
+        }
+
+        mTextViewThree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new NewAlertDialog(getActivity(), "视图内容", "显示一年之内按周期任务的完成情况").show();
+//                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+//                    mTextViewThree.animate().alpha(0).setDuration(100);
+//                    mTextViewMetricThree.animate().alpha(0).setDuration(100);
+//                }
+            }
+        });
+
+
+        presenter.getDataByMonth(Integer.parseInt(TimeUtil.getCurrentYearInString()), data -> setData(data));
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.stacked;
     }
 
 
@@ -171,6 +231,7 @@ public class StackedFragment extends Fragment {
                 produceTwo(chart, action); break;
             case 2:
                 produceThree(chart, action); break;
+
             default:
         }
     }
@@ -268,56 +329,57 @@ public class StackedFragment extends Fragment {
     private void produceOne(ChartView chart, Runnable action){
         StackBarChartView stackedChart = (StackBarChartView) chart;
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-            stackedChart.setOnEntryClickListener(new OnEntryClickListener() {
-                @SuppressLint("NewApi")
-                @Override
-                public void onClick(int setIndex, int entryIndex, Rect rect) {
-                    if(setIndex == 2)
-                        mLegendOneRed.animate()
-                                .scaleY(1.1f)
-                                .scaleX(1.1f)
-                                .setDuration(100)
-                                .withEndAction(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mLegendOneRed.animate()
-                                                .scaleY(1.0f)
-                                                .scaleX(1.0f)
-                                                .setDuration(100);
-                                    }
-                                });
-                    else if(setIndex == 1){
-                        mLegendOneYellow.animate()
-                                .scaleY(1.1f)
-                                .scaleX(1.1f)
-                                .setDuration(100)
-                                .withEndAction(new Runnable(){
-                                    @Override
-                                    public void run() {
-                                        mLegendOneYellow.animate()
-                                                .scaleY(1.0f)
-                                                .scaleX(1.0f)
-                                                .setDuration(100);
-                                    }
-                                });
-                    }else{
-                        mLegendOneGreen.animate()
-                                .scaleY(1.1f)
-                                .scaleX(1.1f)
-                                .setDuration(100)
-                                .withEndAction(new Runnable(){
-                                    @Override
-                                    public void run() {
-                                        mLegendOneGreen.animate()
-                                                .scaleY(1.0f)
-                                                .scaleX(1.0f)
-                                                .setDuration(100);
-                                    }
-                                });
-                    }
-                }
-            });
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+//            stackedChart.setOnEntryClickListener(new OnEntryClickListener() {
+//                @SuppressLint("NewApi")
+//                @Override
+//                public void onClick(int setIndex, int entryIndex, Rect rect) {
+//                    LogUtil.eLog("点击：" + setIndex + ", " + entryIndex);
+//                    if(setIndex == 2)
+//                        mLegendOneRed.animate()
+//                                .scaleY(1.1f)
+//                                .scaleX(1.1f)
+//                                .setDuration(100)
+//                                .withEndAction(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        mLegendOneRed.animate()
+//                                                .scaleY(1.0f)
+//                                                .scaleX(1.0f)
+//                                                .setDuration(100);
+//                                    }
+//                                });
+//                    else if(setIndex == 1){
+//                        mLegendOneYellow.animate()
+//                                .scaleY(1.1f)
+//                                .scaleX(1.1f)
+//                                .setDuration(100)
+//                                .withEndAction(new Runnable(){
+//                                    @Override
+//                                    public void run() {
+//                                        mLegendOneYellow.animate()
+//                                                .scaleY(1.0f)
+//                                                .scaleX(1.0f)
+//                                                .setDuration(100);
+//                                    }
+//                                });
+//                    }else{
+//                        mLegendOneGreen.animate()
+//                                .scaleY(1.1f)
+//                                .scaleX(1.1f)
+//                                .setDuration(100)
+//                                .withEndAction(new Runnable(){
+//                                    @Override
+//                                    public void run() {
+//                                        mLegendOneGreen.animate()
+//                                                .scaleY(1.0f)
+//                                                .scaleX(1.0f)
+//                                                .setDuration(100);
+//                                    }
+//                                });
+//                    }
+//                }
+//            });
 
         Paint thresPaint = new Paint();
         thresPaint.setColor(Color.parseColor("#dad8d6"));
@@ -409,6 +471,8 @@ public class StackedFragment extends Fragment {
         ;
     }
 
+
+
     private void updateTwo(ChartView chart){
 
         float [][] values = { {-1.8f, -2f, -2.4f, -2.2f, -3.3f, -3.45f},
@@ -425,116 +489,188 @@ public class StackedFragment extends Fragment {
                 .setEndAction(action));
     }
 
-
-
     /**
      *
-     * Chart 3
+     * Chart 2
      *
      */
 
-    private void produceThree(ChartView chart, Runnable action){
-        HorizontalStackBarChartView barChart = (HorizontalStackBarChartView) chart;
+    public void produceThree(ChartView chart, Runnable action){
+        HorizontalBarChartView horChart = (HorizontalBarChartView) chart;
 
-        chart.setOnEntryClickListener(new OnEntryClickListener() {
+        Tooltip tip = new Tooltip(getActivity(), R.layout.barchart_two_tooltip);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            tip.setEnterAnimation(PropertyValuesHolder.ofFloat(View.ALPHA, 1));
+            tip.setExitAnimation(PropertyValuesHolder.ofFloat(View.ALPHA,0));
+        }
+
+        horChart.setTooltips(tip);
+
+
+        horChart.setOnEntryClickListener(new OnEntryClickListener() {
             @Override
             public void onClick(int setIndex, int entryIndex, Rect rect) {
-                if (mTooltipThree == null)
-                    showTooltipThree(entryIndex, rect);
-                else
-                    dismissTooltipThree(entryIndex, rect);
+
+                mTextViewThree.setText(chartData2[ 6 - entryIndex]+"");
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+                    mTextViewThree.animate().alpha(1).setDuration(200);
+                    mTextViewMetricThree.animate().alpha(1).setDuration(200);
+                }else{
+                    mTextViewThree.setVisibility(View.VISIBLE);
+                    mTextViewMetricThree.setVisibility(View.VISIBLE);
+                }
             }
         });
 
-        chart.setOnClickListener(new View.OnClickListener() {
+        horChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mTooltipThree != null)
-                    dismissTooltipThree(-1, null);
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+                    mTextViewThree.animate().alpha(0).setDuration(100);
+                    mTextViewMetricThree.animate().alpha(0).setDuration(100);
+                }else{
+                    mTextViewThree.setVisibility(View.INVISIBLE);
+                    mTextViewMetricThree.setVisibility(View.INVISIBLE);
+                }
             }
         });
 
-        BarSet dataset = new BarSet(mLabelsThree, mValuesThree[0]);
-        dataset.setColor(Color.parseColor("#687E8E"));
-        barChart.addData(dataset);
 
-        dataset = new BarSet(mLabelsThree, mValuesThree[1]);
-        dataset.setColor(Color.parseColor("#FF5C8E67"));
-        barChart.addData(dataset);
+        BarSet barSet = new BarSet();
+        Bar bar;
+        for(int i = 0; i < mLabelsThree.length; i++){
+            bar = new Bar(mLabelsThree[i], mValuesThree[i]);
+            if(i == mLabelsThree.length - 1 )
+                bar.setColor(Color.parseColor("#b26657"));
+            else if (i == 0)
+                bar.setColor(Color.parseColor("#998d6e"));
+            else
+                bar.setColor(Color.parseColor("#506a6e"));
+            barSet.addBar(bar);
+        }
+        horChart.addData(barSet);
+        horChart.setBarSpacing(Tools.fromDpToPx(5));
 
-        barChart.setRoundCorners(Tools.fromDpToPx(5));
-        barChart.setBarSpacing(Tools.fromDpToPx(8));
+        Paint gridPaint = new Paint();
+        gridPaint.setColor(Color.parseColor("#aab6b2ac"));
+        gridPaint.setStyle(Paint.Style.STROKE);
+        gridPaint.setAntiAlias(true);
+        gridPaint.setStrokeWidth(Tools.fromDpToPx(.75f));
 
-        barChart.setBorderSpacing(Tools.fromDpToPx(5))
-                .setYLabels(AxisController.LabelPosition.NONE)
-                .setXLabels(AxisController.LabelPosition.NONE)
+        horChart.setBorderSpacing(0)
+                .setAxisBorderValues(0, 100, 5)
+                .setGrid(HorizontalBarChartView.GridType.FULL, gridPaint)
                 .setXAxis(false)
                 .setYAxis(false)
-                .setAxisBorderValues(-80, 80, 10);
+                .setLabelsColor(Color.parseColor("#FF8E8A84"))
+                .setXLabels(XController.LabelPosition.NONE);
 
-        Animation anim = new Animation()
-                .setEndAction(action);
-
-        chart.show(anim);
+        int[] order = {6, 5, 4, 3, 2, 1, 0};
+        horChart.show(new Animation()
+                .setOverlap(.5f, order)
+                .setEndAction(action))
+        ;
     }
 
-    private void updateThree(ChartView chart){
+    public void updateThree(ChartView chart){
 
-        final float[][] values= {{50f, 70f, 10f, 30f},{-40f, -70f, -60f, -50f}};
-        chart.updateValues(0, values[0]);
-        chart.updateValues(1, values[1]);
+        chart.dismissAllTooltips();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+            mTextViewThree.animate().alpha(0).setDuration(100);
+            mTextViewMetricThree.animate().alpha(0).setDuration(100);
+        }else{
+            mTextViewThree.setVisibility(View.INVISIBLE);
+            mTextViewMetricThree.setVisibility(View.INVISIBLE);
+        }
+
+        float[] valuesTwoOne = {17f, 26f, 48f, 63f, 94f};
+        chart.updateValues(0, valuesTwoOne);
         chart.notifyDataUpdate();
     }
 
-    private static void dismissThree(ChartView chart, Runnable action){
+    public void dismissThree(ChartView chart, Runnable action){
 
-        chart.dismiss(chart.getChartAnimation().setEndAction(action));
-    }
-
-    @SuppressLint("NewApi")
-    private void showTooltipThree(int entryIndex, Rect rect){
-
-        mTooltipThree = (TextView) getActivity().getLayoutInflater().inflate(R.layout.stacked_three_tooltip, null);
-        mTooltipThree.setText(Integer.toString((int) mValuesThree[0][entryIndex]));
-
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(rect.width(), rect.height());
-        layoutParams.leftMargin = rect.left;
-        layoutParams.topMargin = rect.top;
-        mTooltipThree.setLayoutParams(layoutParams);
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1){
-            mTooltipThree.setAlpha(0);
-            mTooltipThree.setScaleY(0);
-            mTooltipThree.animate()
-                    .setDuration(200)
-                    .alpha(1)
-                    .scaleY(1)
-                    .setInterpolator(enterInterpolator);
-        }
-    }
-
-
-    @SuppressLint("NewApi")
-    private void dismissTooltipThree(final int entryIndex, final Rect rect){
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
-            mTooltipThree.animate()
-                    .setDuration(100)
-                    .scaleY(0)
-                    .alpha(0)
-                    .setInterpolator(exitInterpolator).withEndAction(new Runnable(){
-                @Override
-                public void run() {
-                    mChartThree.removeView(mTooltipThree);
-                    mTooltipThree = null;
-                    if(entryIndex != -1)
-                        showTooltipThree(entryIndex, rect);
-                }
-            });
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+            mTextViewThree.animate().alpha(0).setDuration(100);
+            mTextViewMetricThree.animate().alpha(0).setDuration(100);
         }else{
-            mTooltipThree = null;
-            if(entryIndex != -1)
-                showTooltipThree(entryIndex, rect);
+            mTextViewThree.setVisibility(View.INVISIBLE);
+            mTextViewMetricThree.setVisibility(View.INVISIBLE);
         }
+
+        chart.dismissAllTooltips();
+
+        int[] order = {0, 1, 2, 3, 4};
+        chart.dismiss(new Animation()
+                .setOverlap(.5f, order)
+                .setEndAction(action));
+    }
+
+    @Override
+    public void setData(Object data) {
+
+        try {
+            int[][] result = (int[][]) data;
+            for (int i=0; i<3; i++)
+                for (int j = 0; j<12; j++)
+                    mValuesOne[i][j] = result[i][j];
+
+
+            presenter.getDataByWeek(Integer.parseInt(TimeUtil.getCurrentYearInString()), data1 -> setChartData2(data1));
+
+        }catch (Exception e){
+
+        }
+
+    }
+
+    public void setChartData2(Object chartData2) {
+        try {
+
+            int[] result = (int[]) chartData2;
+
+            this.chartData2 = result;
+
+            float sum = 0;
+
+            for (int i = 0; i < result.length; i++) {
+                sum += result[i];
+            }
+
+            for (int i = 0; i < result.length; i++) {
+
+                mValuesThree[i] = 80 * (result[i] / sum);
+
+            }
+
+            presenter.getDataByHour(Integer.parseInt(TimeUtil.getCurrentYearInString()), data2 -> setChartData3(data2));
+
+        }catch (Exception e){
+
+        }
+    }
+
+    public void setChartData3(Object chartData3) {
+        try{
+
+            int[][] result = (int[][]) chartData3;
+
+            for (int i = 0; i < 2; i++)
+                for (int j = 0; j < 6; j++)
+                    mValuesTwo[i][j] = result[i][j];
+
+
+            showChart(0, mChartOne, mPlayOne);
+            showChart(1, mChartTwo, mPlayTwo);
+            showChart(2, mChartThree, mPlayThree);
+
+        }catch (Exception e){
+
+        }
+    }
+
+    public void showAlertDialog(){
+
     }
 }

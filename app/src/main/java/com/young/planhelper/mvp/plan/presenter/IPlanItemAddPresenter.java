@@ -18,4 +18,9 @@ public interface IPlanItemAddPresenter extends IPresenter{
      */
     void addPlanItem(PlanItemInfo planItemInfo, IBiz.ICallback callback);
 
+    /**
+     * 添加在线计划任务
+     */
+    void addPlanItemByNetWork(PlanItemInfo planItemInfo, IBiz.ICallback callback);
+
 }

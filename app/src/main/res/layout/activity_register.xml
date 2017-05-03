@@ -40,6 +40,28 @@
 
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1px"-->
+            <!--android:background="@color/gray"/>-->
+
+        <!--<com.wrapp.floatlabelededittext.FloatLabeledEditText-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_marginTop="25dp"-->
+            <!--android:layout_height="50dp">-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/et_register_nickname"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:textSize="16sp"-->
+                <!--android:background="@null"-->
+                <!--android:singleLine="true"-->
+                <!--android:digits="@string/digits"-->
+                <!--android:hint="昵称" />-->
+
+        <!--</com.wrapp.floatlabelededittext.FloatLabeledEditText>-->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1px"

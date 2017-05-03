@@ -18,6 +18,7 @@ public interface RegisterApiService {
     @FormUrlEncoded
     @POST("servlet/RegisterServlet")
     Observable<User> login(@Field("account")String account,
+                           @Field("nickname")String nickname,
                            @Field("password")String password,
                            @Field("email")String email);
 }

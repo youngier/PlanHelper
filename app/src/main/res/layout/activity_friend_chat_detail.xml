@@ -52,11 +52,11 @@
                 android:layout_marginRight="12dp"
                 android:layout_alignParentRight="true">
 
-                <ImageView
-                    android:id="@+id/iv_friend_chat_detail_more"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@mipmap/chat_add_normal"/>
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_friend_chat_detail_more"-->
+                    <!--android:layout_width="30dp"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:src="@mipmap/chat_add_normal"/>-->
 
                 <Button
                     android:visibility="gone"
@@ -104,5 +104,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/ll_friend_chat_detail_send"
-        android:layout_below="@+id/ll_view_tool_bar" />
+        android:layout_below="@+id/ll_view_tool_bar"
+        android:layout_marginBottom="10dp"/>
 </RelativeLayout>

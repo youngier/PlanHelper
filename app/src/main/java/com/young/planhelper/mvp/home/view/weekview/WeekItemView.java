@@ -272,8 +272,11 @@ public class WeekItemView extends LinearLayout implements View.OnClickListener {
             else
                 date += day;
 
+            boolean isHave = false;
+
             if( taskDay != null )
                 for (int j=0; j+k < taskDay.size(); j++){
+                    LogUtil.eLog("比较：date:"+date+", taskDay"+taskDay.get(j+k)+", j:"+j+", k:"+k);
                     if( date.equals(taskDay.get(j+k)) ){
                         k++;
                         mDayInfo.get(i).setHave(true);
@@ -282,8 +285,12 @@ public class WeekItemView extends LinearLayout implements View.OnClickListener {
                             ivs[i].setImageResource(R.mipmap.ic_week_view_have_current);
                         else
                             ivs[i].setImageResource(R.mipmap.ic_week_view_have);
-                    }else
+
+                        break;
+                    }else {
                         ivs[i].setVisibility(INVISIBLE);
+                        k=0;
+                    }
 
                 }
 

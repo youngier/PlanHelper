@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.widget.LinearLayout;
 
 import com.young.planhelper.R;
+import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.mvp.base.BaseFragmentActivity;
 import com.young.planhelper.mvp.base.view.BaseFragment;
+import com.young.planhelper.mvp.login.model.bean.User;
+import com.young.planhelper.mvp.login.view.LoginActivity;
 import com.young.planhelper.widget.NoScrollViewPager;
 import com.young.planhelper.widget.Toolbar;
 
@@ -39,12 +43,21 @@ public class PlanCloneActivity extends BaseFragmentActivity {
         mToolbar.setTitle("计划");
 
         mToolbar.setOnRightClickListener( () -> {
-            Intent intent = new Intent(this, PlanAddActivity.class);
-            if( mPlanVp.getCurrentItem() == 0 )
-                intent.putExtra("isActive", true);
-            else
-                intent.putExtra("isActive", false);
-            startActivity(intent);
+
+                Intent intent = new Intent(this, PlanAddActivity.class);
+                if (mPlanVp.getCurrentItem() == 0) {
+                    User user = AppApplication.get(this).getmAppComponent().getUserInfo();
+                    if( user == null || TextUtils.isEmpty(user.getIconUrl())) {
+                        startActivity(new Intent(this, LoginActivity.class));
+                    }else {
+                        intent.putExtra("isActive", true);
+                        startActivity(intent);
+                    }
+                } else {
+                    intent.putExtra("isActive", false);
+                    startActivity(intent);
+                }
+
         });
 
         setupViewPager();

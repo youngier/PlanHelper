@@ -56,10 +56,11 @@
                         tools:text="8 - 10 am"/>
 
                     <ImageView
+                        android:id="@+id/iv_backlog_item_finish"
                         android:layout_marginLeft="8dp"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@mipmap/ic_location"/>
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_finish"/>
 
                     <TextView
                         android:id="@+id/tv_backlog_item_location"
@@ -76,14 +77,14 @@
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/iv_backlog_item_person"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_backlog_item_person"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@mipmap/ic_person_01"
             android:layout_alignTop="@+id/relativeLayout2"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"/>
+
 
     </RelativeLayout>
 

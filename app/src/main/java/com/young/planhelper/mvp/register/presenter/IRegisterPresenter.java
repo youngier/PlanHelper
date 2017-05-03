@@ -14,7 +14,15 @@ import com.young.planhelper.mvp.login.model.bean.User;
 
 public interface IRegisterPresenter {
 
-    void register(String account, String password, String email, IBiz.ICallback callback);
+    /**
+     * 注册
+     * @param account
+     * @param nickname
+     * @param password
+     * @param email
+     * @param callback
+     */
+    void register(String account, String nickname, String password, String email, IBiz.ICallback callback);
 
     /**
      * 上传图片

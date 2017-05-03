@@ -35,28 +35,36 @@
         <activity
             android:name=".mvp.home.HomeActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".mvp.schedule.view.ScheduleAddActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
         <activity
             android:name=".mvp.common.photo.SelectPhotoActivity"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".mvp.plan.view.PlanAddActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".mvp.plan.view.planitem.PlanItemActivity"
-            android:launchMode="singleTask"
-            android:label="@string/title_activity_plan_detail" />
-        <activity android:name=".mvp.plan.view.planitem.PlanItemEditActivity"
+            android:label="@string/title_activity_plan_detail"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".mvp.plan.view.planitem.PlanItemEditActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemAddActivity"
             android:launchMode="singleTask"/>
-        <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemAddActivity" />
-        <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemDetailActivity" />
-        <activity android:name=".mvp.plan.view.planitem.thirditem.PlanThirdItemAddActivity" />
-        <activity android:name=".mvp.schedule.view.ScheduleDetailCloneActivity"
+        <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemDetailActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".mvp.plan.view.planitem.thirditem.PlanThirdItemAddActivity"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name=".mvp.schedule.view.ScheduleDetailCloneActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:configChanges="orientation|keyboardHidden"/>
+            android:launchMode="singleTask"/>
 
         <service android:name=".mvp.common.service.TaskTimeService" />
 
@@ -78,8 +86,7 @@
         <activity android:name=".mvp.schedule.view.ScheduleAddCloneActivity" />
         <activity
             android:name=".mvp.overview.OverviewActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme" />
+            android:launchMode="singleTask" />
         <activity
             android:name=".mvp.timeline.TimelineActivity"
             android:launchMode="singleTask" />
@@ -104,12 +111,18 @@
         <activity
             android:name=".mvp.common.crop.activity.CropActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".mvp.friend.view.search.FriendSearchActivity" />
-        <activity android:name=".mvp.friend.view.FriendDetailActivity" />
+        <activity android:name=".mvp.friend.view.search.FriendSearchActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".mvp.friend.view.FriendDetailActivity"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".mvp.friend.view.FriendRemarkActivity"
-            android:theme="@android:style/Theme.Dialog" />
-        <activity android:name=".mvp.friend.view.chat.FriendChatDetailActivity"></activity>
+            android:theme="@android:style/Theme.Dialog"
+            android:launchMode="singleTask"/>
+        <activity android:name=".mvp.friend.view.chat.FriendChatDetailActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".mvp.common.people.SelectPeopleActivity"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

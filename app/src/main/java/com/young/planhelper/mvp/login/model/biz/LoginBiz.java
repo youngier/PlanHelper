@@ -5,7 +5,6 @@ import android.content.Context;
 import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.mvp.base.model.Biz;
 import com.young.planhelper.mvp.login.model.bean.User;
-import com.young.planhelper.network.LoginApiService;
 import com.young.planhelper.util.SharePreferenceUtil;
 
 import retrofit2.Retrofit;

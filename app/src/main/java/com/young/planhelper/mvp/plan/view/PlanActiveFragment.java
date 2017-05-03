@@ -65,6 +65,7 @@ public class PlanActiveFragment extends BaseFragment implements IView {
 
         mPlanAdapter.setOnClickListener(planInfo -> {
             Intent intent = new Intent(getActivity(), PlanItemActivity.class);
+            intent.putExtra("isActive", true);
             intent.putExtra("planInfoId", planInfo.getPlanInfoId());
             intent.putExtra("planInfoTitle", planInfo.getTitle());
             startActivity(intent);

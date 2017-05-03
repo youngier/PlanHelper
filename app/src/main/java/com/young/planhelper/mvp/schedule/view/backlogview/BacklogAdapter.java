@@ -25,6 +25,7 @@ public class BacklogAdapter extends BaseAdapter{
 
     private List<BacklogInfo> mDatas;
     private Context mContext;
+    private OnItemClickListener onItemClickListener;
 
 
     public BacklogAdapter(Context context, List<BacklogInfo> datas) {
@@ -69,7 +70,18 @@ public class BacklogAdapter extends BaseAdapter{
         BacklogItemView backlogItemView = (BacklogItemView)convertView;
         backlogItemView.setData(mDatas.get(position));
 
+        backlogItemView.setOnClickListener(v -> {
+            onItemClickListener.onItemClick(position);
+        });
+
         return backlogItemView;
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
 }

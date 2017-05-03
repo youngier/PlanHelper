@@ -37,6 +37,11 @@ public class PlanSecondItemDetailPresenter extends Presenter implements IPlanSec
     }
 
     @Override
+    public void getPlanSecondItemInfoByIdOnline(long planSecondItemInfoId, IBiz.ICallback callback) {
+
+    }
+
+    @Override
     public void getPlanThirdItemInfoBySecondId(long planSecondItemInfoId, IBiz.ICallback callback) {
         mBiz.getPlanThirdItemInfoBySecondId(planSecondItemInfoId,callback);
     }

@@ -80,6 +80,8 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
     ScrollView mSv;
 
 
+
+
     private IPlanSecondItemDetailPresenter presenter;
 
     private long planSecondItemInfoId;
@@ -97,12 +99,16 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
 
     private PlanSecondItemInfo mPlanSecondItemInfo;
 
+    private boolean isActive;
+
     @Override
     protected void initUI() {
 
         planSecondItemInfoId = getIntent().getLongExtra("planSecondItemInfoId", 0);
 
         planInfoId = getIntent().getLongExtra("planInfoId", 0);
+
+        isActive = getIntent().getBooleanExtra("isActive", false);
 
         setStatueBarColor();
 
@@ -130,7 +136,10 @@ public class PlanSecondItemDetailActivity extends BaseActivity {
             });
         } );
 
-        presenter.getPlanSecondItemInfoById(planSecondItemInfoId, data -> setData(data));
+        if( !isActive )
+            presenter.getPlanSecondItemInfoById(planSecondItemInfoId, data -> setData(data));
+        else
+            presenter.getPlanSecondItemInfoByIdOnline(planSecondItemInfoId, data -> setData(data));
 
     }
 

@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -58,8 +60,32 @@ public class HomeCloneActivity extends BaseFragmentActivity{
     @BindView(R.id.iv_home_calendar)
     ImageView mCalendarIv;
 
+    @BindView(R.id.tv_home_calendar)
+    TextView mCalendarTv;
+
+    @BindView(R.id.tv_home_task_need)
+    TextView mNeedTv;
+
+    @BindView(R.id.lv_home_need)
+    NestListView mNeedLv;
+
+    @BindView(R.id.tv_home_task_today)
+    TextView mTodayTv;
+
     @BindView(R.id.lv_home_task)
     NestListView mTaskLv;
+
+    @BindView(R.id.tv_home_task_overdue)
+    TextView mOverdueTv;
+
+    @BindView(R.id.lv_home_overdue)
+    NestListView mOverdueLv;
+
+    @BindView(R.id.rl_home_task_overdue)
+    RelativeLayout mOverdueRl;
+
+    @BindView(R.id.tv_home_task_skip)
+    TextView mOverdueSkipTv;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -72,10 +98,21 @@ public class HomeCloneActivity extends BaseFragmentActivity{
 
     ISchedulePresenter presenter;
 
+    private BacklogAdapter mNeedAdapter;
+
     private BacklogAdapter mTaskAdapter;
 
-    private int calendarHeight = 800;
+    private BacklogAdapter mOverdueAdapter;
+
+//    private BacklogAdapter mTaskAdapter;
+
+    private int calendarHeight = 810;
     private List<String> timeList;
+
+    /**
+     * 所选日期
+     */
+    private String date;
 
 
     @Override
@@ -83,11 +120,14 @@ public class HomeCloneActivity extends BaseFragmentActivity{
 
         presenter = new SchedulePresenter(this, this);
 
+        presenter.initBacklogInfo(data -> {});
 
         mToolbar.setOnDateClickListener( () -> {
             showMonPicker();
         } );
 
+
+        mCalendarTv.setText(TimeUtil.getDay());
 
 
         String currentTime = TimeUtil.getCurrentDateInString1();
@@ -116,8 +156,6 @@ public class HomeCloneActivity extends BaseFragmentActivity{
                 initWeekView(null);
 
                 mMonthView.setTaskDay(time);
-
-
 
             }catch (Exception e){
                 Toast.makeText(this, (String) data, Toast.LENGTH_SHORT).show();
@@ -178,6 +216,8 @@ public class HomeCloneActivity extends BaseFragmentActivity{
                 mToolbar.setTitle(year + "年" + month + "月");
                 mTaskAdapter.setDatas(null);
                 mTaskAdapter.notifyDataSetChanged();
+                mOverdueAdapter.setDatas(null);
+                mOverdueAdapter.notifyDataSetChanged();
                 initMonthView(year, month);
                 initWeekView(new DayInfo(year + "-" + month + "-" + day, day+"", "", ""));
             }
@@ -281,8 +321,11 @@ public class HomeCloneActivity extends BaseFragmentActivity{
                     time += dayInfo.getDay() + "日";
                     mTaskAdapter.setDatas(null);
                     mTaskAdapter.notifyDataSetChanged();
+                    mOverdueAdapter.setDatas(null);
+                    mOverdueAdapter.notifyDataSetChanged();
+                    date = time;
                     presenter.getBacklogInfos(time, data -> {
-                        setData(data);
+                        setTodayData(date, data);
                     });
                 }
             }
@@ -336,9 +379,6 @@ public class HomeCloneActivity extends BaseFragmentActivity{
                 time = TimeUtil.getCurrentDateInString1();
             else
                 time = dayInfo.getDate();
-
-
-
 
             StringTokenizer tokenizer = new StringTokenizer(time, "-");
             year = tokenizer.nextToken();
@@ -407,10 +447,11 @@ public class HomeCloneActivity extends BaseFragmentActivity{
             //获取月尾的星期
             dayOfWeek = CalendarUtil.dayOfWeek(yearValue, monthValue, monthCount);
 
-            for(int i = dayOfWeek; i>=0; i--) {
+            for(int i = dayOfWeek; i>0; i--) {
                 String week = getWeek(j++);
                 String date = year + "-" + monthValue + "-" + ( monthCount - i + 1);
                 dayInfos.add(new DayInfo(date, ( monthCount - i + 1) + "", week, ""));
+                LogUtil.eLog("dayOfWeek:"+dayOfWeek+", monthCount:"+monthCount+", i:"+i+", date:"+date);
             }
 
             for(int k=1; j<7; k++, j++){
@@ -452,8 +493,11 @@ public class HomeCloneActivity extends BaseFragmentActivity{
                 time += day + "日";
                 mTaskAdapter.setDatas(null);
                 mTaskAdapter.notifyDataSetChanged();
+                mOverdueAdapter.setDatas(null);
+                mOverdueAdapter.notifyDataSetChanged();
+                date = time;
                 presenter.getBacklogInfos(time, data -> {
-                    setData(data);
+                    setTodayData(date, data);
                 });
             }
         });
@@ -470,40 +514,78 @@ public class HomeCloneActivity extends BaseFragmentActivity{
      */
     private void setListData() {
 
+        mNeedAdapter = new BacklogAdapter(this, null);
+
+        mNeedAdapter.setOnItemClickListener( (position) -> {
+            Intent intent = new Intent(this, ScheduleDetailCloneActivity.class);
+            BacklogInfo backlogInfo = (BacklogInfo)mNeedAdapter.getItem(position);
+            intent.putExtra("backlogInfoId", backlogInfo.getBacklogInfoId());
+            startActivity(intent);
+        });
+
         mTaskAdapter = new BacklogAdapter(this, null);
 
-        mTaskLv.setOnItemClickListener((parent, view, position, id) -> {
+        mTaskAdapter.setOnItemClickListener( (position) -> {
                 Intent intent = new Intent(this, ScheduleDetailCloneActivity.class);
                 BacklogInfo backlogInfo = (BacklogInfo)mTaskAdapter.getItem(position);
                 intent.putExtra("backlogInfoId", backlogInfo.getBacklogInfoId());
                 startActivity(intent);
         });
 
+        mOverdueAdapter = new BacklogAdapter(this, null);
+
+        mOverdueAdapter.setOnItemClickListener( (position) -> {
+            Intent intent = new Intent(this, ScheduleDetailCloneActivity.class);
+            BacklogInfo backlogInfo = (BacklogInfo) mOverdueAdapter.getItem(position);
+            intent.putExtra("backlogInfoId", backlogInfo.getBacklogInfoId());
+            startActivity(intent);
+        });
+
+
+        mNeedLv.setAdapter(mNeedAdapter);
+
         mTaskLv.setAdapter(mTaskAdapter);
+
+        mOverdueLv.setAdapter(mOverdueAdapter);
+
         mTaskSv.smoothScrollTo(0, 0);
 
         String time = TimeUtil.getCurrentDateInString();
+        mNeedAdapter.setDatas(null);
+        mNeedAdapter.notifyDataSetChanged();
         mTaskAdapter.setDatas(null);
         mTaskAdapter.notifyDataSetChanged();
-        presenter.getBacklogInfos(time, data -> {
-            setData(data);
-        });
-
+        mOverdueAdapter.setDatas(null);
+        mOverdueAdapter.notifyDataSetChanged();
+        date = time;
+        presenter.getBacklogInfos(time, data -> setTodayData(date, data));
     }
 
     @Override
     public void setData(Object data) {
+
+    }
+
+    public void setTodayData(String date, Object data){
         try {
             List<BacklogInfo> backlogInfos = (List<BacklogInfo>) data;
 //            mTodayCountTv.setText("("+backlogInfos.size()+")");
 
+            if( backlogInfos.size() > 0 ){
+                mTodayTv.setVisibility(View.VISIBLE);
+                mTodayTv.setText("今日创建任务("+backlogInfos.size()+")");
+            }else{
+                mTodayTv.setVisibility(View.GONE);
+            }
+
             mTaskAdapter.setDatas(backlogInfos);
             mTaskAdapter.notifyDataSetChanged();
 
-        }catch (Exception e){
-            Toast.makeText(this, (String) data, Toast.LENGTH_SHORT).show();
-        }
+            presenter.getBacklogInfoNeed(date, data1 -> setNeedData(data1));
 
+        }catch (Exception e){
+
+        }
     }
 
     @OnClick(R.id.iv_home_calendar)
@@ -583,5 +665,63 @@ public class HomeCloneActivity extends BaseFragmentActivity{
         //开始动画
         va1.start();
 
+    }
+
+    public void setOverdueData(Object overdueData) {
+        try {
+            List<BacklogInfo> backlogInfos = (List<BacklogInfo>) overdueData;
+//            mTodayCountTv.setText("("+backlogInfos.size()+")");
+
+            if( backlogInfos.size() > 0 ){
+                mOverdueRl.setVisibility(View.VISIBLE);
+                mOverdueTv.setText("已过期任务("+backlogInfos.size()+")");
+            }else{
+                mOverdueRl.setVisibility(View.GONE);
+            }
+
+            mOverdueAdapter.setDatas(backlogInfos);
+            mOverdueAdapter.notifyDataSetChanged();
+
+        }catch (Exception e){
+            Toast.makeText(this, (String) overdueData, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * 忽略过期任务
+     */
+    @OnClick(R.id.tv_home_task_skip)
+    void skipOverdue(){
+
+        if( mOverdueLv.getVisibility() == View.VISIBLE ){
+            mOverdueLv.setVisibility(View.GONE);
+            mOverdueSkipTv.setText("详情");
+        }else{
+            mOverdueLv.setVisibility(View.VISIBLE);
+            mOverdueSkipTv.setText("忽略");
+            mOverdueLv.smoothScrollToPosition(mOverdueAdapter.getCount() - 1);
+        }
+    }
+
+    public void setNeedData(Object needData) {
+        try {
+            List<BacklogInfo> backlogInfos = (List<BacklogInfo>) needData;
+//            mTodayCountTv.setText("("+backlogInfos.size()+")");
+
+            if( backlogInfos.size() > 0 ){
+                mNeedTv.setVisibility(View.VISIBLE);
+                mNeedTv.setText("今日需要完成任务("+backlogInfos.size()+")");
+            }else{
+                mNeedTv.setVisibility(View.GONE);
+            }
+
+            mNeedAdapter.setDatas(backlogInfos);
+            mNeedAdapter.notifyDataSetChanged();
+
+            presenter.getBackLogInfoOverdue(data1 -> setOverdueData(data1));
+
+        }catch (Exception e){
+
+        }
     }
 }

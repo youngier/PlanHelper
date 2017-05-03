@@ -45,6 +45,7 @@ public class BacklogInfo extends RealmObject implements Serializable{
 
     private long planInfoId;
     private int repeatType;
+    private String members = "";
 
     public BacklogInfo(){
 
@@ -123,5 +124,13 @@ public class BacklogInfo extends RealmObject implements Serializable{
 
     public int getRepeatType() {
         return repeatType;
+    }
+
+    public void setMembers(String members) {
+        this.members = members;
+    }
+
+    public String getMembers() {
+        return members;
     }
 }

@@ -1,5 +1,6 @@
 package com.young.planhelper.mvp.plan.view.planitem;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -23,6 +24,9 @@ import com.young.planhelper.R;
 import com.young.planhelper.application.RxBus;
 import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.base.view.IView;
+import com.young.planhelper.mvp.home.HomeCloneActivity;
+import com.young.planhelper.mvp.login.model.bean.User;
+import com.young.planhelper.mvp.login.view.LoginActivity;
 import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanItemPresenter;
@@ -34,6 +38,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class PlanItemActivity extends BaseActivity implements IView{
 
@@ -45,6 +53,8 @@ public class PlanItemActivity extends BaseActivity implements IView{
     private Adapter adapter;
 
     private IPlanItemPresenter presenter;
+
+    private boolean isActive;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -95,6 +105,8 @@ public class PlanItemActivity extends BaseActivity implements IView{
 
         isAfterAdd = getIntent().getBooleanExtra("add", false);
 
+        isActive = getIntent().getBooleanExtra("isActive", false);
+
         planInfoId = getIntent().getLongExtra("planInfoId", 0);
 
         mToolbar.setTitle(getIntent().getStringExtra("planInfoTitle"));
@@ -123,7 +135,12 @@ public class PlanItemActivity extends BaseActivity implements IView{
             ft.commit();
         }
 
-        presenter.getPlanItemInfo(planInfoId, data -> setData(data));
+        if( !isActive )
+            presenter.getPlanItemInfo(planInfoId, data -> setData(data));
+        else {
+            showProgress();
+            presenter.getPlanItemInfoByNetWork(planInfoId, data -> setData(data));
+        }
     }
 
     @Override
@@ -134,9 +151,41 @@ public class PlanItemActivity extends BaseActivity implements IView{
     @Override
     public void setData(Object data) {
 
-        try {
+        if( !isActive )
+            setList((List<PlanItemInfo>) data);
+        else{
 
-            List<PlanItemInfo> planInfos = (List<PlanItemInfo>) data;
+            Observable<List<PlanItemInfo>> planItemInfoList = (Observable<List<PlanItemInfo>>) data;
+            planItemInfoList.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<List<PlanItemInfo>>() {
+
+                        @Override
+                        public void onCompleted() {
+                            Log.i("way", "onCompleted");
+                            hideProgress();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.i("way", "onError" + e.toString());
+                            hideProgress();
+                        }
+
+                        @Override
+                        public void onNext(List<PlanItemInfo> s) {
+                            Log.i("way", "onNext" + s.size());
+                            hideProgress();
+                            setList(s);
+                        }
+                    });
+
+        }
+
+    }
+
+    public void setList(List<PlanItemInfo> planInfos) {
+        try {
 
             if( planInfos != null && planInfos.size() != 0 ){
 
@@ -144,6 +193,7 @@ public class PlanItemActivity extends BaseActivity implements IView{
                 for(int i=0; i<size; i++){
                     PlanItemFragment fragment = new PlanItemFragment(planInfos.get(i));
                     fragment.setHandler(handler);
+                    fragment.setIsActive(isActive);
                     adapter.addFragment(fragment, planInfos.get(i).getTitle());
                 }
 
@@ -152,6 +202,7 @@ public class PlanItemActivity extends BaseActivity implements IView{
             PlanItemAddFragment fragment = new PlanItemAddFragment();
             fragment.setPlanInfoId(planInfoId);
             fragment.setPlanInfoTitle(getIntent().getStringExtra("planInfoTitle"));
+            fragment.setIsActive(isActive);
 
             adapter.addFragment(fragment, "");
 
@@ -165,8 +216,6 @@ public class PlanItemActivity extends BaseActivity implements IView{
             e.printStackTrace();
         }
 
-//        LogUtil.eLog("现在的fragment有："+getSupportFragmentManager().getFragments().size());
-        LogUtil.eLog("显示的fragment有："+adapter.getCount());
     }
 
 

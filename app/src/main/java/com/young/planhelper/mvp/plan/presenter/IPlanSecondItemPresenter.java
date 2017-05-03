@@ -20,6 +20,13 @@ public interface IPlanSecondItemPresenter extends IPresenter{
     void getPlanSecondItemInfo(long planItemInfoId, final IBiz.ICallback callback);
 
     /**
+     * 获取在线计划任务的子任务项内容
+     * @param planItemInfoId
+     * @param callback
+     */
+    void getPlanSecondItemInfoByNetWork(long planItemInfoId, final IBiz.ICallback callback);
+
+    /**
      * 修改子任务的状态
      * @param planSecondItemInfoId
      * @param isChecked

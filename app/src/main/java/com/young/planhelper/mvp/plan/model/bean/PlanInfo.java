@@ -3,6 +3,8 @@ package com.young.planhelper.mvp.plan.model.bean;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -32,6 +34,10 @@ public class PlanInfo extends RealmObject implements Serializable{
 
     private boolean isSynchronized = false;
 
+    /**
+     * 成员用逗号隔开
+     */
+    private String members = "";
 
 
     public long getPlanInfoId() {
@@ -73,5 +79,13 @@ public class PlanInfo extends RealmObject implements Serializable{
 
     public void setSynchronized(boolean aSynchronized) {
         isSynchronized = aSynchronized;
+    }
+
+    public void setMembers(String members) {
+        this.members = members;
+    }
+
+    public String getMembers() {
+        return members;
     }
 }

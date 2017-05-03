@@ -14,6 +14,13 @@ public class DateUtil {
 		return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 	}
 
+	public static int getDaysOfYear(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		date.setMonth(date.getMonth() + 1);
+		calendar.setTime(date);
+		return calendar.getActualMaximum(Calendar.DAY_OF_YEAR);
+	}
+
 	// 字符串类型日期转化成date类型
 	public static Date strToDate(String style, String date) {
 		SimpleDateFormat formatter = new SimpleDateFormat(style);

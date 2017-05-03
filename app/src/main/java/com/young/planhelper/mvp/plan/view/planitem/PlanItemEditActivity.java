@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,7 +15,11 @@ import com.hwangjr.rxbus.thread.EventThread;
 import com.young.planhelper.R;
 import com.young.planhelper.application.RxBus;
 import com.young.planhelper.mvp.base.BaseActivity;
+import com.young.planhelper.mvp.base.presenter.Presenter;
 import com.young.planhelper.mvp.base.view.IView;
+import com.young.planhelper.mvp.home.HomeCloneActivity;
+import com.young.planhelper.mvp.login.model.bean.User;
+import com.young.planhelper.mvp.login.view.LoginActivity;
 import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanItemAddPresenter;
@@ -29,6 +34,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.young.planhelper.constant.AppConstant.PLAN_ITEM_ADD;
 
@@ -50,6 +59,8 @@ public class PlanItemEditActivity extends BaseActivity implements IView {
 
     private String planInfoTitle = "";
 
+    private boolean isActive;
+
     @Override
     protected void initUI() {
 
@@ -58,6 +69,8 @@ public class PlanItemEditActivity extends BaseActivity implements IView {
         planInfoId = getIntent().getLongExtra("planInfoId", 0);
 
         planInfoTitle = getIntent().getStringExtra("planInfoTitle");
+
+        isActive = getIntent().getBooleanExtra("isActive", false);
 
         presenter = new PlanItemAddPresenter(this, this);
 
@@ -78,12 +91,44 @@ public class PlanItemEditActivity extends BaseActivity implements IView {
 
     @Override
     public void setData(Object data) {
-        Toast.makeText(this, (String) data, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, PlanItemActivity.class);
-        intent.putExtra("add", true);
-        intent.putExtra("planInfoId", planInfoId);
-        intent.putExtra("planInfoTitle", planInfoTitle);
-        startActivity(intent);
+        if( !isActive ) {
+            Toast.makeText(this, (String) data, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, PlanItemActivity.class);
+            intent.putExtra("add", true);
+            intent.putExtra("planInfoId", planInfoId);
+            intent.putExtra("planInfoTitle", planInfoTitle);
+            startActivity(intent);
+        }else{
+            Observable<String> result = (Observable<String>) data;
+            result.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<String>() {
+
+                        @Override
+                        public void onCompleted() {
+                            Log.i("way", "onCompleted");
+                            hideProgress();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.i("way", "onError" + e.toString());
+                            hideProgress();
+                        }
+
+                        @Override
+                        public void onNext(String s) {
+                            Log.i("way", "onNext" + s);
+                            hideProgress();
+                            Intent intent = new Intent(PlanItemEditActivity.this, PlanItemActivity.class);
+                            intent.putExtra("add", true);
+                            intent.putExtra("planInfoId", planInfoId);
+                            intent.putExtra("planInfoTitle", planInfoTitle);
+                            startActivity(intent);
+                        }
+                    });
+        }
+
 
     }
 
@@ -108,7 +153,10 @@ public class PlanItemEditActivity extends BaseActivity implements IView {
         planItemInfo.setTitle(title);
         planItemInfo.setPlanInfoId(planInfoId);
 
-        presenter.addPlanItem(planItemInfo, data -> setData(data));
+        if( !isActive )
+            presenter.addPlanItem(planItemInfo, data -> setData(data));
+        else
+            presenter.addPlanItemByNetWork(planItemInfo, data -> setData(data));
     }
 }
 

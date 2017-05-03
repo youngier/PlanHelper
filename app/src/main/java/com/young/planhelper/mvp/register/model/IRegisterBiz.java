@@ -16,11 +16,12 @@ public interface IRegisterBiz extends IBiz{
     /**
      * 注册
      * @param account
+     * @param nickname
      * @param password
      * @param email
      * @param callback
      */
-    void register(String account, String password, String email, ICallback callback);
+    void register(String account, String nickname, String password, String email, ICallback callback);
 
     /**
      * 上传图片

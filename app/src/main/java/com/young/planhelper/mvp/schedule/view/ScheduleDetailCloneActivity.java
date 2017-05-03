@@ -6,6 +6,8 @@ import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -17,13 +19,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.util.LogTime;
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.base.BaseActivity;
+import com.young.planhelper.mvp.common.people.SelectPeopleAdapter;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 import com.young.planhelper.mvp.schedule.presenter.IScheduleAddPresenter;
 import com.young.planhelper.mvp.schedule.presenter.ISchedulePresenter;
 import com.young.planhelper.mvp.schedule.presenter.ScheduleAddPresenter;
 import com.young.planhelper.mvp.schedule.presenter.SchedulePresenter;
+import com.young.planhelper.mvp.schedule.view.backlogview.PersonShowAdapter;
 import com.young.planhelper.util.DensityUtil;
 import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.TimeUtil;
@@ -33,7 +38,9 @@ import com.zcw.togglebutton.ToggleButton;
 import org.feezu.liuli.timeselector.TimeSelector;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -85,6 +92,11 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
     @BindView(R.id.rl_schedule_detail_delete)
     RelativeLayout mDeleteRl;
 
+    @BindView(R.id.rv_schedule_detail_person)
+    RecyclerView mShowPersonRv;
+
+    private PersonShowAdapter adapter;
+
     private boolean isAllDay;
 
     private int mRepeatType;
@@ -124,6 +136,7 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
             saveModifyBacklog();
         });
 
+
         mContentEt.setEnabled(false);
         mSwitchTgBtn.setEnabled(false);
         mRepeatTv.setEnabled(false);
@@ -135,6 +148,25 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
                 this.mBacklogInfo = backlogInfo;
 
                 mContentEt.setText(backlogInfo.getContent());
+
+                StringTokenizer tokenizer = new StringTokenizer(backlogInfo.getMembers(), ",");
+                List<String> iconList = new ArrayList<>();
+                int len = tokenizer.countTokens();
+                for (int i = 0; i < len; i++) {
+                    iconList.add(tokenizer.nextToken());
+                }
+
+                adapter = new PersonShowAdapter(this, iconList);
+
+                mShowPersonRv.setAdapter(adapter);
+
+                adapter.notifyDataSetChanged();
+
+                LinearLayoutManager lm = new LinearLayoutManager(this);
+                lm.setOrientation(LinearLayoutManager.HORIZONTAL);
+                mShowPersonRv.setLayoutManager(lm);
+
+                mShowPersonRv.getLayoutParams().width = (int) (len * DensityUtil.dipToPixels(this, 30)) + len * DensityUtil.dipToPixels(this, 2);
 
                 switch (backlogInfo.getRepeatType()){
                     case BacklogInfo.NONE:
@@ -166,7 +198,14 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
                     mButtonsRl.setVisibility(View.GONE);
                     mFinishIv.setVisibility(View.VISIBLE);
                     mGrapLl.getLayoutParams().height = DensityUtil.dipToPixels(this, 60);
+                }else if( backlogInfo.getStatue() == BacklogInfo.OVERDUE ){
+                    mFinishRl.setVisibility(View.GONE);
+                    mModifyRl.setVisibility(View.GONE);
+                    mGrapLl.getLayoutParams().height = DensityUtil.dipToPixels(this, 60);
+                    mFinishIv.setImageResource(R.mipmap.ic_overdue);
+                    mFinishIv.setVisibility(View.VISIBLE);
                 }
+
             }catch (Exception e){
                 Toast.makeText(this, (String) data, Toast.LENGTH_SHORT).show();
             }
@@ -234,10 +273,10 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
         builder.show();
     }
 
-    @OnClick(R.id.tv_detail_location)
-    public void selectLocation(){
-        startActivity(new Intent(this, MarkerActivity.class));
-    }
+//    @OnClick(R.id.tv_detail_location)
+//    public void selectLocation(){
+//        startActivity(new Intent(this, MarkerActivity.class));
+//    }
 
     @OnClick(R.id.rl_schedule_detail_modify)
     public void selectModify(){
@@ -246,6 +285,14 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
         mRepeatTv.setEnabled(true);
         mButtonsRl.setVisibility(View.GONE);
         mToolbar.setMode(Toolbar.MODIFY);
+
+        StringTokenizer tokenizer = new StringTokenizer(mBacklogInfo.getMembers(), ",");
+        List<String> iconList = new ArrayList<>();
+        int len = tokenizer.countTokens();
+        for (int i = 0; i < len; i++) {
+            iconList.add(tokenizer.nextToken());
+        }
+
     }
 
     @OnClick(R.id.rl_schedule_detail_delete)

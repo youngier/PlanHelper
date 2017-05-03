@@ -88,7 +88,6 @@
             android:id="@+id/iv_profile_item_person"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@mipmap/ic_person_01"
             android:layout_alignTop="@+id/relativeLayout2"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />

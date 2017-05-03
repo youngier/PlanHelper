@@ -38,8 +38,8 @@ public class FriendChatDetailActivity extends BaseActivity {
     @BindView(R.id.btn_friend_chat_detail_send)
     Button mSendBtn;
 
-    @BindView(R.id.iv_friend_chat_detail_more)
-    ImageView mMoreIv;
+//    @BindView(R.id.iv_friend_chat_detail_more)
+//    ImageView mMoreIv;
 
     @BindView(R.id.et_friend_chat_detail)
     EditText mEt;
@@ -66,9 +66,11 @@ public class FriendChatDetailActivity extends BaseActivity {
 
         mToolbar.setMode(Toolbar.BACK);
 
-        mToolbar.setTitle(user.getAccount());
+        mToolbar.setTitle(user.getUserId());
 
         adapter = new FriendChatDetailAdapter(this, null);
+
+        adapter.setFriend(user);
 
         presenter = new FriendPresenter(this, this);
 
@@ -88,13 +90,11 @@ public class FriendChatDetailActivity extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if(TextUtils.isEmpty(s)){
-                    LogUtil.eLog("onTextChanged:  '' "+mEt.getText());
                     mSendBtn.setVisibility(View.GONE);
-                    mMoreIv.setVisibility(View.VISIBLE);
+//                    mMoreIv.setVisibility(View.VISIBLE);
                 }else{
-                    LogUtil.eLog("onTextChanged:  !'' "+mEt.getText());
                     mSendBtn.setVisibility(View.VISIBLE);
-                    mMoreIv.setVisibility(View.GONE);
+//                    mMoreIv.setVisibility(View.GONE);
                 }
 
             }
@@ -130,6 +130,8 @@ public class FriendChatDetailActivity extends BaseActivity {
                             adapter.setData(chatInfoList);
 
                             adapter.notifyDataSetChanged();
+
+                            mRv.smoothScrollToPosition(adapter.getItemCount() - 1);
 
                         }
                     });

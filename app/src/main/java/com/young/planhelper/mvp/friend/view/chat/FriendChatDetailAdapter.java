@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.friend.model.bean.ChatInfo;
+import com.young.planhelper.mvp.login.model.bean.User;
 import com.young.planhelper.util.LogUtil;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class FriendChatDetailAdapter extends RecyclerView.Adapter<FriendChatDeta
 
     private List<ChatInfo> mDatas;
     private Context mContext;
+    private User mFriend;
+
 
     public FriendChatDetailAdapter(Context context, List<ChatInfo> datas) {
         this.mContext = context;
@@ -43,7 +46,7 @@ public class FriendChatDetailAdapter extends RecyclerView.Adapter<FriendChatDeta
 
     @Override
     public void onBindViewHolder(FriendChatDetailViewHolder holder, int position) {
-        holder.friendChatDetailItemView.setData(mDatas.get(position));
+        holder.friendChatDetailItemView.setData(mDatas.get(position), mFriend);
     }
 
     @Override
@@ -57,5 +60,9 @@ public class FriendChatDetailAdapter extends RecyclerView.Adapter<FriendChatDeta
 
     public void append(ChatInfo chatInfo) {
         mDatas.add(chatInfo);
+    }
+
+    public void setFriend(User friend) {
+        this.mFriend = friend;
     }
 }

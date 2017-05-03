@@ -46,12 +46,17 @@ public class PlanSelectItemView extends LinearLayout{
         ButterKnife.bind(this);
     }
 
-    public void setData(String data, int position) {
-        if( position == 0 )
-            mSelectCiv.setImageResource(R.mipmap.chat_add_normal);
-        else
+    public void setData(String data) {
             Glide.with(mContext)
                 .load(AppConstant.RECOUSE_IMAGE_URL + data)
                 .into(mSelectCiv);
+    }
+
+    public void isAdd() {
+        mSelectCiv.setImageResource(R.mipmap.chat_add_normal);
+    }
+
+    public CircleImageView getmSelectCiv() {
+        return mSelectCiv;
     }
 }

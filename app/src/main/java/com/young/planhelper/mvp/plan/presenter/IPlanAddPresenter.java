@@ -20,4 +20,10 @@ public interface IPlanAddPresenter extends IPresenter{
      */
     void addPlan(PlanInfo planInfo, IBiz.ICallback callback);
 
+    /**
+     * 添加在线计划
+     * @param planInfo
+     * @param callback
+     */
+    void addPlanByNetWork(PlanInfo planInfo, IBiz.ICallback callback);
 }

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -17,6 +18,7 @@ import com.young.planhelper.R;
 import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.constant.AppConstant;
 import com.young.planhelper.mvp.base.view.IView;
+import com.young.planhelper.mvp.common.people.SelectPeopleActivity;
 import com.young.planhelper.mvp.friend.view.FriendActivity;
 import com.young.planhelper.mvp.home.HomeCloneActivity;
 import com.young.planhelper.mvp.login.model.bean.User;
@@ -177,8 +179,16 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
             startActivity(new Intent(this, HomeCloneActivity.class));
         else if( view == itemIcon )
             startActivity(new Intent(this, LoginActivity.class));
-        else if( view == itemFriend )
-            startActivity(new Intent(this, FriendActivity.class));
+        else if( view == itemFriend ) {
+
+            User user = AppApplication.get(this).getmAppComponent().getUserInfo();
+
+            if(user == null || TextUtils.isEmpty(user.getUserId()))
+                startActivity(new Intent(this, LoginActivity.class));
+            else
+                startActivity(new Intent(this, FriendActivity.class));
+
+        }
 
         resideMenu.closeMenu();
     }

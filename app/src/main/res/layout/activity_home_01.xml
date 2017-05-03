@@ -9,6 +9,7 @@
         layout="@layout/view_tool_bar"/>
 
     <ScrollView
+        android:scrollbars="none"
         android:id="@+id/sv_home_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -30,15 +31,31 @@
                     android:orientation="vertical"
                     android:background="@mipmap/bg_home_head">
 
-                    <ImageView
-                        android:id="@+id/iv_home_calendar"
+                    <RelativeLayout
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@color/white"
-                        android:src="@mipmap/ic_calendar"/>
+                        android:layout_marginRight="10dp">
+
+                        <ImageView
+                            android:id="@+id/iv_home_calendar"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:background="@color/white"
+                            android:src="@mipmap/ic_calendar"/>
+
+                        <TextView
+                            android:id="@+id/tv_home_calendar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20sp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/gray"
+                            android:text="24"/>
+
+                    </RelativeLayout>
 
 
                 </RelativeLayout>
@@ -51,14 +68,93 @@
             <include
                 layout="@layout/view_month"/>
 
-            <com.young.planhelper.widget.NestListView
-                android:id="@+id/lv_home_task"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:background="@color/white"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_home_task_need"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="今日创建任务"/>
+
+                <com.young.planhelper.widget.NestListView
+                    android:id="@+id/lv_home_need"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_home_task_today"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="今日创建任务"/>
+
+                <com.young.planhelper.widget.NestListView
+                    android:id="@+id/lv_home_task"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_home_task_overdue"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:visibility="visible"
+                        android:id="@+id/tv_home_task_overdue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="今日创建任务"/>
+
+                    <TextView
+                        android:id="@+id/tv_home_task_skip"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:gravity="center_vertical"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:text="忽略"/>
+
+                </RelativeLayout>
+
+                <com.young.planhelper.widget.NestListView
+                    android:id="@+id/lv_home_overdue"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
         </LinearLayout>
 
     </ScrollView>

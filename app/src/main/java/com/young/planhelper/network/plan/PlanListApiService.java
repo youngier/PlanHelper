@@ -19,6 +19,6 @@ import rx.Observable;
 public interface PlanListApiService {
 
     @FormUrlEncoded
-    @POST("servlet/PlanListServlet")
+    @POST("servlet/plan/PlanListServlet")
     Observable<List<PlanInfo>> getPlanInfoList(@Field("user_id") String userId);
 }

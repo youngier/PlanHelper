@@ -34,6 +34,7 @@ public class Toolbar extends RelativeLayout {
     public static final int SELECT = 7;
     public static final int BACK = 8;
     public static final int MODIFY = 9;
+    public static final int SELECT_PEOPLE = 10;
 
     public static final int ALL = 0;
     public static final int FINISHED = 1;
@@ -155,6 +156,7 @@ public class Toolbar extends RelativeLayout {
                 mRightTv.setVisibility(GONE);
                 break;
             case MODIFY:
+            case SELECT_PEOPLE:
                 mContentIv.setVisibility(GONE);
                 mContentLl.setOnClickListener(null);
                 mRightIv.setImageResource(0);

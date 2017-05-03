@@ -18,4 +18,11 @@ public interface IPlanSecondItemAddPresenter {
      */
     void addPlanSecondItem(PlanSecondItemInfo planSecondItemInfo, IBiz.ICallback callback);
 
+    /**
+     * 添加线上计划子任务
+     * @param planSecondItemInfo
+     * @param callback
+     */
+    void addPlanSecondItemByNetWork(PlanSecondItemInfo planSecondItemInfo, IBiz.ICallback callback);
+
 }

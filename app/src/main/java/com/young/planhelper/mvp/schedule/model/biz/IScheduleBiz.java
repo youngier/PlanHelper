@@ -82,4 +82,17 @@ public interface IScheduleBiz extends IBiz{
      * @param callback
      */
     void finishBacklogInfo(BacklogInfo mBacklogInfo, ICallback callback);
+
+    /**
+     * 初始化任务
+     * @param callback
+     */
+    void initBacklogInfo(ICallback callback);
+
+    /**
+     * 获取所选日期需要完成的任务
+     * @param date
+     * @param callback
+     */
+    void getBacklogInfoNeed(String date, ICallback callback);
 }

@@ -51,6 +51,7 @@ public class PlanPresenter extends Presenter implements IPlanPresenter{
 
     @Override
     public void getPlanInfoByNetWork(IBiz.ICallback callback) {
+
         PlanListApiService planListApiService = mRetrofit.create(PlanListApiService.class);
 
         Observable<List<PlanInfo>> data = planListApiService.getPlanInfoList(user.getUserId());

@@ -127,7 +127,12 @@ public class TimelineActivity extends BaseFragmentActivity implements View.OnCli
             mTimelineAdapter.setData(timelineInfoList);
             mTimelineAdapter.notifyDataSetChanged();
 
-            mTimelineElv.setEnabled(false);
+            mTimelineElv.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                @Override
+                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                    return true;
+                }
+            });
             for( int i=0; i< mTimelineAdapter.getGroupCount(); i++)
                 mTimelineElv.expandGroup(i);
             mTimelineElv.setGroupIndicator(null);

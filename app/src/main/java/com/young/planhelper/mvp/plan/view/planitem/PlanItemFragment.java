@@ -18,6 +18,9 @@ import android.widget.Toast;
 
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.base.view.BaseFragment;
+import com.young.planhelper.mvp.home.HomeCloneActivity;
+import com.young.planhelper.mvp.login.model.bean.User;
+import com.young.planhelper.mvp.login.view.LoginActivity;
 import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanSecondItemInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanSecondItemPresenter;
@@ -33,6 +36,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * @author: young
@@ -62,6 +69,8 @@ public class PlanItemFragment extends BaseFragment{
 
     private Handler handler;
 
+    private boolean isActive;
+
     public PlanItemFragment(PlanItemInfo planItemInfo) {
         this.mPlanItemInfo = planItemInfo;
     }
@@ -69,7 +78,7 @@ public class PlanItemFragment extends BaseFragment{
     @Override
     protected void setData() {
 
-        setListData();
+        setList();
 
     }
 
@@ -89,15 +98,36 @@ public class PlanItemFragment extends BaseFragment{
 
     @Override
     public void setData(Object data) {
-        try {
-            List<PlanSecondItemInfo> planSecondItemInfos = (List<PlanSecondItemInfo>) data;
-            LogUtil.eLog(planSecondItemInfos.size()+"个查找内容");
-            adapter.setDatas(planSecondItemInfos);
-            adapter.notifyDataSetChanged();
 
-        }catch (Exception e){
-            Toast.makeText(getActivity(), (String)data, Toast.LENGTH_SHORT).show();
+        if( !isActive )
+            setListData((List<PlanSecondItemInfo>) data);
+        else{
+            Observable<List<PlanSecondItemInfo>> user = (Observable<List<PlanSecondItemInfo>>) data;
+            user.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<List<PlanSecondItemInfo>>() {
+
+                        @Override
+                        public void onCompleted() {
+                            Log.i("way", "onCompleted");
+                            hideProgress();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.i("way", "onError" + e.toString());
+                            hideProgress();
+                        }
+
+                        @Override
+                        public void onNext(List<PlanSecondItemInfo> s) {
+                            Log.i("way", "子任务列表的个数有：" + s.size());
+                            hideProgress();
+                            setListData(s);
+                        }
+                    });
         }
+
     }
 
     @OnClick(R.id.iv_fragment_plan_item_more)
@@ -105,20 +135,25 @@ public class PlanItemFragment extends BaseFragment{
         showPopupWindow();
     }
 
+    /**
+     * 添加子任务
+     */
     @OnClick(R.id.iv_fragment_plan_item)
     void addSecondItem(){
         Intent intent = new Intent(getActivity(), PlanSecondItemAddActivity.class);
         intent.putExtra("planItemInfoId", mPlanItemInfo.getPlanItemInfoId());
         intent.putExtra("planInfoId", mPlanItemInfo.getPlanInfoId());
+        intent.putExtra("isActive", isActive);
         startActivity(intent);
     }
 
-    private void setListData() {
+    private void setList() {
         adapter = new PlanSecondItemAdapter(getContext(), null);
         adapter.setOnClickListener(id -> {
             Intent intent = new Intent(getActivity(), PlanSecondItemDetailActivity.class);
             intent.putExtra("planSecondItemInfoId", id);
             intent.putExtra("planInfoId", mPlanItemInfo.getPlanInfoId());
+            intent.putExtra("isActive", isActive);
             startActivity(intent);
         });
 
@@ -133,8 +168,10 @@ public class PlanItemFragment extends BaseFragment{
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(new RecycleViewDivider(getContext(), LinearLayoutManager.VERTICAL));
 
-        presenter.getPlanSecondItemInfo(mPlanItemInfo.getPlanItemInfoId(), data -> setData(data));
-
+        if( !isActive )
+            presenter.getPlanSecondItemInfo(mPlanItemInfo.getPlanItemInfoId(), data -> setData(data));
+        else
+            presenter.getPlanSecondItemInfoByNetWork(mPlanItemInfo.getPlanItemInfoId(), data -> setData(data));
     }
 
     private void showPopupWindow() {
@@ -242,6 +279,20 @@ public class PlanItemFragment extends BaseFragment{
 
     public void setHandler(Handler handler) {
         this.handler = handler;
+    }
+
+    public void setListData(List<PlanSecondItemInfo> planSecondItemInfos) {
+        try {
+            LogUtil.eLog(planSecondItemInfos.size()+"个查找内容");
+            adapter.setDatas(planSecondItemInfos);
+            adapter.notifyDataSetChanged();
+
+        }catch (Exception e){
+        }
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     public interface OnDeleteCallBack{

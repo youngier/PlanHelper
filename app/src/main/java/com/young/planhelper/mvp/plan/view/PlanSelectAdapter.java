@@ -23,6 +23,8 @@ public class PlanSelectAdapter extends RecyclerView.Adapter<PlanSelectViewHolder
     private Context mContext;
     private OnClickListener listener;
 
+    int itemViewWidth;
+
     public PlanSelectAdapter(Context context, List<String> datas) {
         this.mContext = context;
         if( datas == null )
@@ -42,7 +44,16 @@ public class PlanSelectAdapter extends RecyclerView.Adapter<PlanSelectViewHolder
 
     @Override
     public void onBindViewHolder(PlanSelectViewHolder holder, int position) {
-        holder.planSelectItemView.setData(mDatas.get(position), position);
+
+        if( position == getItemCount() - 1 ){
+            holder.planSelectItemView.isAdd();
+            holder.planSelectItemView.setOnClickListener( v -> listener.onClick(position) );
+        }else{
+            if( mDatas.size() > 0 )
+                holder.planSelectItemView.setData(mDatas.get(position));
+        }
+
+        itemViewWidth = holder.planSelectItemView.getmSelectCiv().getLayoutParams().width;
     }
 
 
@@ -58,6 +69,10 @@ public class PlanSelectAdapter extends RecyclerView.Adapter<PlanSelectViewHolder
 
     public void setOnClickListener(OnClickListener listener) {
         this.listener = listener;
+    }
+
+    public int getItemViewWidth() {
+        return itemViewWidth;
     }
 
 

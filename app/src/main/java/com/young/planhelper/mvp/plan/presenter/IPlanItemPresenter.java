@@ -19,4 +19,11 @@ public interface IPlanItemPresenter extends IPresenter {
      */
     void getPlanItemInfo(long planInfoId, final IBiz.ICallback callback);
 
+    /**
+     * 获取在线计划内所有任务内容
+     * @param planInfoId
+     * @param callback
+     */
+    void getPlanItemInfoByNetWork(long planInfoId, final IBiz.ICallback callback);
 }
+

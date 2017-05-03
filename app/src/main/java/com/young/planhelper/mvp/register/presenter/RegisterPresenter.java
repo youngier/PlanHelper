@@ -33,8 +33,8 @@ public class RegisterPresenter extends Presenter implements IRegisterPresenter{
     }
 
     @Override
-    public void register(String account, String password, String email, IBiz.ICallback callback) {
-        mBiz.register(account, password, email, callback);
+    public void register(String account, String nickname, String password, String email, IBiz.ICallback callback) {
+        mBiz.register(account, nickname, password, email, callback);
     }
 
     @Override

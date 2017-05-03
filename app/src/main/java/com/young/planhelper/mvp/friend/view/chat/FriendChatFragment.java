@@ -54,9 +54,10 @@ public class FriendChatFragment extends BaseFragment implements IView {
 
         mFriendChatAdapter = new FriendChatAdapter(getActivity(), null);
 
-        mFriendChatAdapter.setOnClickListener( id -> {
+        mFriendChatAdapter.setOnClickListener( (id, iconUrl) -> {
             User user = new User();
             user.setUserId(id);
+            user.setIconUrl(iconUrl);
             Intent intent = new Intent(getActivity(), FriendChatDetailActivity.class);
             intent.putExtra("user", user);
             startActivity(intent);

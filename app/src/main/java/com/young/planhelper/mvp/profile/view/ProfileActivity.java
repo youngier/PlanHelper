@@ -1,6 +1,7 @@
 package com.young.planhelper.mvp.profile.view;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -8,12 +9,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.special.ResideMenu.ResideMenu;
 import com.young.planhelper.R;
+import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.constant.AppConstant;
 import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.base.BaseFragmentActivity;
 import com.young.planhelper.mvp.home.HomeCloneActivity;
+import com.young.planhelper.mvp.login.model.bean.User;
 import com.young.planhelper.mvp.overview.OverviewActivity;
 import com.young.planhelper.mvp.profile.presenter.IProfilePresenter;
 import com.young.planhelper.mvp.profile.presenter.ProfilePresenter;
@@ -29,6 +33,7 @@ import java.util.StringTokenizer;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends BaseFragmentActivity {
 
@@ -62,6 +67,9 @@ public class ProfileActivity extends BaseFragmentActivity {
     @BindView(R.id.tv_profile_overdue)
     TextView mOverdueTv;
 
+    @BindView(R.id.civ_profile)
+    CircleImageView mProfileCiv;
+
     private ProfileAdapter mProfileAdapter;
 
     private IProfilePresenter presenter;
@@ -79,6 +87,15 @@ public class ProfileActivity extends BaseFragmentActivity {
         presenter = new ProfilePresenter(this, this);
 
         setListData();
+
+        User user = AppApplication.get(this).getmAppComponent().getUserInfo();
+
+        if(user == null || TextUtils.isEmpty(user.getIconUrl()))
+            mProfileCiv.setImageResource(R.mipmap.ic_profile_bg);
+        else
+            Glide.with(this)
+                    .load(AppConstant.RECOUSE_IMAGE_URL + user.getIconUrl())
+                    .into(mProfileCiv);
 
         mTaskSv.smoothScrollTo(0, 0);
 
@@ -120,6 +137,13 @@ public class ProfileActivity extends BaseFragmentActivity {
         try {
             List<BacklogInfo> backlogInfos = (List<BacklogInfo>) data;
 //            mTodayCountTv.setText("("+backlogInfos.size()+")");
+
+            if( selectType == BacklogInfo.FINISHED )
+                mFinishedTv.setText(backlogInfos.size()+"");
+            else if( selectType == BacklogInfo.UNFINISH )
+                mUnFinishTv.setText(backlogInfos.size()+"");
+            else
+                mOverdueTv.setText(backlogInfos.size()+"");
 
             mProfileAdapter.setDatas(backlogInfos);
             mProfileAdapter.notifyDataSetChanged();
