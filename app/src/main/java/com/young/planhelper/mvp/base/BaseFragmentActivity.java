@@ -151,6 +151,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        resideMenu.setDirectionDisable(ResideMenu.DIRECTION_RIGHT);
         return resideMenu.dispatchTouchEvent(ev);
     }
 
