@@ -188,10 +188,12 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
                 if( backlogInfo.getToTime() - backlogInfo.getFromTime() == 60 * 60 * 24 * 1000 ) {
                     mSwitchTgBtn.setToggleOn();
                     isAllDay = true;
+                    mTimeLl.setVisibility(View.GONE);
                 }
                 else {
                     isAllDay = false;
-                    mSwitchTgBtn.setToggleOn();
+                    mSwitchTgBtn.setToggleOff();
+                    mTimeLl.setVisibility(View.VISIBLE);
                 }
 
                 if( backlogInfo.getStatue() == BacklogInfo.FINISHED ){
