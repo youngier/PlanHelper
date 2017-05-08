@@ -84,10 +84,11 @@
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/iv_timeline_child_item_person"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civ_timeline_child_item_person"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:visibility="gone"
             android:src="@mipmap/ic_person_01"
             android:layout_alignTop="@+id/relativeLayout2"
             android:layout_alignParentRight="true"

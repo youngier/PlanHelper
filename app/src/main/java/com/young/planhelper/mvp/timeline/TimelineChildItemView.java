@@ -8,7 +8,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps2d.model.Text;
+import com.bumptech.glide.Glide;
 import com.young.planhelper.R;
+import com.young.planhelper.constant.AppConstant;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 import com.young.planhelper.mvp.timeline.model.bean.TimelineInfo;
 import com.young.planhelper.util.TimeUtil;
@@ -17,6 +19,7 @@ import java.nio.Buffer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * @author: young
@@ -41,8 +44,8 @@ public class TimelineChildItemView extends LinearLayout{
     @BindView(R.id.ll_timeline_child_item_tag)
     LinearLayout mTagLl;
 
-    @BindView(R.id.iv_timeline_child_item_person)
-    ImageView mPersonIv;
+    @BindView(R.id.civ_timeline_child_item_person)
+    CircleImageView mPersonCiv;
 
     private BacklogInfo mBacklogInfo;
 

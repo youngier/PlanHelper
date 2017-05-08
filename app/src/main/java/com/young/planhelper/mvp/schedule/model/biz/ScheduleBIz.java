@@ -24,6 +24,7 @@ import io.realm.Realm;
 import static com.young.planhelper.constant.AppConstant.ADD_FAILED;
 import static com.young.planhelper.constant.AppConstant.ADD_SUCCESS;
 import static com.young.planhelper.constant.AppConstant.REALM_NOT_INIT;
+import static com.young.planhelper.mvp.schedule.model.bean.BacklogInfo.FINISHED;
 
 /**
  * @author: young
@@ -170,6 +171,7 @@ public class ScheduleBIz extends Biz implements IScheduleBiz {
         List<BacklogInfo> backlogInfoList = mRealm.where(BacklogInfo.class)
                 .greaterThan("fromTime", begin)
                 .lessThan("toTime", end)
+                .notEqualTo("statue", FINISHED)
                 .findAll();
 
         List<String> dateList = new ArrayList<>();
@@ -246,7 +248,7 @@ public class ScheduleBIz extends Biz implements IScheduleBiz {
 
         mRealm.beginTransaction();
 
-        mBacklogInfo.setStatue(BacklogInfo.FINISHED);
+        mBacklogInfo.setStatue(FINISHED);
 
         mRealm.commitTransaction();
 
