@@ -19,6 +19,7 @@ import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.constant.AppConstant;
 import com.young.planhelper.mvp.base.BaseFragmentActivity;
 import com.young.planhelper.mvp.base.model.IBiz;
+import com.young.planhelper.mvp.common.service.TaskTimeService;
 import com.young.planhelper.mvp.login.model.bean.User;
 import com.young.planhelper.mvp.home.view.monthview.MonthView;
 import com.young.planhelper.mvp.home.view.weekview.WeekItemView;
@@ -114,6 +115,14 @@ public class HomeCloneActivity extends BaseFragmentActivity{
      */
     private String date;
 
+    /**
+     * 借用主题函数来启动服务进程
+     */
+    @Override
+    protected void setTheme() {
+        super.setTheme();
+        startService(new Intent(this, TaskTimeService.class));
+    }
 
     @Override
     protected void initUI() {

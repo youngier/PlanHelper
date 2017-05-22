@@ -131,7 +131,7 @@ public class StackedFragment extends BaseFragment {
 
             @Override
             public void onClick(View v) {
-                new NewAlertDialog(getActivity(), "视图内容", "显示一年之内各月份任务的完成情况").show();
+                new NewAlertDialog(getActivity(), "视图内容", "显示一年之内各月份任务的完成情况", NewAlertDialog.ALERT).show();
 //                if(mUpdateOne)
 //                    updateChart(0, mChartOne, mPlayOne);
 //                else {
@@ -148,7 +148,8 @@ public class StackedFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                new NewAlertDialog(getActivity(), "视图内容", "显示一年之内创建任务和需完成任务的时间情况，左边为创建任务时间，右边为需完成任务时间").show();
+                new NewAlertDialog(getActivity(), "视图内容",
+                        "显示一年之内创建任务和需完成任务的时间情况，左边为创建任务时间，右边为需完成任务时间", NewAlertDialog.ALERT).show();
                 //                if(mUpdateTwo)
 //                    updateChart(1, mChartTwo, mPlayTwo);
 //                else
@@ -169,7 +170,7 @@ public class StackedFragment extends BaseFragment {
 //                else
 //                    dismissChart(1, mChartThree, mPlayThree);
 //                mUpdateThree = !mUpdateThree;
-                new NewAlertDialog(getActivity(), "视图内容", "显示一年之内周期任务完成的需要情况").show();
+                new NewAlertDialog(getActivity(), "视图内容", "显示一年之内周期任务完成的需要情况", NewAlertDialog.ALERT).show();
 
             }
         });
@@ -186,7 +187,7 @@ public class StackedFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                new NewAlertDialog(getActivity(), "视图内容", "显示一年之内按周期任务的完成情况").show();
+                new NewAlertDialog(getActivity(), "视图内容", "显示一年之内按周期任务的完成情况", NewAlertDialog.ALERT).show();
 //                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
 //                    mTextViewThree.animate().alpha(0).setDuration(100);
 //                    mTextViewMetricThree.animate().alpha(0).setDuration(100);

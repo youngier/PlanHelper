@@ -222,34 +222,34 @@
                     </LinearLayout>
 
                 </RelativeLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/gray"/>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dimen_activity_add_margin_bottom"
-                    android:layout_marginTop="@dimen/dimen_activity_add_margin_top">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1px"-->
+                    <!--android:background="@color/gray"/>-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="@dimen/dimen_activity_add_margin_bottom"-->
+                    <!--android:layout_marginTop="@dimen/dimen_activity_add_margin_top">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/gray_01"
-                        android:textSize="16sp"
-                        android:text="重复类型"/>
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentLeft="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:textColor="@color/gray_01"-->
+                        <!--android:textSize="16sp"-->
+                        <!--android:text="重复类型"/>-->
 
-                    <TextView
-                        android:id="@+id/tv_schedule_detail_repeat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:text="不重复"/>
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_schedule_detail_repeat"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:text="不重复"/>-->
 
-                </RelativeLayout>
+                <!--</RelativeLayout>-->
 
             </LinearLayout>
             <LinearLayout

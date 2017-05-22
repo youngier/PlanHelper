@@ -54,8 +54,8 @@ public class ScheduleAddCloneActivity extends BaseActivity {
     @BindView(R.id.tv_schedule_add_to_time)
     TextView mToTimeTv;
 
-    @BindView(R.id.tv_schedule_add_repeat)
-    TextView mRepeatTv;
+//    @BindView(R.id.tv_schedule_add_repeat)
+//    TextView mRepeatTv;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -162,19 +162,19 @@ public class ScheduleAddCloneActivity extends BaseActivity {
         timeSelector.show();
     }
 
-    @OnClick(R.id.tv_schedule_add_repeat)
-    void selectRepeat(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //    指定下拉列表的显示数据
-        final String[] repeatsShow = {"不重复", "每年一次", "每月一次", "每日一次"};
-        final int[] repeats = {BacklogInfo.NONE, BacklogInfo.YEARLY, BacklogInfo.MONTHLY, BacklogInfo.DAILY};
-        //    设置一个下拉的列表选择项
-        builder.setItems(repeatsShow, (dialog, which) -> {
-            mRepeatTv.setText(repeatsShow[which]);
-            repeatType = repeats[which];
-        });
-        builder.show();
-    }
+//    @OnClick(R.id.tv_schedule_add_repeat)
+//    void selectRepeat(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        //    指定下拉列表的显示数据
+//        final String[] repeatsShow = {"不重复", "每年一次", "每月一次", "每日一次"};
+//        final int[] repeats = {BacklogInfo.NONE, BacklogInfo.YEARLY, BacklogInfo.MONTHLY, BacklogInfo.DAILY};
+//        //    设置一个下拉的列表选择项
+//        builder.setItems(repeatsShow, (dialog, which) -> {
+//            mRepeatTv.setText(repeatsShow[which]);
+//            repeatType = repeats[which];
+//        });
+//        builder.show();
+//    }
 
 //    @OnClick(R.id.tv_add_location)
 //    public void selectLocation(){

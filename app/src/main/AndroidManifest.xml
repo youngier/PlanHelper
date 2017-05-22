@@ -66,9 +66,14 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:launchMode="singleTask"/>
 
-        <service android:name=".mvp.common.service.TaskTimeService" />
 
-        <receiver android:name=".mvp.common.service.AlarmReceiver" />
+        <service android:name=".mvp.common.service.TaskTimeService"
+            android:enabled="true"/>
+
+        <receiver android:name=".mvp.common.service.AlarmReceiver" >
+            <action android:name="com.young.planhelper.mvp.common.service.DIVIDE" />
+            <category android:name="android.intent.category.DEFAULT"></category>
+        </receiver>
 
         <activity
             android:name=".mvp.login.view.LoginActivity"

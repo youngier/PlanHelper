@@ -26,17 +26,25 @@ import com.young.planhelper.util.DensityUtil;
 
 public class NewAlertDialog extends Dialog{
 
+    public static int ALERT = 0;
+    public static int OTHER = 1;
+
     private String mTitle;
     private String mContent;
     private Context mContext;
 
     private TextView mContentTv;
 
-    public NewAlertDialog(Context context, String title, String content) {
+    private int type = ALERT;
+
+    private OnDialogClickListener onDialogClickListener;
+
+    public NewAlertDialog(Context context, String title, String content, int type) {
         super(context);
         this.mContext = context;
         this.mTitle = title;
         this.mContent = content;
+        this.type = type;
     }
 
     @Override
@@ -59,7 +67,12 @@ public class NewAlertDialog extends Dialog{
         mContentTv.setText(mContent);
 
         confirmBtn.setOnClickListener( v -> {
-            dismiss();
+            if( type == ALERT )
+                dismiss();
+            else if( type == OTHER ) {
+                dismiss();
+                onDialogClickListener.onDialogClick();
+            }
         } );
 
 
@@ -68,6 +81,14 @@ public class NewAlertDialog extends Dialog{
         DisplayMetrics d = mContentTv.getResources().getDisplayMetrics(); // 获取屏幕宽、高用
         lp.height = DensityUtil.dipToPixels(mContext, 200);
         dialogWindow.setAttributes(lp);
+    }
+
+    public void setOnDialogClickListener(OnDialogClickListener onDialogClickListener) {
+        this.onDialogClickListener = onDialogClickListener;
+    }
+
+    public interface OnDialogClickListener{
+        void onDialogClick();
     }
 
 }

@@ -65,8 +65,8 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
     @BindView(R.id.tv_schedule_detail_to_time)
     TextView mToTimeTv;
 
-    @BindView(R.id.tv_schedule_detail_repeat)
-    TextView mRepeatTv;
+//    @BindView(R.id.tv_schedule_detail_repeat)
+//    TextView mRepeatTv;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -130,7 +130,7 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
         mToolbar.setOnRightClickListener( () -> {
             mContentEt.setEnabled(false);
             mSwitchTgBtn.setEnabled(false);
-            mRepeatTv.setEnabled(false);
+//            mRepeatTv.setEnabled(false);
             mButtonsRl.setVisibility(View.VISIBLE);
             mToolbar.setMode(Toolbar.BACK);
             saveModifyBacklog();
@@ -139,7 +139,7 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
 
         mContentEt.setEnabled(false);
         mSwitchTgBtn.setEnabled(false);
-        mRepeatTv.setEnabled(false);
+//        mRepeatTv.setEnabled(false);
 
         presenter.getBacklogDetailById(backlogInfoId, data -> {
             try {
@@ -168,20 +168,20 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
 
                 mShowPersonRv.getLayoutParams().width = (int) (len * DensityUtil.dipToPixels(this, 30)) + len * DensityUtil.dipToPixels(this, 2);
 
-                switch (backlogInfo.getRepeatType()){
-                    case BacklogInfo.NONE:
-                        mRepeatTv.setText("不重复");
-                        break;
-                    case BacklogInfo.YEARLY:
-                        mRepeatTv.setText("每年一次");
-                        break;
-                    case BacklogInfo.MONTHLY:
-                        mRepeatTv.setText("每月一次");
-                        break;
-                    case BacklogInfo.DAILY:
-                        mRepeatTv.setText("每日一次");
-                        break;
-                }
+//                switch (backlogInfo.getRepeatType()){
+//                    case BacklogInfo.NONE:
+//                        mRepeatTv.setText("不重复");
+//                        break;
+//                    case BacklogInfo.YEARLY:
+//                        mRepeatTv.setText("每年一次");
+//                        break;
+//                    case BacklogInfo.MONTHLY:
+//                        mRepeatTv.setText("每月一次");
+//                        break;
+//                    case BacklogInfo.DAILY:
+//                        mRepeatTv.setText("每日一次");
+//                        break;
+//                }
 
                 mFromTimeTv.setText(TimeUtil.getTime3(backlogInfo.getFromTime()));
                 mToTimeTv.setText(TimeUtil.getTime3(backlogInfo.getToTime()));
@@ -201,7 +201,6 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
                     mFinishIv.setVisibility(View.VISIBLE);
                     mGrapLl.getLayoutParams().height = DensityUtil.dipToPixels(this, 60);
                 }else if( backlogInfo.getStatue() == BacklogInfo.OVERDUE ){
-                    mFinishRl.setVisibility(View.GONE);
                     mModifyRl.setVisibility(View.GONE);
                     mGrapLl.getLayoutParams().height = DensityUtil.dipToPixels(this, 60);
                     mFinishIv.setImageResource(R.mipmap.ic_overdue);
@@ -261,19 +260,19 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
         timeSelector.show();
     }
 
-    @OnClick(R.id.tv_schedule_detail_repeat)
-    void selectRepeat(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //    指定下拉列表的显示数据
-        final String[] repeatsShow = {"不重复", "每年一次", "每月一次", "每日一次"};
-        final int[] repeats = {BacklogInfo.NONE, BacklogInfo.YEARLY, BacklogInfo.MONTHLY, BacklogInfo.DAILY};
-        //    设置一个下拉的列表选择项
-        builder.setItems(repeatsShow, (dialog, which) -> {
-            mRepeatTv.setText(repeatsShow[which]);
-            mRepeatType = repeats[which];
-        });
-        builder.show();
-    }
+//    @OnClick(R.id.tv_schedule_detail_repeat)
+//    void selectRepeat(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        //    指定下拉列表的显示数据
+//        final String[] repeatsShow = {"不重复", "每年一次", "每月一次", "每日一次"};
+//        final int[] repeats = {BacklogInfo.NONE, BacklogInfo.YEARLY, BacklogInfo.MONTHLY, BacklogInfo.DAILY};
+//        //    设置一个下拉的列表选择项
+//        builder.setItems(repeatsShow, (dialog, which) -> {
+//            mRepeatTv.setText(repeatsShow[which]);
+//            mRepeatType = repeats[which];
+//        });
+//        builder.show();
+//    }
 
 //    @OnClick(R.id.tv_detail_location)
 //    public void selectLocation(){
@@ -284,7 +283,7 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
     public void selectModify(){
         mContentEt.setEnabled(true);
         mSwitchTgBtn.setEnabled(true);
-        mRepeatTv.setEnabled(true);
+//        mRepeatTv.setEnabled(true);
         mButtonsRl.setVisibility(View.GONE);
         mToolbar.setMode(Toolbar.MODIFY);
 
@@ -337,6 +336,8 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
         mModifyRl.setEnabled(false);
         mDeleteRl.setEnabled(false);
 
+        mFinishIv.setImageResource(R.mipmap.ic_finish);
+        mFinishBigIv.setImageResource(R.mipmap.ic_finish);
         mFinishBigIv.setVisibility(View.VISIBLE);
         ValueAnimator va = ValueAnimator.ofFloat(0.1f, 1.0f);
         va.addUpdateListener(valueAnimator -> {

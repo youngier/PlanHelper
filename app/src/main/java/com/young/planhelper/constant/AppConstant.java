@@ -9,9 +9,9 @@ package com.young.planhelper.constant;
 
 public class AppConstant {
 
-    public static final String REQUEST_URL = "http://192.168.191.4:8080/PlanHelper/";
+    public static final String REQUEST_URL = "http://192.168.1.101:8080/PlanHelper/";
 
-    public static final String RECOUSE_IMAGE_URL = "http://192.168.191.4:8080/PlanHelper/upload/";
+    public static final String RECOUSE_IMAGE_URL = "http://192.168.1.101:8080/PlanHelper/upload/";
 
     public static final String ADD_SUCCESS = "添加成功";
     public static final String ADD_FAILED = "添加成功";

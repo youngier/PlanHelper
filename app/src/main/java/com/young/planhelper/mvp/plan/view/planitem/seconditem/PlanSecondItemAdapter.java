@@ -54,6 +54,7 @@ public class PlanSecondItemAdapter extends RecyclerView.Adapter<PlanSecondItemVi
 
     @Override
     public void onBindViewHolder(PlanSecondItemViewHolder holder, int position) {
+        LogUtil.eLog("planSecondItem的情况："+position+"位："+mDatas.get(position).isFinished());
         holder.planSecondItemView.setData(mDatas.get(position));
         this.position = position;
     }

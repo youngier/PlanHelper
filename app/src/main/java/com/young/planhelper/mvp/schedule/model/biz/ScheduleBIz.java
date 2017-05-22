@@ -7,6 +7,7 @@ import android.util.TimeUtils;
 import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.mvp.base.model.Biz;
 import com.young.planhelper.mvp.base.model.IBiz;
+import com.young.planhelper.mvp.common.model.NotificationInfo;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.TimeUtil;
@@ -57,6 +58,13 @@ public class ScheduleBIz extends Biz implements IScheduleBiz {
 
         mRealm.beginTransaction();
         BacklogInfo object = mRealm.copyToRealm(backlogInfo);
+
+        NotificationInfo notificationInfo = new NotificationInfo();
+        notificationInfo.setNotificationInfoId(TimeUtil.getCurrentTimeInLong());
+        notificationInfo.setTime(backlogInfo.getToTime());
+
+        NotificationInfo ob = mRealm.copyToRealm(notificationInfo);
+
         mRealm.commitTransaction();
 
         callback.onResult(ADD_SUCCESS);
