@@ -8,6 +8,7 @@
     android:layout_height="wrap_content">
 
     <CheckBox
+        android:enabled="false"
         android:id="@+id/cb_plan_second_item_title"
         android:layout_width="30dp"
         android:layout_height="30dp"

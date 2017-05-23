@@ -12,6 +12,10 @@ import com.young.planhelper.mvp.login.model.bean.User;
 
 public interface ILoginBiz extends IBiz{
 
-
+    /**
+     * 保存用户信息
+     * @param user
+     */
     void saveUserInfo(User user);
+
 }

@@ -2,6 +2,8 @@ package com.young.planhelper.config.api;
 
 import android.app.Application;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.constant.AppConstant;
 
@@ -40,7 +42,11 @@ public class ApiServiceModule {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build();
 
-        GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create();
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gson);
+
         OkHttpClient.Builder builder = okHttpClient.newBuilder();
         builder.retryOnConnectionFailure(true);
         Retrofit retrofit = new Retrofit.Builder().client(okHttpClient)

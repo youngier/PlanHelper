@@ -28,9 +28,7 @@ public class PlanSecondItemAdapter extends RecyclerView.Adapter<PlanSecondItemVi
 
     private List<PlanSecondItemInfo> mDatas;
     private Context mContext;
-    private int position;
     private OnClickListener listener;
-    private PlanSecondItemView.OnSelectChangeListener onSelectChangeListener;
 
     public PlanSecondItemAdapter(Context context, List<PlanSecondItemInfo> datas) {
         this.mContext = context;
@@ -46,7 +44,6 @@ public class PlanSecondItemAdapter extends RecyclerView.Adapter<PlanSecondItemVi
         View view = LayoutInflater.from(mContext).inflate(R.layout.view_plan_second_item, parent, false);
         PlanSecondItemViewHolder viewHolder = new PlanSecondItemViewHolder(view);
         viewHolder.planSecondItemView = (PlanSecondItemView) view.findViewById(R.id.plan_second_item_view);
-        viewHolder.planSecondItemView.setOnSelectChangeListener(onSelectChangeListener);
         if( listener != null )
             viewHolder.planSecondItemView.setOnClickListener(v -> listener.onClick(viewHolder.planSecondItemView.getPlanSecondItemInfoId()));
         return viewHolder;
@@ -54,9 +51,7 @@ public class PlanSecondItemAdapter extends RecyclerView.Adapter<PlanSecondItemVi
 
     @Override
     public void onBindViewHolder(PlanSecondItemViewHolder holder, int position) {
-        LogUtil.eLog("planSecondItem的情况："+position+"位："+mDatas.get(position).isFinished());
         holder.planSecondItemView.setData(mDatas.get(position));
-        this.position = position;
     }
 
     @Override
@@ -73,9 +68,6 @@ public class PlanSecondItemAdapter extends RecyclerView.Adapter<PlanSecondItemVi
         this.listener = listener;
     }
 
-    public void setOnSelectChangeListener(PlanSecondItemView.OnSelectChangeListener onSelectChangeListener) {
-        this.onSelectChangeListener = onSelectChangeListener;
-    }
 
     public interface OnClickListener{
         void onClick(long id);

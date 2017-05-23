@@ -31,6 +31,7 @@ import com.young.planhelper.mvp.home.HomeCloneActivity;
 import com.young.planhelper.mvp.login.model.bean.User;
 import com.young.planhelper.mvp.login.view.LoginActivity;
 import com.young.planhelper.mvp.overview.OverviewActivity;
+import com.young.planhelper.mvp.person.view.PersonActivity;
 import com.young.planhelper.mvp.plan.view.PlanCloneActivity;
 import com.young.planhelper.mvp.profile.view.ProfileActivity;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
@@ -217,8 +218,13 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
             startActivity(new Intent(this, PlanCloneActivity.class));
         }else if( view == itemHome )
             startActivity(new Intent(this, HomeCloneActivity.class));
-        else if( view == itemIcon )
-            startActivity(new Intent(this, LoginActivity.class));
+        else if( view == itemIcon ){
+            User user = AppApplication.get(this).getmAppComponent().getUserInfo();
+            if(user == null || TextUtils.isEmpty(user.getUserId()))
+                startActivity(new Intent(this, LoginActivity.class));
+            else
+                startActivity(new Intent(this, PersonActivity.class));
+        }
         else if( view == itemFriend ) {
 
             User user = AppApplication.get(this).getmAppComponent().getUserInfo();

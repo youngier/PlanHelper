@@ -26,6 +26,8 @@ import com.young.planhelper.mvp.common.crop.activity.CropActivity;
 import com.young.planhelper.mvp.common.crop.view.SelectPicturePopupWindow;
 import com.young.planhelper.mvp.home.HomeCloneActivity;
 import com.young.planhelper.mvp.login.model.bean.User;
+import com.young.planhelper.mvp.login.presenter.ILoginPresenter;
+import com.young.planhelper.mvp.login.presenter.LoginPresenter;
 import com.young.planhelper.mvp.login.view.LoginActivity;
 import com.young.planhelper.mvp.register.presenter.IRegisterPresenter;
 import com.young.planhelper.mvp.register.presenter.RegisterPresenter;
@@ -69,6 +71,7 @@ public class RegisterActivity extends BaseActivity implements SelectPicturePopup
     CircleImageView mIconIv;
 
     private IRegisterPresenter presenter;
+    private ILoginPresenter loginPresenter;
 
 
     private static final int GALLERY_REQUEST_CODE = 0;    // 相册选图标记
@@ -99,6 +102,11 @@ public class RegisterActivity extends BaseActivity implements SelectPicturePopup
         mSelectPicturePopupWindow.showPopupWindow(this);
     }
 
+    /**
+     * 用户信息
+     */
+    private User mUser;
+
     @OnClick(R.id.tv_register_login)
     void clickLogin(){
         startActivity(new Intent(this, LoginActivity.class));
@@ -126,6 +134,7 @@ public class RegisterActivity extends BaseActivity implements SelectPicturePopup
         });
 
         presenter = new RegisterPresenter(this, this);
+        loginPresenter = new LoginPresenter(this, this);
 
     }
 
@@ -221,27 +230,25 @@ public class RegisterActivity extends BaseActivity implements SelectPicturePopup
 
                     @Override
                     public void onCompleted() {
-                        Log.e("way", "onCompleted");
+                        Log.e("register", "onCompleted");
                         hideProgress();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("way", "onError" + e.toString());
+                        Log.e("register", "onError" + e.toString());
                         hideProgress();
                     }
 
                     @Override
                     public void onNext(User s) {
                         if( s != null ){
-                            Log.e("way", "onNext" + s.getAccount());
-                            s.setIconUrl(mDestinationUri.getPath());
-                            LogUtil.eLog("RegisterActivity: iconUrl为"+mDestinationUri.getPath());
+                            Log.e("register", "onNext" + s.getAccount());
                             presenter.saveUserInfo(s);
+                            mUser = s;
                             presenter.uploadImage(mDestinationUri, data1 -> {
                                 uploadImageResult(data1);
                             });
-                            startActivity(new Intent(RegisterActivity.this, HomeCloneActivity.class));
                         }else{
                             hideProgress();
                             Toast.makeText(RegisterActivity.this, "该账号已存在", Toast.LENGTH_SHORT).show();
@@ -252,27 +259,60 @@ public class RegisterActivity extends BaseActivity implements SelectPicturePopup
     }
 
     private void uploadImageResult(Object data) {
-        Observable<String> user = (Observable<String>) data;
-        user.observeOn(AndroidSchedulers.mainThread())
+        Observable<String> string = (Observable<String>) data;
+        string.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
 
                     @Override
                     public void onCompleted() {
-                        Log.e("way", "onCompleted");
+                        Log.e("uploadImage", "onCompleted");
                         hideProgress();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("way", "onError" + e.toString());
+                        Log.e("uploadImage", "onError" + e.toString());
                         hideProgress();
                     }
 
                     @Override
-                    public void onNext(String s) {
-                        Log.e("way", "onNext:"+s);
+                    public void onNext(String string) {
+                        loginPresenter.login(mUser.getAccount(), mUser.getPassword(), data -> {
+                            loginSetData(data);
+                        });
+                    }
+                });
+    }
+
+    public void loginSetData(Object data) {
+        Observable<User> user = (Observable<User>) data;
+        user.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<User>() {
+
+                    @Override
+                    public void onCompleted() {
+                        Log.i("way", "onCompleted");
                         hideProgress();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("way", "onError" + e.toString());
+                        hideProgress();
+                    }
+
+                    @Override
+                    public void onNext(User s) {
+                        presenter.saveUserInfo(s);
+                        LogUtil.eLog("user_account"+s.getAccount());
+                        LogUtil.eLog("user_password"+s.getPassword());
+                        LogUtil.eLog("user_email"+s.getEmail());
+                        LogUtil.eLog("user_iconUrl"+s.getIconUrl());
+
+                        hideProgress();
+                        startActivity(new Intent(RegisterActivity.this, HomeCloneActivity.class));
                     }
                 });
     }

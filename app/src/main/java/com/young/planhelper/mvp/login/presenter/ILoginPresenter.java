@@ -20,4 +20,6 @@ public interface ILoginPresenter extends IPresenter{
      * @param user
      */
     void saveUserInfo(User user);
+
+
 }

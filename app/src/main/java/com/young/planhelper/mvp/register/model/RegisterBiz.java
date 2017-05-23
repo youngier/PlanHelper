@@ -44,9 +44,9 @@ public class RegisterBiz extends Biz implements IRegisterBiz{
 
     @Override
     public void register(String account, String nickname, String password, String email, ICallback callback) {
-        RegisterApiService loginApiService = mRetrofit.create(RegisterApiService.class);
+        RegisterApiService registerApiService = mRetrofit.create(RegisterApiService.class);
         //获得Observable对象
-        Observable<User> data = loginApiService.login(account, nickname, password, email);
+        Observable<User> data = registerApiService.register(account, nickname, password, email);
 
         callback.onResult(data);
     }

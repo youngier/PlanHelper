@@ -35,8 +35,8 @@
         <activity
             android:name=".mvp.home.HomeActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".mvp.schedule.view.ScheduleAddActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
@@ -54,25 +54,29 @@
         <activity
             android:name=".mvp.plan.view.planitem.PlanItemEditActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemAddActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemDetailActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".mvp.plan.view.planitem.thirditem.PlanThirdItemAddActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemAddActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".mvp.plan.view.planitem.seconditem.PlanSecondItemDetailActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".mvp.plan.view.planitem.thirditem.PlanThirdItemAddActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".mvp.schedule.view.ScheduleDetailCloneActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
+        <service
+            android:name=".mvp.common.service.TaskTimeService"
+            android:enabled="true" />
 
-        <service android:name=".mvp.common.service.TaskTimeService"
-            android:enabled="true"/>
-
-        <receiver android:name=".mvp.common.service.AlarmReceiver" >
+        <receiver android:name=".mvp.common.service.AlarmReceiver">
             <action android:name="com.young.planhelper.mvp.common.service.DIVIDE" />
-            <category android:name="android.intent.category.DEFAULT"></category>
+
+            <category android:name="android.intent.category.DEFAULT" />
         </receiver>
 
         <activity
@@ -116,18 +120,23 @@
         <activity
             android:name=".mvp.common.crop.activity.CropActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".mvp.friend.view.search.FriendSearchActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".mvp.friend.view.FriendDetailActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".mvp.friend.view.search.FriendSearchActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".mvp.friend.view.FriendDetailActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".mvp.friend.view.FriendRemarkActivity"
-            android:theme="@android:style/Theme.Dialog"
-            android:launchMode="singleTask"/>
-        <activity android:name=".mvp.friend.view.chat.FriendChatDetailActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".mvp.common.people.SelectPeopleActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".mvp.friend.view.chat.FriendChatDetailActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".mvp.common.people.SelectPeopleActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".mvp.person.view.PersonActivity"></activity>
     </application>
 
 </manifest>

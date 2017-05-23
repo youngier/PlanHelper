@@ -55,17 +55,10 @@ public class PlanSecondItemView extends LinearLayout{
         this.mData = data;
         mTitleTv.setText(data.getTitle());
         mCb.setChecked(data.isFinished());
-        mCb.setOnCheckedChangeListener( (buttonView, isChecked) -> {
-            onSelectChangeListener.onSelectChange(data.getPlanSecondItemInfoId(), isChecked);
-        } );
     }
 
     public long getPlanSecondItemInfoId(){
         return mData.getPlanSecondItemInfoId();
-    }
-
-    public void setOnSelectChangeListener(OnSelectChangeListener onSelectChangeListener) {
-        this.onSelectChangeListener = onSelectChangeListener;
     }
 
     public interface OnSelectChangeListener{

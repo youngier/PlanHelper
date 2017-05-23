@@ -153,6 +153,10 @@ public class PlanBiz extends Biz implements IPlanBiz{
 
         List<PlanSecondItemInfo> planSecondItemInfos = mRealm.where(PlanSecondItemInfo.class).equalTo("planItemInfoId", planItemInfoId).findAll();
 
+        for (int i = 0; i < planSecondItemInfos.size(); i++) {
+            LogUtil.eLog("planSecondItem的情况："+i+"位："+planSecondItemInfos.get(i).isFinished());
+        }
+
         callback.onResult(planSecondItemInfos);
 
     }

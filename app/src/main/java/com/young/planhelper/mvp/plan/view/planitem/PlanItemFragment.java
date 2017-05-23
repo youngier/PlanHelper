@@ -121,7 +121,6 @@ public class PlanItemFragment extends BaseFragment{
 
                         @Override
                         public void onNext(List<PlanSecondItemInfo> s) {
-                            Log.i("way", "子任务列表的个数有：" + s.size());
                             hideProgress();
                             setListData(s);
                         }
@@ -156,13 +155,6 @@ public class PlanItemFragment extends BaseFragment{
             intent.putExtra("isActive", isActive);
             startActivity(intent);
         });
-
-        adapter.setOnSelectChangeListener( (id, isChecked) -> {
-            presenter.modifyPlanSecondItemInfoStateById(id, isChecked, data -> {
-
-            });
-
-        } );
 
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -283,7 +275,6 @@ public class PlanItemFragment extends BaseFragment{
 
     public void setListData(List<PlanSecondItemInfo> planSecondItemInfos) {
         try {
-            LogUtil.eLog(planSecondItemInfos.size()+"个查找内容");
             adapter.setDatas(planSecondItemInfos);
             adapter.notifyDataSetChanged();
 
