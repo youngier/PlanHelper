@@ -42,25 +42,6 @@ public class BaseBiz extends Biz implements IBaseBiz{
 
     }
 
-    @Override
-    public void backups(List<BacklogInfo> backlogInfoList, ICallback callback) {
-
-
-        if( mUser.getUserId().isEmpty() ){
-
-            callback.onResult("fail");
-
-        }else {
-
-            BackupsApiService backupsApiService = mRetrofit.create(BackupsApiService.class);
-            //获得Observable对象
-            Observable<String> data = backupsApiService.backups(mUser.getUserId(), backlogInfoList);
-
-            callback.onResult(data);
-        }
-
-
-    }
 
     @Override
     public List<BacklogInfo> getBacklogList() {

@@ -19,6 +19,12 @@ public class PlanItemInfo extends RealmObject{
 
     private String title;
 
+    public void copyWith(PlanItemInfo planItemInfo) {
+        this.planItemInfoId = planItemInfo.getPlanItemInfoId();
+        this.planInfoId = planItemInfo.getPlanInfoId();
+        this.title = planItemInfo.getTitle();
+    }
+
     public void setPlanItemInfoId(long planItemInfoId) {
         this.planItemInfoId = planItemInfoId;
     }
@@ -42,4 +48,5 @@ public class PlanItemInfo extends RealmObject{
     public void setPlanInfoId(long planInfoId) {
         this.planInfoId = planInfoId;
     }
+
 }

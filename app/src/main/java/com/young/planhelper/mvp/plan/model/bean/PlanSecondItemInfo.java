@@ -29,6 +29,17 @@ public class PlanSecondItemInfo extends RealmObject{
 
     private boolean isFinished;
 
+    public void copyWith(PlanSecondItemInfo planSecondItemInfo) {
+        this.planSecondItemInfoId = planSecondItemInfo.getPlanSecondItemInfoId();
+        this.planItemInfoId = planSecondItemInfo.getPlanItemInfoId();
+        this.title = planSecondItemInfo.getTitle();
+        this.content = planSecondItemInfo.getContent();
+        this.time = planSecondItemInfo.getTime();
+        this.notificationInfoId = planSecondItemInfo.getNotificationInfoId();
+        this.hasNotification = planSecondItemInfo.isHasNotification();
+        this.isFinished = planSecondItemInfo.isFinished();
+    }
+
     public long getPlanSecondItemInfoId() {
         return planSecondItemInfoId;
     }
@@ -93,4 +104,5 @@ public class PlanSecondItemInfo extends RealmObject{
     public void setNotificationInfoId(long notificationInfoId) {
         this.notificationInfoId = notificationInfoId;
     }
+
 }

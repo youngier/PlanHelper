@@ -31,6 +31,15 @@ public class PlanOperationInfo extends RealmObject{
 
     private int type;
 
+    public void copyWith(PlanOperationInfo planOperationInfo) {
+        this.planOperationInfoId = planOperationInfo.getPlanOperationInfoId();
+        this.planSecondItemInfoId = planOperationInfo.getPlanSecondItemInfoId();
+        this.name = planOperationInfo.getName();
+        this.content = planOperationInfo.getContent();
+        this.time = planOperationInfo.getTime();
+        this.type = planOperationInfo.getType();
+    }
+
     public long getPlanOperationInfoId() {
         return planOperationInfoId;
     }
@@ -78,4 +87,5 @@ public class PlanOperationInfo extends RealmObject{
     public void setType(int type) {
         this.type = type;
     }
+
 }

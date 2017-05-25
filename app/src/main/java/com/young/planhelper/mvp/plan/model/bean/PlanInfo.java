@@ -29,7 +29,6 @@ public class PlanInfo extends RealmObject implements Serializable{
     private long planInfoId;
 
     private String title;
-    private RealmList<BacklogInfo> backlogInfos;
     private int authority;
 
     private boolean isSynchronized = false;
@@ -38,6 +37,16 @@ public class PlanInfo extends RealmObject implements Serializable{
      * 成员用逗号隔开
      */
     private String members = "";
+
+    public void copyWith(PlanInfo planInfo) {
+        this.planInfoId = planInfo.getPlanInfoId();
+        this.title = planInfo.getTitle();
+        this.authority = planInfo.getAuthority();
+        this.isSynchronized = planInfo.isSynchronized();
+        this.members = planInfo.getMembers();
+    }
+
+
 
 
     public long getPlanInfoId() {
@@ -55,15 +64,6 @@ public class PlanInfo extends RealmObject implements Serializable{
     public void setTitle(String title) {
         this.title = title;
     }
-
-    public RealmList<BacklogInfo> getBacklogInfos() {
-        return backlogInfos;
-    }
-
-    public void setBacklogInfos(RealmList<BacklogInfo> backlogInfos) {
-        this.backlogInfos = backlogInfos;
-    }
-
 
     public int getAuthority() {
         return authority;
@@ -88,4 +88,5 @@ public class PlanInfo extends RealmObject implements Serializable{
     public String getMembers() {
         return members;
     }
+
 }

@@ -51,6 +51,26 @@ public class BacklogInfo extends RealmObject implements Serializable{
 
     }
 
+    @Override
+    public String toString() {
+        return "{ backlogInfoId:"+backlogInfoId+", content:"+content+", fromTime:"+fromTime
+                +", toTime:"+toTime+", location:"+location+", backlogImageInfos: , statue:"+statue
+                +", planInfoId:"+planInfoId+", repeatType:"+repeatType+", members:"+members+" }";
+    }
+
+    public void copyWith(BacklogInfo backlogInfo){
+        this.backlogInfoId = backlogInfo.getBacklogInfoId();
+        this.content = backlogInfo.getContent();
+        this.fromTime = backlogInfo.getFromTime();
+        this.toTime = backlogInfo.getToTime();
+        this.location = backlogInfo.getLocation();
+        this.backlogImageInfos = backlogInfo.getBacklogImageInfos();
+        this.statue = backlogInfo.getStatue();
+        this.planInfoId = backlogInfo.getPlanInfoId();
+        this.repeatType = backlogInfo.getRepeatType();
+        this.members = backlogInfo.getMembers();
+    }
+
     public String getContent() {
         return content;
     }

@@ -20,6 +20,11 @@ public interface BackupsApiService {
     @FormUrlEncoded
     @POST("servlet/BackupsServlet")
     Observable<String> backups(@Field("user_id") String userId,
-                               @Field("backupsList") List<BacklogInfo> backlogInfoList);
+                               @Field("backupsList") String backlogInfoList,
+                               @Field("planInfoList") String planInfoList,
+                               @Field("planItemInfoList") String planItemInfoList,
+                               @Field("planSecondItemInfoList") String planSecondItemInfoList,
+                               @Field("planThirdItemInfoList") String planThirdItemInfoList,
+                               @Field("planOperationInfoList") String planOperationInfoList);
 
 }

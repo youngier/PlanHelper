@@ -20,8 +20,6 @@ import com.special.ResideMenu.ResideMenuItem01;
 import com.young.planhelper.R;
 import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.constant.AppConstant;
-import com.young.planhelper.mvp.base.presenter.BasePresenter;
-import com.young.planhelper.mvp.base.presenter.IBasePresenter;
 import com.young.planhelper.mvp.base.presenter.IPresenter;
 import com.young.planhelper.mvp.base.presenter.Presenter;
 import com.young.planhelper.mvp.base.view.IView;
@@ -74,12 +72,10 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
     protected ResideMenuItem itemProfile;
     protected ResideMenuItem itemPlan;
     protected ResideMenuItem itemFriend;
-    protected ResideMenuItem itemBackups;
 
     @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
 
-    private IBasePresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,7 +91,6 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
             resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
         });
 
-        presenter = new BasePresenter(this, this);
 
         setUpMenu();
 
@@ -169,9 +164,6 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
         itemFriend = new ResideMenuItem(this, "Friend");
         itemFriend.setOnClickListener(this);
         resideMenu.addMenuItem(itemFriend, ResideMenu.DIRECTION_LEFT);
-        itemBackups = new ResideMenuItem(this, "Backups");
-        itemBackups.setOnClickListener(this);
-        resideMenu.addMenuItem(itemBackups, ResideMenu.DIRECTION_LEFT);
     }
 
     @Override
@@ -234,57 +226,11 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
             else
                 startActivity(new Intent(this, FriendActivity.class));
 
-        }else if( view == itemBackups ){
-
-            NewAlertDialog dialog = new NewAlertDialog(this, "备份提醒", "将本地数据全部备份到服务器上", NewAlertDialog.OTHER);
-            dialog.setOnDialogClickListener( () ->{
-                startBackups();
-            } );
-            dialog.show();
-
         }
 
         resideMenu.closeMenu();
     }
 
-    private void startBackups() {
-        showProgress();
-        List<BacklogInfo> backlogInfoList = presenter.getBacklogList();
-
-        LogUtil.eLog("测试问题"+backlogInfoList.size());
-
-        presenter.backups(backlogInfoList, data -> {
-            if( data instanceof String ){
-                Toast.makeText(BaseFragmentActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
-                hideProgress();
-            }else {
-                Observable<String> result = (Observable<String>) data;
-                result.observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<String>() {
-
-                            @Override
-                            public void onCompleted() {
-                                Log.i("way", "onCompleted");
-                                hideProgress();
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.i("way", "onError" + e.toString());
-                                hideProgress();
-                            }
-
-                            @Override
-                            public void onNext(String s) {
-                                Log.i("way", "onNext" + s);
-                                hideProgress();
-                                Toast.makeText(BaseFragmentActivity.this, "备份成功", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-            }
-        });
-    }
 
     /**
      * 加载本地图片

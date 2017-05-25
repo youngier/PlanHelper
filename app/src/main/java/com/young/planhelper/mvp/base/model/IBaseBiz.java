@@ -12,13 +12,6 @@ import java.util.List;
 public interface IBaseBiz {
 
     /**
-     * 备份
-     * @param backlogInfoList
-     * @param callback
-     */
-    void backups(List<BacklogInfo> backlogInfoList, IBiz.ICallback callback);
-
-    /**
      * 获取所有的备份任务
      * @return
      */

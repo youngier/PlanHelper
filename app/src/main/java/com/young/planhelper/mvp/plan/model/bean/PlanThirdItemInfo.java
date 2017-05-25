@@ -23,6 +23,13 @@ public class PlanThirdItemInfo extends RealmObject{
 
     private boolean isFinished;
 
+    public void copyWith(PlanThirdItemInfo planThirdItemInfo) {
+        this.planThirdItemInfoId = planThirdItemInfo.getPlanThirdItemInfoId();
+        this.planSecondItemInfoId = planThirdItemInfo.getPlanSecondItemInfoId();
+        this.title = planThirdItemInfo.getTitle();
+        this.time = planThirdItemInfo.getTime();
+        this.isFinished = planThirdItemInfo.isFinished();
+    }
 
     public long getPlanSecondItemInfoId() {
         return planSecondItemInfoId;
