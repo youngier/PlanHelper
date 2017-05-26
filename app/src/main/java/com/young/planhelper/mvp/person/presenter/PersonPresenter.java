@@ -37,4 +37,9 @@ public class PersonPresenter extends Presenter implements IPersonPresenter{
         mBiz.backups(iCallback);
     }
 
+    @Override
+    public void recovery(IBiz.ICallback iCallback) {
+        mBiz.recovery(iCallback);
+    }
+
 }

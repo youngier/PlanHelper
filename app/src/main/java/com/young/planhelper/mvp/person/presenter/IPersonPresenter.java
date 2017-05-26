@@ -14,10 +14,16 @@ import java.util.List;
 public interface IPersonPresenter {
 
     /**
-     * 备份所有的日程任务
+     * 备份所有的任务
      * @param iCallback
      */
     void backups(IBiz.ICallback iCallback);
+
+    /**
+     * 恢复所有的任务
+     * @param iCallback
+     */
+    void recovery(IBiz.ICallback iCallback);
 
 
 }

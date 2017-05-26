@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.young.planhelper.R;
+import com.young.planhelper.application.AppApplication;
+import com.young.planhelper.constant.AppConstant;
 import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.home.HomeCloneActivity;
 import com.young.planhelper.mvp.login.model.bean.User;
@@ -23,6 +27,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -32,6 +37,12 @@ public class PersonActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
+    @BindView(R.id.civ_person_show)
+    CircleImageView mPersonCiv;
+
+    @BindView(R.id.tv_person_show)
+    TextView mPersonTv;
 
     private IPersonPresenter presenter;
     private NewAlertDialog dialog;
@@ -45,6 +56,14 @@ public class PersonActivity extends BaseActivity {
         mToolbar.setMode(Toolbar.BACK);
 
         mToolbar.setTitle("个人中心");
+
+        User user = AppApplication.get(this).getmAppComponent().getUserInfo();
+
+        Glide.with(this)
+                .load(AppConstant.RECOUSE_IMAGE_URL + user.getIconUrl())
+                .into(mPersonCiv);
+
+        mPersonTv.setText(user.getAccount());
 
         presenter = new PersonPresenter(this, this);
     }
@@ -91,6 +110,23 @@ public class PersonActivity extends BaseActivity {
         } );
         dialog.show();
 
+    }
+
+    @OnClick(R.id.rl_person_recovery)
+    void recovery(){
+        dialog = new NewAlertDialog(this, "恢复提醒", "将服务器上的备份数据复制到本地", NewAlertDialog.OTHER);
+        dialog.setOnDialogClickListener( () ->{
+            showProgress();
+            presenter.recovery(resultData -> {
+                hideProgress();
+                String result = (String) resultData;
+                if( result.equals("1") )
+                    Toast.makeText(PersonActivity.this, "恢复数据成功", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(PersonActivity.this, "恢复数据失败", Toast.LENGTH_SHORT).show();
+            });
+        } );
+        dialog.show();
     }
 
     @OnClick(R.id.rl_person_change)
