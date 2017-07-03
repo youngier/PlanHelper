@@ -43,6 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:hint="标题"
+                android:singleLine="true"
                 android:background="@drawable/et_bottom_line_blue"
                 tools:text="1123"/>
 

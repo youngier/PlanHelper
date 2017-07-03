@@ -2,17 +2,10 @@ package com.young.planhelper.mvp.person.model;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.mvp.base.model.Biz;
-import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.login.model.bean.User;
-import com.young.planhelper.mvp.person.bean.RecoveryInfo;
-import com.young.planhelper.mvp.person.view.PersonActivity;
 import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanOperationInfo;
@@ -93,8 +86,6 @@ public class PersonBiz extends Biz implements IPersonBiz{
 
             BackupsApiService backupsApiService = mRetrofit.create(BackupsApiService.class);
 
-            LogUtil.eLog("备份情况:"+JsonUitl.objectToString(planOperationResult));
-
             //获得Observable对象
             Observable<String> data = backupsApiService.backups(mUser.getUserId(),
                     JsonUitl.objectToString(result), JsonUitl.objectToString(planResult),
@@ -149,6 +140,12 @@ public class PersonBiz extends Biz implements IPersonBiz{
         s = s.replace("@$%^", "]");
         s = s.replace("$@^%", ",");
         s = s.replace("$^$^", " ");
+        s = s.replace("@%@%", "\\n");
+        s = s.replace("~~~~", "\\r");
+        s = s.replace("~^^~", "/");
+        s = s.replace("~@@~", "\\u003d");
+
+        LogUtil.eLog("替换后："+s);
 
         List<BacklogInfo> backlogList = new ArrayList<>();
         List<PlanInfo> planInfoList = new ArrayList<>();
@@ -421,6 +418,9 @@ public class PersonBiz extends Biz implements IPersonBiz{
             temp.copyWith(planSecondItemInfo);
             result.add(temp);
         }
+
+        LogUtil.eLog("位置"+"："+result.get(0).toString());
+        LogUtil.eLog("结果"+"："+JsonUitl.objectToString(result));
 
         return result;
     }

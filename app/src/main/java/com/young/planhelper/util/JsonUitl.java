@@ -29,7 +29,11 @@ public class JsonUitl {
      * @return
      */
     public static <T> String objectToString(T object) {
-        return mGson.toJson(object);
+        return mGson.toJson(object)
+                .replace("\\n", "@%@%")
+                .replace("\\r", "~~~~")
+                .replace("/", "~^^~")
+                .replace("\\u003d", "~@@~");
     }
  
     /**

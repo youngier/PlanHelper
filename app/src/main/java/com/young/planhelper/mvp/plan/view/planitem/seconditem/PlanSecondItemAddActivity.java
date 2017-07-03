@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.young.planhelper.R;
+import com.young.planhelper.constant.AppStatic;
 import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.base.presenter.Presenter;
 import com.young.planhelper.mvp.plan.model.bean.PlanSecondItemInfo;

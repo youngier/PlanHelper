@@ -6,69 +6,201 @@ import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdateFactory;
+import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.Projection;
+import com.amap.api.maps2d.UiSettings;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
+import com.amap.api.maps2d.model.MyLocationStyle;
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.base.BaseActivity;
 
-public class MarkerActivity extends BaseActivity implements View.OnClickListener, AMap.OnMarkerClickListener {
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    private MarkerOptions markerOption;
-    private AMap aMap;
-    private MapView mapView;
-    private LatLng latlng = new LatLng(39.91746, 116.396481);
+//监听定位和定位变化
+public class MarkerActivity extends AppCompatActivity implements  LocationSource, AMapLocationListener {
+
+    //显示地图需要的变量
+    private MapView mapView;//地图控件
+    private AMap aMap;//地图对象
+
+
+    //定位需要的声明
+    private AMapLocationClient mLocationClient = null;//定位发起端
+    private AMapLocationClientOption mLocationOption = null;//定位参数
+    private OnLocationChangedListener mListener = null;//定位监听器
+
+    //标识，用于判断是否只显示一次定位信息和用户重新定位
+    private boolean isFirstLoc = true;
+
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*
-		 * 设置离线地图存储目录，在下载离线地图或初始化地图设置; 使用过程中可自行设置, 若自行设置了离线地图存储的路径，
-		 * 则需要在离线地图下载和使用地图页面都进行路径设置
-		 */
-        // Demo中为了其他界面可以使用下载的离线地图，使用默认位置存储，屏蔽了自定义设置
-        // MapsInitializer.sdcardDir =OffLineMapUtils.getSdCacheDir(this);
-        mapView = (MapView) findViewById(R.id.map);
-        mapView.onCreate(savedInstanceState); // 此方法必须重写
+        setContentView(R.layout.activity_marker);
 
-        Button clearMap = (Button) findViewById(R.id.clearMap);
-        clearMap.setOnClickListener(this);
-        Button resetMap = (Button) findViewById(R.id.resetMap);
-        resetMap.setOnClickListener(this);
-        if (aMap == null) {
-            aMap = mapView.getMap();
-            setUpMap();
+        //显示地图
+        mapView = (MapView) findViewById(R.id.map);
+        //必须要写
+        mapView.onCreate(savedInstanceState);
+        //获取地图对象
+        aMap = mapView.getMap();
+
+
+        //设置显示定位按钮 并且可以点击
+        UiSettings settings = aMap.getUiSettings();
+        //设置定位监听
+        aMap.setLocationSource(this);
+        // 是否显示定位按钮
+        settings.setMyLocationButtonEnabled(true);
+        // 是否可触发定位并显示定位层
+        aMap.setMyLocationEnabled(true);
+
+
+        //定位的小图标 默认是蓝点 这里自定义一团火，其实就是一张图片
+        MyLocationStyle myLocationStyle = new MyLocationStyle();
+        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_location));
+        myLocationStyle.radiusFillColor(android.R.color.transparent);
+        myLocationStyle.strokeColor(android.R.color.transparent);
+        aMap.setMyLocationStyle(myLocationStyle);
+
+        //开始定位
+        initLoc();
+
+
+    }
+
+
+    //定位
+    private void initLoc() {
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(this);
+        //初始化定位参数
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        //设置是否只定位一次,默认为false
+        mLocationOption.setOnceLocation(false);
+        //设置是否强制刷新WIFI，默认为强制刷新
+        mLocationOption.setWifiActiveScan(true);
+        //设置是否允许模拟位置,默认为false，不允许模拟位置
+        mLocationOption.setMockEnable(false);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.setInterval(2000);
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+    }
+
+
+    //定位回调函数
+    @Override
+    public void onLocationChanged(AMapLocation amapLocation) {
+
+        if (amapLocation != null) {
+            if (amapLocation.getErrorCode() == 0) {
+                //定位成功回调信息，设置相关消息
+                amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见官方定位类型表
+                amapLocation.getLatitude();//获取纬度
+                amapLocation.getLongitude();//获取经度
+                amapLocation.getAccuracy();//获取精度信息
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date(amapLocation.getTime());
+                df.format(date);//定位时间
+                amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                amapLocation.getCountry();//国家信息
+                amapLocation.getProvince();//省信息
+                amapLocation.getCity();//城市信息
+                amapLocation.getDistrict();//城区信息
+                amapLocation.getStreet();//街道信息
+                amapLocation.getStreetNum();//街道门牌号信息
+                amapLocation.getCityCode();//城市编码
+                amapLocation.getAdCode();//地区编码
+
+                // 如果不设置标志位，此时再拖动地图时，它会不断将地图移动到当前的位置
+                if (isFirstLoc) {
+                    //设置缩放级别
+                    aMap.moveCamera(CameraUpdateFactory.zoomTo(17));
+                    //将地图移动到定位点
+                    aMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude())));
+                    //点击定位按钮 能够将地图的中心移动到定位点
+                    mListener.onLocationChanged(amapLocation);
+                    //添加图钉
+                    aMap.addMarker(getMarkerOptions(amapLocation));
+                    //获取定位信息
+                    StringBuffer buffer = new StringBuffer();
+                    buffer.append(amapLocation.getCountry() + "" + amapLocation.getProvince() + "" + amapLocation.getCity() + "" + amapLocation.getProvince() + "" + amapLocation.getDistrict() + "" + amapLocation.getStreet() + "" + amapLocation.getStreetNum());
+                    Toast.makeText(getApplicationContext(), buffer.toString(), Toast.LENGTH_LONG).show();
+                    isFirstLoc = false;
+                }
+
+
+            } else {
+                //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                Log.e("AmapError", "location Error, ErrCode:"
+                        + amapLocation.getErrorCode() + ", errInfo:"
+                        + amapLocation.getErrorInfo());
+
+                Toast.makeText(getApplicationContext(), "定位失败", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
+    //自定义一个图钉，并且设置图标，当我们点击图钉时，显示设置的信息
+    private MarkerOptions getMarkerOptions(AMapLocation amapLocation) {
+        //设置图钉选项
+        MarkerOptions options = new MarkerOptions();
+        //图标
+        options.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_location));
+        //位置
+        options.position(new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude()));
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(amapLocation.getCountry() + "" + amapLocation.getProvince() + "" + amapLocation.getCity() +  "" + amapLocation.getDistrict() + "" + amapLocation.getStreet() + "" + amapLocation.getStreetNum());
+        //标题
+        options.title(buffer.toString());
+        //子标题
+        options.snippet("这里好火");
+        //设置多少帧刷新一次图片资源
+        options.period(60);
+
+        return options;
+
+    }
+    //激活定位
     @Override
-    protected void initUI() {
+    public void activate(OnLocationChangedListener listener) {
+        mListener = listener;
+
     }
 
+    //停止定位
     @Override
-    public int getLayout() {
-        return R.layout.activity_marker;
+    public void deactivate() {
+        mListener = null;
     }
 
-    @Override
-    public void setData(Object data) {
-
-    }
-
-    private void setUpMap() {
-        aMap.setOnMarkerClickListener(this);
-        addMarkersToMap();// 往地图上添加marker
-    }
 
     /**
      * 方法必须重写
@@ -104,87 +236,5 @@ public class MarkerActivity extends BaseActivity implements View.OnClickListener
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
-    }
-
-    /**
-     * 在地图上添加marker
-     */
-    private void addMarkersToMap() {
-
-        markerOption = new MarkerOptions().icon(BitmapDescriptorFactory
-                .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                .position(latlng)
-                .draggable(true);
-        aMap.addMarker(markerOption);
-    }
-
-    /**
-     * 对marker标注点点击响应事件
-     */
-    @Override
-    public boolean onMarkerClick(final Marker marker) {
-        if (aMap != null) {
-            jumpPoint(marker);
-        }
-        Toast.makeText(this, "您点击了Marker", Toast.LENGTH_LONG).show();
-        return true;
-    }
-
-    /**
-     * marker点击时跳动一下
-     */
-    public void jumpPoint(final Marker marker) {
-        final Handler handler = new Handler();
-        final long start = SystemClock.uptimeMillis();
-        Projection proj = aMap.getProjection();
-        final LatLng markerLatlng = marker.getPosition();
-        Point markerPoint = proj.toScreenLocation(markerLatlng);
-        markerPoint.offset(0, -100);
-        final LatLng startLatLng = proj.fromScreenLocation(markerPoint);
-        final long duration = 1500;
-
-        final Interpolator interpolator = new BounceInterpolator();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                long elapsed = SystemClock.uptimeMillis() - start;
-                float t = interpolator.getInterpolation((float) elapsed
-                        / duration);
-                double lng = t * markerLatlng.longitude + (1 - t)
-                        * startLatLng.longitude;
-                double lat = t * markerLatlng.latitude + (1 - t)
-                        * startLatLng.latitude;
-                marker.setPosition(new LatLng(lat, lng));
-                if (t < 1.0) {
-                    handler.postDelayed(this, 16);
-                }
-            }
-        });
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            /**
-             * 清空地图上所有已经标注的marker
-             */
-            case R.id.clearMap:
-                if (aMap != null) {
-                    aMap.clear();
-                }
-                break;
-            /**
-             * 重新标注所有的marker
-             */
-            case R.id.resetMap:
-                if (aMap != null) {
-                    aMap.clear();
-                    addMarkersToMap();
-                }
-                break;
-            default:
-                break;
-        }
     }
 }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.plan.model.bean.PlanOperationInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanThirdItemInfo;
+import com.young.planhelper.util.TimeUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +51,7 @@ public class PlanRecordItemView extends LinearLayout{
 
     public void setData(PlanOperationInfo data) {
         this.mData = data;
-        mTitleTv.setText(data.getTime() + " " + data.getName() + ": "+ data.getContent());
+        mTitleTv.setText(TimeUtil.getTime2(data.getPlanOperationInfoId()) + " " + data.getName() + ": "+ data.getContent());
         switch ( data.getType() ){
             case PlanOperationInfo.CREATE:
                 mIv.setImageResource(R.mipmap.ic_record_create);

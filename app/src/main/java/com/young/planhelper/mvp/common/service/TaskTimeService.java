@@ -30,15 +30,12 @@ import io.realm.Realm;
 
 public class TaskTimeService extends Service{
 
-    private Realm mRealm;
-
     private static final String TAG = "TaskTimeService";
 
     @Override
     public void onCreate() {
         super.onCreate();
         LogUtil.eLog(TAG+"服务：onCreate");
-        mRealm = AppApplication.get(getApplicationContext()).getmAppComponent().getRealm();
     }
 
     @Override
@@ -48,43 +45,67 @@ public class TaskTimeService extends Service{
     }
 
     @Override
-    public void onDestroy() {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-    }
-
-    @Override
     public void onStart(Intent intent, int startId) {
         // TODO Auto-generated method stub
 
         LogUtil.eLog(TAG+"服务：onStart");
 
-        if( mRealm == null )
-            LogUtil.eLog(TAG+"服务：Realm为空");
-
-        NotificationInfo notificationInfo = mRealm.where(NotificationInfo.class).findFirst();
-        long time = 0;
-        if( notificationInfo != null)
-            time = (long) mRealm.where(NotificationInfo.class).min("time");
-
-
-        LogUtil.eLog("提醒时间为："+time);
-
-        long current = TimeUtil.getCurrentTimeInLong();
-
-        LogUtil.eLog("目标时间为："+time+" 当前时间为："+current);
-
-        if( time >= current + 5 * 60 * 1000 ) {
-            Intent pendingIntent = new Intent("com.young.planhelper.mvp.common.service.DIVIDE");
-            intent.putExtra("count", 10);
-            sendBroadcast(intent);
-        }
         super.onStart(intent, startId);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // TODO Auto-generated method stub
+
+        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        //读者可以修改此处的Minutes从而改变提醒间隔时间
+        //此处是设置每隔90分钟启动一次
+        //这是90分钟的毫秒数
+        int Minutes = 3*6*1000;
+        //SystemClock.elapsedRealtime()表示1970年1月1日0点至今所经历的时间
+        long triggerAtTime = SystemClock.elapsedRealtime() + Minutes;
+        //此处设置开启AlarmReceiver这个Service
+        Intent i = new Intent(this, AlarmReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+        //ELAPSED_REALTIME_WAKEUP表示让定时任务的出发时间从系统开机算起，并且会唤醒CPU。
+        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
         return super.onStartCommand(intent, flags, startId);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        //在Service结束后关闭AlarmManager
+        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent i = new Intent(this, AlarmReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+        manager.cancel(pi);
+
+    }
+
+//    @Override
+//    public int onStartCommand(Intent intent, int flags, int startId) {
+//        // TODO Auto-generated method stub
+//
+//        NotificationInfo notificationInfo = mRealm.where(NotificationInfo.class).findFirst();
+//        long time = 0;
+//        if( notificationInfo != null)
+//            time = (long) mRealm.where(NotificationInfo.class).min("time");
+//
+//
+//        LogUtil.eLog("提醒时间为："+time);
+//
+//        long current = TimeUtil.getCurrentTimeInLong();
+//
+//        LogUtil.eLog("目标时间为："+time+" 当前时间为："+current);
+//
+//        if( time >= current + 5 * 60 * 1000 ) {
+//            Intent pendingIntent = new Intent("com.young.planhelper.mvp.common.service.DIVIDE");
+//            pendingIntent.putExtra("count", 10);
+//            sendBroadcast(pendingIntent);
+//        }
+//
+//        return super.onStartCommand(intent, flags, startId);
+//    }
+
 }

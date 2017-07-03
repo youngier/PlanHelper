@@ -22,6 +22,7 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.young.planhelper.R;
 import com.young.planhelper.application.RxBus;
+import com.young.planhelper.constant.AppStatic;
 import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.base.view.IView;
 import com.young.planhelper.mvp.home.HomeCloneActivity;
@@ -141,6 +142,8 @@ public class PlanItemActivity extends BaseActivity implements IView{
             showProgress();
             presenter.getPlanItemInfoByNetWork(planInfoId, data -> setData(data));
         }
+
+        mViewPager.setCurrentItem(AppStatic.planItemIndex);
     }
 
     @Override
@@ -194,6 +197,7 @@ public class PlanItemActivity extends BaseActivity implements IView{
                     PlanItemFragment fragment = new PlanItemFragment(planInfos.get(i));
                     fragment.setHandler(handler);
                     fragment.setIsActive(isActive);
+                    fragment.setOrder(i);
                     adapter.addFragment(fragment, planInfos.get(i).getTitle());
                 }
 
@@ -288,4 +292,9 @@ public class PlanItemActivity extends BaseActivity implements IView{
 
     }
 
+    @Override
+    protected void onDestroy() {
+        AppStatic.planItemIndex =  0;
+        super.onDestroy();
+    }
 }

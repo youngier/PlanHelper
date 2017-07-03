@@ -1,7 +1,5 @@
 package com.young.planhelper.network;
 
-import com.young.planhelper.mvp.person.bean.RecoveryInfo;
-
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;

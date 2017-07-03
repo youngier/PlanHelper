@@ -116,12 +116,24 @@ public class HomeCloneActivity extends BaseFragmentActivity{
     private String date;
 
     /**
+     * 服务进程
+     */
+    private Intent serviceIntent;
+
+    /**
      * 借用主题函数来启动服务进程
      */
     @Override
     protected void setTheme() {
         super.setTheme();
-        startService(new Intent(this, TaskTimeService.class));
+        serviceIntent = new Intent(this, TaskTimeService.class);
+        startService(serviceIntent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(serviceIntent);
     }
 
     @Override

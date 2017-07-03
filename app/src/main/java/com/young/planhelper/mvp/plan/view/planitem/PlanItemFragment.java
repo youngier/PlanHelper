@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.young.planhelper.R;
+import com.young.planhelper.constant.AppStatic;
 import com.young.planhelper.mvp.base.view.BaseFragment;
 import com.young.planhelper.mvp.home.HomeCloneActivity;
 import com.young.planhelper.mvp.login.model.bean.User;
@@ -70,6 +71,9 @@ public class PlanItemFragment extends BaseFragment{
     private Handler handler;
 
     private boolean isActive;
+
+    //子任务排列次序
+    private int order;
 
     public PlanItemFragment(PlanItemInfo planItemInfo) {
         this.mPlanItemInfo = planItemInfo;
@@ -139,6 +143,7 @@ public class PlanItemFragment extends BaseFragment{
      */
     @OnClick(R.id.iv_fragment_plan_item)
     void addSecondItem(){
+        AppStatic.planItemIndex = order;
         Intent intent = new Intent(getActivity(), PlanSecondItemAddActivity.class);
         intent.putExtra("planItemInfoId", mPlanItemInfo.getPlanItemInfoId());
         intent.putExtra("planInfoId", mPlanItemInfo.getPlanInfoId());
@@ -284,6 +289,10 @@ public class PlanItemFragment extends BaseFragment{
 
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     public interface OnDeleteCallBack{

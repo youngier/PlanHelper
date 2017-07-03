@@ -1,4 +1,4 @@
-package com.young.planhelper.mvp.person.bean;
+package com.young.planhelper.mvp.person.model.bean;
 
 import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;

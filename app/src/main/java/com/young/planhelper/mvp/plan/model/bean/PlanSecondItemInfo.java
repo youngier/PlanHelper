@@ -40,6 +40,13 @@ public class PlanSecondItemInfo extends RealmObject{
         this.isFinished = planSecondItemInfo.isFinished();
     }
 
+    @Override
+    public String toString() {
+        return "{ planSecondItemInfoId:" + planSecondItemInfoId + ", planItemInfoId: " + planItemInfoId +
+                ", title:" + title + ", content:" + content + ", time:" + time + ", notificationInfoId" + notificationInfoId +
+                ", hasNotification:" + hasNotification + ", isFinished:" + isFinished + "}";
+    }
+
     public long getPlanSecondItemInfoId() {
         return planSecondItemInfoId;
     }

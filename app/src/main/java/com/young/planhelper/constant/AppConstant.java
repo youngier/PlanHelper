@@ -26,5 +26,4 @@ public class AppConstant {
     public static final int MODIFY_TIME = 1;
     public static final int MODIFY_CONTENT_AND_TIME = 2;
 
-
 }
