@@ -1,9 +1,13 @@
 package com.young.planhelper.mvp.schedule.view;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -162,6 +166,12 @@ public class MarkerActivity extends AppCompatActivity implements  LocationSource
                 Log.e("AmapError", "location Error, ErrCode:"
                         + amapLocation.getErrorCode() + ", errInfo:"
                         + amapLocation.getErrorInfo());
+
+                if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(this,new String[]{
+                            android.Manifest.permission.ACCESS_COARSE_LOCATION},1);
+                }
 
                 Toast.makeText(getApplicationContext(), "定位失败", Toast.LENGTH_LONG).show();
             }

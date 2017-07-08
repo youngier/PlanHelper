@@ -1,8 +1,5 @@
 package com.young.planhelper.network;
 
-import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
-
-import java.util.List;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

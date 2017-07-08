@@ -4,18 +4,13 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.amap.api.maps2d.model.Text;
 import com.young.planhelper.R;
-import com.young.planhelper.mvp.plan.view.PlanSelectAdapter;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 import com.young.planhelper.util.DensityUtil;
-import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.TimeUtil;
 
 import java.util.ArrayList;

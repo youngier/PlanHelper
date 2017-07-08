@@ -7,12 +7,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 
 import com.young.planhelper.R;
 import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.mvp.common.model.NotificationInfo;
-import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.TimeUtil;
 
 import java.lang.reflect.Method;

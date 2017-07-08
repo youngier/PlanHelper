@@ -3,15 +3,9 @@ package com.young.planhelper.mvp.base;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
-import com.litao.android.lib.entity.PhotoEntry;
 import com.mingle.widget.ShapeLoadingDialog;
 import com.young.planhelper.mvp.base.view.IView;
-import com.young.planhelper.mvp.common.photo.EventEntry;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.ButterKnife;
 

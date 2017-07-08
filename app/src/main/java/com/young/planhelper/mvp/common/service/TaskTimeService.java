@@ -48,8 +48,6 @@ public class TaskTimeService extends Service{
     public void onStart(Intent intent, int startId) {
         // TODO Auto-generated method stub
 
-        LogUtil.eLog(TAG+"服务：onStart");
-
         super.onStart(intent, startId);
     }
 

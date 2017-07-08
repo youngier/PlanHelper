@@ -1,38 +1,21 @@
 package com.young.planhelper.mvp.plan.view.planitem;
 
-import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Switch;
-import android.widget.Toast;
 
-import com.hwangjr.rxbus.annotation.Subscribe;
-import com.hwangjr.rxbus.thread.EventThread;
 import com.young.planhelper.R;
-import com.young.planhelper.application.RxBus;
 import com.young.planhelper.constant.AppStatic;
 import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.base.view.IView;
-import com.young.planhelper.mvp.home.HomeCloneActivity;
-import com.young.planhelper.mvp.login.model.bean.User;
-import com.young.planhelper.mvp.login.view.LoginActivity;
-import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanItemPresenter;
 import com.young.planhelper.mvp.plan.presenter.PlanItemPresenter;
-import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.widget.Toolbar;
 
 import java.util.ArrayList;

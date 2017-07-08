@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mingle.widget.ShapeLoadingDialog;
@@ -20,10 +18,7 @@ import com.special.ResideMenu.ResideMenuItem01;
 import com.young.planhelper.R;
 import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.constant.AppConstant;
-import com.young.planhelper.mvp.base.presenter.IPresenter;
-import com.young.planhelper.mvp.base.presenter.Presenter;
 import com.young.planhelper.mvp.base.view.IView;
-import com.young.planhelper.mvp.common.people.SelectPeopleActivity;
 import com.young.planhelper.mvp.friend.view.FriendActivity;
 import com.young.planhelper.mvp.home.HomeCloneActivity;
 import com.young.planhelper.mvp.login.model.bean.User;
@@ -32,23 +27,16 @@ import com.young.planhelper.mvp.overview.OverviewActivity;
 import com.young.planhelper.mvp.person.view.PersonActivity;
 import com.young.planhelper.mvp.plan.view.PlanCloneActivity;
 import com.young.planhelper.mvp.profile.view.ProfileActivity;
-import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 import com.young.planhelper.mvp.timeline.TimelineActivity;
 import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.util.SharePreferenceUtil;
-import com.young.planhelper.widget.NewAlertDialog;
 import com.young.planhelper.widget.Toolbar;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * 最基本的activity，所有的activity都要继承

@@ -1,7 +1,5 @@
 package com.young.planhelper.config.app;
 
-import android.app.Application;
-
 import com.young.planhelper.application.AppApplication;
 
 import javax.inject.Singleton;

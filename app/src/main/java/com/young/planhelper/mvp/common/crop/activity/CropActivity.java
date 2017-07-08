@@ -28,7 +28,6 @@ import com.young.planhelper.widget.Toolbar;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 
-import butterknife.BindView;
 
 
 /**

@@ -176,10 +176,10 @@ public class ScheduleAddCloneActivity extends BaseActivity {
 //        builder.show();
 //    }
 
-    @OnClick(R.id.tv_add_location)
-    public void selectLocation(){
-        startActivity(new Intent(this, MarkerActivity.class));
-    }
+//    @OnClick(R.id.tv_add_location)
+//    public void selectLocation(){
+//        startActivity(new Intent(this, MarkerActivity.class));
+//    }
 
     /**
      * 保存任务

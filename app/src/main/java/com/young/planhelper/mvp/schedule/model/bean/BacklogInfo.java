@@ -1,7 +1,6 @@
 package com.young.planhelper.mvp.schedule.model.bean;
 
 import java.io.Serializable;
-import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;

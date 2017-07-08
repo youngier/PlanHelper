@@ -1,14 +1,12 @@
 package com.young.planhelper.mvp.schedule.view.backlogview;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.young.planhelper.R;
-import com.young.planhelper.mvp.plan.view.planitem.seconditem.PlanRecordAdapter;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 
 import java.util.ArrayList;

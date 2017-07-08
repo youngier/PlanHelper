@@ -149,41 +149,41 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/gray"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dimen_activity_add_margin_bottom"
-            android:layout_marginTop="@dimen/dimen_activity_add_margin_top">
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="@dimen/dimen_activity_add_margin_bottom"-->
+            <!--android:layout_marginTop="@dimen/dimen_activity_add_margin_top">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:textColor="@color/gray_01"
-                android:textSize="16sp"
-                android:text="位置"/>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:textColor="@color/gray_01"-->
+                <!--android:textSize="16sp"-->
+                <!--android:text="位置"/>-->
 
-            <TextView
-                android:id="@+id/tv_add_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="点击选择位置"/>
+            <!--<TextView-->
+                <!--android:id="@+id/tv_add_location"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:text="点击选择位置"/>-->
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_toLeftOf="@+id/tv_add_location"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/ic_location"/>
+            <!--<ImageView-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_toLeftOf="@+id/tv_add_location"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:src="@mipmap/ic_location"/>-->
 
-        </RelativeLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/gray"/>
+        <!--</RelativeLayout>-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1px"-->
+            <!--android:background="@color/gray"/>-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

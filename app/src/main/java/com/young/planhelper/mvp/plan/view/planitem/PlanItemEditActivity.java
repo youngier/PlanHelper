@@ -1,35 +1,20 @@
 package com.young.planhelper.mvp.plan.view.planitem;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hwangjr.rxbus.annotation.Produce;
-import com.hwangjr.rxbus.annotation.Tag;
-import com.hwangjr.rxbus.thread.EventThread;
 import com.young.planhelper.R;
-import com.young.planhelper.application.RxBus;
 import com.young.planhelper.mvp.base.BaseActivity;
-import com.young.planhelper.mvp.base.presenter.Presenter;
 import com.young.planhelper.mvp.base.view.IView;
-import com.young.planhelper.mvp.home.HomeCloneActivity;
-import com.young.planhelper.mvp.login.model.bean.User;
-import com.young.planhelper.mvp.login.view.LoginActivity;
-import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanItemAddPresenter;
 import com.young.planhelper.mvp.plan.presenter.PlanItemAddPresenter;
 import com.young.planhelper.util.TimeUtil;
 import com.young.planhelper.widget.Toolbar;
-
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,8 +23,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static com.young.planhelper.constant.AppConstant.PLAN_ITEM_ADD;
 
 public class PlanItemEditActivity extends BaseActivity implements IView {
 

@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.young.planhelper.R;

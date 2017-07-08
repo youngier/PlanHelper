@@ -1,20 +1,13 @@
 package com.young.planhelper.mvp.base.view;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mingle.widget.ShapeLoadingDialog;
-import com.young.planhelper.R;
-import com.young.planhelper.mvp.base.presenter.IPresenter;
-import com.young.planhelper.mvp.base.presenter.Presenter;
-import com.young.planhelper.util.LogUtil;
 
 import butterknife.ButterKnife;
 

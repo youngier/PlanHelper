@@ -5,8 +5,6 @@ import android.content.Context;
 import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.mvp.login.model.bean.User;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
-import com.young.planhelper.network.BackupsApiService;
-import com.young.planhelper.network.LoginApiService;
 import com.young.planhelper.util.LogUtil;
 
 import java.util.ArrayList;
@@ -14,9 +12,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import retrofit2.Retrofit;
-import rx.Observable;
 
-import static com.young.planhelper.constant.AppConstant.ADD_FAILED;
 import static com.young.planhelper.constant.AppConstant.REALM_NOT_INIT;
 
 /**
