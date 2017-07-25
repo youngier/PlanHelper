@@ -1,5 +1,6 @@
 package com.young.planhelper.mvp.plan.view.planitem;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -48,7 +49,7 @@ import rx.schedulers.Schedulers;
  * date:16/11/23  21:49
  */
 
-
+@SuppressLint("ValidFragment")
 public class PlanItemFragment extends BaseFragment{
 
     @BindView(R.id.tv_plan_item_title)

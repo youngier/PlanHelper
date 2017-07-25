@@ -20,7 +20,6 @@
         android:layout_marginRight="15dp">
 
         <RelativeLayout
-            android:layout_toLeftOf="@+id/iv_backlog_item_person"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:layout_width="match_parent"
