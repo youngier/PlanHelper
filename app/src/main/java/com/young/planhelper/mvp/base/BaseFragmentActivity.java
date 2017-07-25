@@ -134,22 +134,22 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements I
 
         resideMenu.setLeftMenuIcon(itemIcon);
 
-        itemHome = new ResideMenuItem(this, "Home");
+        itemHome = new ResideMenuItem(this, "首页");
         itemHome.setOnClickListener(this);
         resideMenu.addMenuItem(itemHome, ResideMenu.DIRECTION_LEFT);
-        itemOverview = new ResideMenuItem(this, "Overview");
+        itemOverview = new ResideMenuItem(this, "图表");
         itemOverview.setOnClickListener(this);
         resideMenu.addMenuItem(itemOverview, ResideMenu.DIRECTION_LEFT);
-        itemTimeline = new ResideMenuItem(this, "Timeline");
+        itemTimeline = new ResideMenuItem(this, "时间轴");
         itemTimeline.setOnClickListener(this);
         resideMenu.addMenuItem(itemTimeline, ResideMenu.DIRECTION_LEFT);
-        itemProfile = new ResideMenuItem(this, "Profile");
+        itemProfile = new ResideMenuItem(this, "年况");
         itemProfile.setOnClickListener(this);
         resideMenu.addMenuItem(itemProfile, ResideMenu.DIRECTION_LEFT);
-        itemPlan = new ResideMenuItem(this, "Plan");
+        itemPlan = new ResideMenuItem(this, "计划");
         itemPlan.setOnClickListener(this);
         resideMenu.addMenuItem(itemPlan, ResideMenu.DIRECTION_LEFT);
-        itemFriend = new ResideMenuItem(this, "Friend");
+        itemFriend = new ResideMenuItem(this, "朋友");
         itemFriend.setOnClickListener(this);
         resideMenu.addMenuItem(itemFriend, ResideMenu.DIRECTION_LEFT);
     }
