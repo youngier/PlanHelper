@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/Users/young/Desktop/graduate/PlanHelper/resideMenu/build/intermediates/res/merged/debug/layout/residemenu_item_01.xml",
+        "source": "/Users/young/Desktop/graduate/PlanHelper/resideMenu/res/layout/residemenu_item_01.xml"
+    },
+    {
+        "merged": "/Users/young/Desktop/graduate/PlanHelper/resideMenu/build/intermediates/res/merged/debug/layout/residemenu.xml",
+        "source": "/Users/young/Desktop/graduate/PlanHelper/resideMenu/res/layout/residemenu.xml"
+    },
+    {
+        "merged": "/Users/young/Desktop/graduate/PlanHelper/resideMenu/build/intermediates/res/merged/debug/layout/residemenu_item.xml",
+        "source": "/Users/young/Desktop/graduate/PlanHelper/resideMenu/res/layout/residemenu_item.xml"
+    }
+]

@@ -55,6 +55,8 @@ public class FriendSearchActivity extends BaseActivity {
     @Override
     protected void initUI() {
 
+        setStatueBarColor();
+
         presenter = new FriendPresenter(this, this);
 
         adapter = new FriendListAdapter(this, null);
@@ -112,6 +114,11 @@ public class FriendSearchActivity extends BaseActivity {
         presenter.findFriend(search, data -> setData(data));
 
 
+    }
+
+    @OnClick(R.id.iv_toolbar_menu)
+    void onBack(){
+        finish();
     }
 
     @Override

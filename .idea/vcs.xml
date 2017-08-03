@@ -2,9 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/calendarview" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/holoColorPicker" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/resideMenu" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/williamChart" vcs="svn" />
   </component>
 </project>

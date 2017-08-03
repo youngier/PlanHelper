@@ -11,6 +11,7 @@ import com.young.planhelper.mvp.friend.presenter.IFriendPresenter;
 import com.young.planhelper.mvp.friend.view.FriendActivity;
 import com.young.planhelper.mvp.friend.view.search.FriendSearchActivity;
 import com.young.planhelper.widget.NestListView;
+import com.young.planhelper.widget.Toolbar;
 
 import java.util.List;
 
@@ -26,12 +27,26 @@ public class FriendAddActivity extends BaseActivity{
     @BindView(R.id.nlv_friend_add_new_friend)
     NestListView mNewFriendNlv;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
     FriendAddNewAdapter adapter;
 
     private IFriendPresenter presenter;
 
     @Override
     protected void initUI() {
+
+        setStatueBarColor();
+
+        mToolbar.setMode(Toolbar.BACK);
+
+        mToolbar.setOnMenuClickListener( () -> finish());
+
+        mToolbar.setOnDateClickListener( () -> {} );
+
+        mToolbar.setTitle("查找好友");
+
         adapter = new FriendAddNewAdapter(this, null);
 
         mNewFriendNlv.setAdapter(adapter);

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/young/Desktop/graduate/PlanHelper/williamChart/assets"/><source path="/Users/young/Desktop/graduate/PlanHelper/williamChart/build/generated/assets/shaders/release"/></dataSet><dataSet config="release"><source path="/Users/young/Desktop/graduate/PlanHelper/williamChart/build-types/release/assets"/></dataSet></merger>

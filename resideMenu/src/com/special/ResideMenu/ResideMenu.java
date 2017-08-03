@@ -11,6 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+
+
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -497,7 +499,8 @@ public class ResideMenu extends FrameLayout{
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        float currentActivityScaleX = ViewHelper.getScaleX(viewActivity);
+//        float currentActivityScaleX = getScaleX(viewActivity);
+        float currentActivityScaleX = viewActivity.getScaleX();
         if (currentActivityScaleX == 1.0f)
             setScaleDirectionByRawX(ev.getRawX());
 
