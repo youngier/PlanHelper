@@ -123,6 +123,8 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
 
         mToolbar.setRightText("修改完成");
 
+        mToolbar.setOnMenuClickListener( () -> finish());
+
         mToolbar.setOnDateClickListener( () -> {
 
         });
