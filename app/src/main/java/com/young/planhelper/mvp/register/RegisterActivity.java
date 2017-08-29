@@ -25,10 +25,10 @@ import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.common.crop.activity.CropActivity;
 import com.young.planhelper.mvp.common.crop.view.SelectPicturePopupWindow;
 import com.young.planhelper.mvp.home.HomeCloneActivity;
+import com.young.planhelper.mvp.login.LoginContract;
 import com.young.planhelper.mvp.login.model.bean.User;
-import com.young.planhelper.mvp.login.presenter.ILoginPresenter;
-import com.young.planhelper.mvp.login.presenter.LoginPresenter;
-import com.young.planhelper.mvp.login.view.LoginActivity;
+import com.young.planhelper.mvp.login.LoginPresenter;
+import com.young.planhelper.mvp.login.LoginActivity;
 import com.young.planhelper.mvp.register.presenter.IRegisterPresenter;
 import com.young.planhelper.mvp.register.presenter.RegisterPresenter;
 import com.young.planhelper.util.LogUtil;
@@ -48,14 +48,15 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class RegisterActivity extends BaseActivity implements SelectPicturePopupWindow.OnSelectedListener{
+public class RegisterActivity extends BaseActivity implements LoginContract.View,
+        SelectPicturePopupWindow.OnSelectedListener{
 
     private static final String TAG = "RegisterActivity";
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @BindView(R.id.et_register_account)
-    EditText mAccountEt;
+    @BindView(R.id.et_register_name)
+    EditText mNameEt;
 
 
     @BindView(R.id.et_register_password)
@@ -71,7 +72,7 @@ public class RegisterActivity extends BaseActivity implements SelectPicturePopup
     CircleImageView mIconIv;
 
     private IRegisterPresenter presenter;
-    private ILoginPresenter loginPresenter;
+    private LoginContract.Presenter loginPresenter;
 
 
     private static final int GALLERY_REQUEST_CODE = 0;    // 相册选图标记
@@ -171,7 +172,7 @@ public class RegisterActivity extends BaseActivity implements SelectPicturePopup
     @OnClick(R.id.btn_register)
     void register(){
 
-        String account = mAccountEt.getText().toString();
+        String account = mNameEt.getText().toString();
         String password = mPasswordEt.getText().toString();
         String passwordConfirm = mPasswordConfirmEt.getText().toString();
         String email = mEmailEt.getText().toString();
@@ -278,44 +279,11 @@ public class RegisterActivity extends BaseActivity implements SelectPicturePopup
 
                     @Override
                     public void onNext(String string) {
-                        loginPresenter.login(mUser.getAccount(), mUser.getPassword(), data -> {
-                            loginSetData(data);
-                        });
+                        loginPresenter.login(mUser.getAccount(), mUser.getPassword());
                     }
                 });
     }
 
-    public void loginSetData(Object data) {
-        Observable<User> user = (Observable<User>) data;
-        user.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<User>() {
-
-                    @Override
-                    public void onCompleted() {
-                        Log.i("way", "onCompleted");
-                        hideProgress();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.i("way", "onError" + e.toString());
-                        hideProgress();
-                    }
-
-                    @Override
-                    public void onNext(User s) {
-                        presenter.saveUserInfo(s);
-                        LogUtil.eLog("user_account"+s.getAccount());
-                        LogUtil.eLog("user_password"+s.getPassword());
-                        LogUtil.eLog("user_email"+s.getEmail());
-                        LogUtil.eLog("user_iconUrl"+s.getIconUrl());
-
-                        hideProgress();
-                        startActivity(new Intent(RegisterActivity.this, HomeCloneActivity.class));
-                    }
-                });
-    }
 
     /**
      * Callback received when a permissions request has been completed.
@@ -467,6 +435,11 @@ public class RegisterActivity extends BaseActivity implements SelectPicturePopup
         this.mOnPictureSelectedListener = l;
     }
 
+    @Override
+    public void toHomeActivity() {
+        startActivity(new Intent(RegisterActivity.this, HomeCloneActivity.class));
+    }
+
     /**
      * 图片选择的回调接口
      */
@@ -489,12 +462,8 @@ public class RegisterActivity extends BaseActivity implements SelectPicturePopup
     protected void requestPermission(final String permission, String rationale, final int requestCode) {
         if (shouldShowRequestPermissionRationale(permission)) {
             showAlertDialog(getString(R.string.permission_title_rationale), rationale,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            requestPermissions(new String[]{permission}, requestCode);
-                        }
-                    }, getString(R.string.label_ok), null, getString(R.string.label_cancel));
+                    (dialog, which) -> requestPermissions(new String[]{permission}, requestCode),
+                    getString(R.string.label_ok), null, getString(R.string.label_cancel));
         } else {
             requestPermissions(new String[]{permission}, requestCode);
         }

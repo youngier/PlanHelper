@@ -1,9 +1,6 @@
 package com.young.planhelper.mvp.plan.view;
 
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -18,15 +15,10 @@ import android.widget.Toast;
 
 import com.young.planhelper.R;
 import com.young.planhelper.mvp.base.BaseOtherActivity;
-import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.common.people.SelectPeopleActivity;
-import com.young.planhelper.mvp.home.HomeCloneActivity;
-import com.young.planhelper.mvp.login.model.bean.User;
-import com.young.planhelper.mvp.login.view.LoginActivity;
 import com.young.planhelper.mvp.plan.model.bean.PlanInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanAddPresenter;
 import com.young.planhelper.mvp.plan.presenter.PlanAddPresenter;
-import com.young.planhelper.mvp.plan.view.planview.PlanAdapter;
 import com.young.planhelper.util.TimeUtil;
 import com.zcw.togglebutton.ToggleButton;
 

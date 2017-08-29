@@ -14,8 +14,8 @@ import com.young.planhelper.mvp.home.view.IHomeView;
 
 public class HomePresenter extends Presenter implements IHomePresenter {
 
-    public HomePresenter(IHomeView view, Context mContext){
-        super(view, mContext);
+    public HomePresenter(IHomeView view){
+        super((Context) view);
 
     }
 

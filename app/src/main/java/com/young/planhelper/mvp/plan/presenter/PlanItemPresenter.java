@@ -15,6 +15,7 @@ import com.young.planhelper.network.plan.PlanListApiService;
 
 import java.util.List;
 
+import retrofit2.Retrofit;
 import rx.Observable;
 
 /**
@@ -28,9 +29,12 @@ public class PlanItemPresenter extends Presenter implements IPlanItemPresenter{
 
     private IPlanBiz mBiz;
 
+    private Retrofit mRetrofit;
+
     public PlanItemPresenter(IView view, Context context) {
         super(view, context);
         mBiz = new PlanBiz(context);
+        mRetrofit = ((AppApplication)context.getApplicationContext()).getmAppComponent().getRetrofit();
     }
 
     @Override

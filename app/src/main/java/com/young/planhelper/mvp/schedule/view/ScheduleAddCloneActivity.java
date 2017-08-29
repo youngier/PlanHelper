@@ -1,6 +1,5 @@
 package com.young.planhelper.mvp.schedule.view;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +15,7 @@ import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.common.people.SelectPeopleActivity;
 import com.young.planhelper.mvp.login.model.bean.User;
-import com.young.planhelper.mvp.login.view.LoginActivity;
+import com.young.planhelper.mvp.login.LoginActivity;
 import com.young.planhelper.mvp.plan.view.PlanSelectAdapter;
 import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
 import com.young.planhelper.mvp.schedule.presenter.IScheduleAddPresenter;

@@ -13,7 +13,7 @@ import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.mvp.base.BaseFragmentActivity;
 import com.young.planhelper.mvp.base.view.BaseFragment;
 import com.young.planhelper.mvp.login.model.bean.User;
-import com.young.planhelper.mvp.login.view.LoginActivity;
+import com.young.planhelper.mvp.login.LoginActivity;
 import com.young.planhelper.widget.NoScrollViewPager;
 import com.young.planhelper.widget.Toolbar;
 

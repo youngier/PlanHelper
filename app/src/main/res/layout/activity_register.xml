@@ -29,14 +29,14 @@
             android:layout_height="50dp">
 
             <EditText
-                android:id="@+id/et_register_account"
+                android:id="@+id/et_register_name"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:textSize="16sp"
                 android:background="@null"
                 android:singleLine="true"
                 android:digits="@string/digits"
-                android:hint="账号" />
+                android:hint="昵称" />
 
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 

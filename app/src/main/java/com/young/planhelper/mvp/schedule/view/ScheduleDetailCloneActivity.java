@@ -216,8 +216,6 @@ public class ScheduleDetailCloneActivity extends BaseActivity {
         });
 
 
-
-
         mSwitchTgBtn.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
             @Override
             public void onToggle(boolean on) {

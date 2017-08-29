@@ -20,9 +20,6 @@ import android.widget.Toast;
 import com.young.planhelper.R;
 import com.young.planhelper.constant.AppStatic;
 import com.young.planhelper.mvp.base.view.BaseFragment;
-import com.young.planhelper.mvp.home.HomeCloneActivity;
-import com.young.planhelper.mvp.login.model.bean.User;
-import com.young.planhelper.mvp.login.view.LoginActivity;
 import com.young.planhelper.mvp.plan.model.bean.PlanItemInfo;
 import com.young.planhelper.mvp.plan.model.bean.PlanSecondItemInfo;
 import com.young.planhelper.mvp.plan.presenter.IPlanSecondItemPresenter;
@@ -31,7 +28,6 @@ import com.young.planhelper.mvp.plan.view.planitem.seconditem.PlanSecondItemAdap
 import com.young.planhelper.mvp.plan.view.planitem.seconditem.PlanSecondItemAddActivity;
 import com.young.planhelper.mvp.plan.view.planitem.seconditem.PlanSecondItemDetailActivity;
 import com.young.planhelper.mvp.schedule.view.backlogview.RecycleViewDivider;
-import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.widget.EditDialog;
 
 import java.util.List;

@@ -50,7 +50,6 @@ public class ApiServiceModule {
         Retrofit retrofit = new Retrofit.Builder().client(okHttpClient)
                 .baseUrl(AppConstant.REQUEST_URL)
                 .addConverterFactory(gsonConverterFactory)
-
                 //RxJava和Retrofit结合的关键。
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();

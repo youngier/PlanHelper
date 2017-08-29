@@ -22,7 +22,7 @@ import com.young.planhelper.mvp.base.view.IView;
 import com.young.planhelper.mvp.friend.view.FriendActivity;
 import com.young.planhelper.mvp.home.HomeCloneActivity;
 import com.young.planhelper.mvp.login.model.bean.User;
-import com.young.planhelper.mvp.login.view.LoginActivity;
+import com.young.planhelper.mvp.login.LoginActivity;
 import com.young.planhelper.mvp.overview.OverviewActivity;
 import com.young.planhelper.mvp.person.view.PersonActivity;
 import com.young.planhelper.mvp.plan.view.PlanCloneActivity;

@@ -2,6 +2,7 @@ package com.young.planhelper.mvp.plan.presenter;
 
 import android.content.Context;
 
+import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.mvp.base.model.IBiz;
 import com.young.planhelper.mvp.base.presenter.Presenter;
 import com.young.planhelper.mvp.base.view.IView;
@@ -11,6 +12,7 @@ import com.young.planhelper.mvp.plan.model.biz.PlanBiz;
 import com.young.planhelper.network.plan.PlanAddApiService;
 import com.young.planhelper.network.plan.PlanAddSecondItemApiService;
 
+import retrofit2.Retrofit;
 import rx.Observable;
 
 /**
@@ -23,10 +25,12 @@ import rx.Observable;
 public class PlanSecondItemAddPresenter extends Presenter implements IPlanSecondItemAddPresenter{
 
     private IPlanBiz mBiz;
+    private Retrofit mRetrofit;
 
     public PlanSecondItemAddPresenter(IView view, Context context) {
         super(view, context);
         mBiz = new PlanBiz(context);
+        mRetrofit = ((AppApplication)context.getApplicationContext()).getmAppComponent().getRetrofit();
     }
 
     @Override

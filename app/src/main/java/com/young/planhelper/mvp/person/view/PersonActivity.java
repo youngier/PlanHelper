@@ -1,8 +1,6 @@
 package com.young.planhelper.mvp.person.view;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,18 +10,12 @@ import com.young.planhelper.R;
 import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.constant.AppConstant;
 import com.young.planhelper.mvp.base.BaseActivity;
-import com.young.planhelper.mvp.home.HomeCloneActivity;
 import com.young.planhelper.mvp.login.model.bean.User;
-import com.young.planhelper.mvp.login.view.LoginActivity;
+import com.young.planhelper.mvp.login.LoginActivity;
 import com.young.planhelper.mvp.person.presenter.IPersonPresenter;
 import com.young.planhelper.mvp.person.presenter.PersonPresenter;
-import com.young.planhelper.mvp.schedule.model.bean.BacklogInfo;
-import com.young.planhelper.util.LogUtil;
 import com.young.planhelper.widget.NewAlertDialog;
 import com.young.planhelper.widget.Toolbar;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -96,7 +88,10 @@ public class PersonActivity extends BaseActivity {
                     public void onNext(String s) {
                         hideProgress();
                         dialog.dismiss();
-                        Toast.makeText(PersonActivity.this, s, Toast.LENGTH_SHORT).show();
+                        if( s.equals("1") )
+                            Toast.makeText(PersonActivity.this, "恢复备份成功", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(PersonActivity.this, "恢复备份失败", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

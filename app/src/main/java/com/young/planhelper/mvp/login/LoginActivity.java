@@ -1,4 +1,4 @@
-package com.young.planhelper.mvp.login.view;
+package com.young.planhelper.mvp.login;
 
 import android.content.Intent;
 import android.util.Log;
@@ -10,8 +10,6 @@ import com.young.planhelper.application.AppApplication;
 import com.young.planhelper.mvp.base.BaseActivity;
 import com.young.planhelper.mvp.home.HomeCloneActivity;
 import com.young.planhelper.mvp.login.model.bean.User;
-import com.young.planhelper.mvp.login.presenter.ILoginPresenter;
-import com.young.planhelper.mvp.login.presenter.LoginPresenter;
 import com.young.planhelper.mvp.register.RegisterActivity;
 
 import butterknife.BindView;
@@ -21,7 +19,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements LoginContract.View{
 
     @BindView(R.id.et_login_account)
     EditText mAccountEt;
@@ -29,8 +27,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.et_login_password)
     EditText mPasswordEt;
 
-    private ILoginPresenter presenter;
-
+    private LoginContract.Presenter presenter;
 
 
     @Override
@@ -67,37 +64,16 @@ public class LoginActivity extends BaseActivity {
         }
 
         showProgress();
-        presenter.login(account, password, data -> {
-            setData(data);
-        });
+        presenter.login(account, password);
     }
 
     @Override
     public void setData(Object data) {
-        Observable<User> user = (Observable<User>) data;
-        user.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<User>() {
 
-                    @Override
-                    public void onCompleted() {
-                        Log.i("way", "onCompleted");
-                        hideProgress();
-                    }
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.i("way", "onError" + e.toString());
-                        hideProgress();
-                    }
-
-                    @Override
-                    public void onNext(User s) {
-                        presenter.saveUserInfo(s);
-                        Log.i("way", "onNext" + s.getAccount());
-                        hideProgress();
-                        startActivity(new Intent(LoginActivity.this, HomeCloneActivity.class));
-                    }
-                });
+    @Override
+    public void toHomeActivity() {
+        startActivity(new Intent(LoginActivity.this, HomeCloneActivity.class));
     }
 }

@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.young.planhelper.mvp.login.view.LoginActivity">
+    tools:context="com.young.planhelper.mvp.login.LoginActivity">
 
     <RelativeLayout
         android:id="@+id/rl"
